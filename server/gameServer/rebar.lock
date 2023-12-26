@@ -1,0 +1,20 @@
+{"1.2.0",
+[{<<"cowboy">>,
+  {git,"https://github.com/ninenines/cowboy",
+       {ref,"9e600f6c1df3c440bc196b66ebbc005d70107217"}},
+  0},
+ {<<"cowlib">>,
+  {git,"https://github.com/ninenines/cowlib",
+       {ref,"cc04201c1d0e1d5603cd1cde037ab729b192634c"}},
+  1},
+ {<<"ranch">>,
+  {git,"https://github.com/ninenines/ranch",
+       {ref,"a692f44567034dacf5efcaa24a24183788594eb7"}},
+  1},
+ {<<"thoas">>,{pkg,<<"thoas">>,<<"1.2.0">>},0}]}.
+[
+{pkg_hash,[
+ {<<"thoas">>, <<"73B0546BAFF5008E6ED209558FD7B0606B035D96F9F3DE24EF42879100E094D4">>}]},
+{pkg_hash_ext,[
+ {<<"thoas">>, <<"540C8CB7D9257F2AD0A14145DC23560F91ACDCA995F0CCBA779EB33AF5D859D1">>}]}
+].

@@ -1,0 +1,2 @@
+java -jar C:\Users\Demensdeum\Documents\Soft\BFG\bfg.jar --delete-files client\gameClient\assets\src\com.demensdeum.maze.map.model.blend C:\Users\Demensdeum\Documents\Sources\Digital-Mage-Uprising
+@pause
