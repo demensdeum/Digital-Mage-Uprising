@@ -2,10 +2,11 @@
 
 import os
 import subprocess
+import cleantermius
 
 def run_commands():
     # Clear the console
-    os.system('cls')
+    cleantermius.clear()
 
     # Install TypeScript using npm
     os.system('npm install typescript')

@@ -27,6 +27,7 @@ https://www.erlang.org
 https://www.typescriptlang.org  
 https://nodejs.org  
 https://www.python.org  
+https://github.com/demensdeum/CleanTerminus
 
 ### References
 State Machine based on Elm SPA example  
@@ -75,26 +76,26 @@ Avatar of vrchris
 vrchris  
 https://sketchfab.com/3d-models/de-dust2-cs-map-056008d59eb849a29c0ab6884c0c3d87  
 
-(Sci fi) Level design
-3D Model
-Avatar of pedramashoori
-Pedram Ashoori
-https://sketchfab.com/3d-models/sci-fi-level-design-aebbcf6e4f1641f2a77c668c4abbe723
+(Sci fi) Level design  
+3D Model  
+Avatar of pedramashoori  
+Pedram Ashoori  
+https://sketchfab.com/3d-models/sci-fi-level-design-aebbcf6e4f1641f2a77c668c4abbe723  
 
-Walking robot
-3D Model
-Avatar of komov
-komov
-https://sketchfab.com/3d-models/walking-robot-bcc389f59ac747eeb7bf377c21b24d78
+Walking robot  
+3D Model  
+Avatar of komov  
+komov  
+https://sketchfab.com/3d-models/walking-robot-bcc389f59ac747eeb7bf377c21b24d78  
 
-Robot walk animation
-3D Model
-Avatar of AntijnvanderGun
-AntijnvanderGun
-https://sketchfab.com/3d-models/robot-walk-animation-40e2de1d942f43eca60e2344c5e91d12
+Robot walk animation  
+3D Model  
+Avatar of AntijnvanderGun  
+AntijnvanderGun  
+https://sketchfab.com/3d-models/robot-walk-animation-40e2de1d942f43eca60e2344c5e91d12  
 
-Chicken Bot
-3D Model
-Avatar of lorib2306
-lorib2306
-https://sketchfab.com/3d-models/chicken-bot-84e54e73a9a842d89198edc1acf1c900
+Chicken Bot  
+3D Model  
+Avatar of lorib2306  
+lorib2306  
+https://sketchfab.com/3d-models/chicken-bot-84e54e73a9a842d89198edc1acf1c900  
