@@ -4,14 +4,14 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.114/build/three.mod
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.114/examples/jsm/loaders/GLTFLoader.js";
 // @ts-ignore
 import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.114/examples/jsm/loaders/RGBELoader.js";
-import { Controls } from "./controls.js";
+import { PlayerControls } from "./playerControls.js";
 import { Utils } from "./utils.js"
 import { SceneObject } from "./sceneObject.js";
 // @ts-ignore
 import * as dat from "../build/dat.gui.module.js";
 import { Names } from "./names.js"
-import { ControlsDataSource } from "./controlsDataSource.js";
-import { ControlsDelegate } from "./controlsDelegate.js";
+import { PlayerControlsDataSource } from "./playerControlsDataSource.js";
+import { PlayerControlsDelegate } from "./playerControlsDelegate.js";
 import { PhysicsController } from "./physicsController.js";
 import { SimplePhysicsController } from "./simplePhysicsController.js";
 import { SimplePhysicsControllerDelegate } from "./simplePhysicsControllerDelegate.js";
@@ -21,12 +21,13 @@ import { PhysicsControllerCollisionDirection } from "./physicsControllerCollisio
 import { debugPrint, raiseCriticalError } from "./runtime.js";
 import { float } from "./types.js";
 import { Vector3 } from "./vector3.js";
+import { Controls } from "./controls.js";
 
 const gui = new dat.GUI();
 
 export class SceneController implements 
-                                        ControlsDataSource, 
-                                        ControlsDelegate,
+                                        PlayerControlsDataSource, 
+                                        PlayerControlsDelegate,
                                         PhysicsControllerDelegate,
                                         SimplePhysicsControllerDelegate {
 
@@ -56,8 +57,7 @@ export class SceneController implements
     // @ts-ignore
     private pmremGenerator: any;
 
-    // @ts-ignore
-    private controls?: any = null;
+    private playerControls?: Controls;
 
     private clock = new THREE.Clock();
     private animationMixers: any[] = []; 
@@ -245,8 +245,8 @@ export class SceneController implements
         this.scene.remove(arrowHelper);
     }
 
-    public controlsQuaternionForObject(
-        _: Controls,
+    public playerControlsQuaternionForObject(
+        _: PlayerControls,
         objectName: string
     ): any
     {
@@ -257,44 +257,44 @@ export class SceneController implements
         return sceneObject.threeObject.quaternion;
     }
 
-    controlsRequireJump(
-        controls: Controls,
+    playerControlsRequireJump(
+        controls: PlayerControls,
         objectName: string
     ) {
         const sceneObject = this.sceneObject(objectName);
         this.physicsController.requireJump(sceneObject);
     }
 
-    controlsCanMoveLeftObject(
-        controls: Controls,
+    playerControlsCanMoveLeftObject(
+        controls: PlayerControls,
         objectName: string
     ) {
         return this.canMoveLeft;
     }
 
-    controlsCanMoveRightObject(
-        controls: Controls,
+    playerControlsCanMoveRightObject(
+        controls: PlayerControls,
         objectName: string
     ) {
         return this.canMoveRight;
     }
 
-    controlsCanMoveForwardObject(
-        controls: Controls,
+    playerControlsCanMoveForwardObject(
+        controls: PlayerControls,
         objectName: string
     ) {
         return this.canMoveForward;
     }
 
-    controlsCanMoveBackwardObject(
-        controls: Controls,
+    playerControlsCanMoveBackwardObject(
+        controls: PlayerControls,
         objectName: string
     ) {
         return this.canMoveBackward;
     }
 
-    public controlsRequireObjectTranslate(
-        controls: Controls,
+    public playerControlsRequireObjectTranslate(
+        controls: PlayerControls,
         objectName: string,
         x: float,
         y: float,
@@ -308,11 +308,12 @@ export class SceneController implements
         )
     }
 
-    public controlsRequireObjectRotation(
-        controls: Controls,
+    public playerControlsRequireObjectRotation(
+        controls: PlayerControls,
         objectName: string, 
         euler: any
     ) {
+        debugger;
         const sceneObject = this.sceneObject(
             objectName
         );
@@ -329,18 +330,10 @@ export class SceneController implements
         fieldView.domElement.style.pointerEvents = "none"
     }
 
-    public tryCursorLock() {
-        this.controls.lock();
-    }
-
-    public tryCursorUnlock() {
-        this.controls.unlock();
-    }
-
     public step() {
         const delta = this.clock.getDelta();
-        if (this.controls) {    
-            this.controls.step(delta);
+        if (this.playerControls) {    
+            this.playerControls.step(delta);
         }
 
         if (this.physicsController) {
@@ -697,7 +690,6 @@ export class SceneController implements
             successCallback();
           }
         );
-
     }
 
     public addBoxAt(

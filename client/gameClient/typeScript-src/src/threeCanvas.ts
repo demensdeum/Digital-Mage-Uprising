@@ -3,14 +3,14 @@
 
 import { SceneController } from './sceneController.js';
 import { Names } from './names.js'
-import { Controls } from "./controls.js";
+import { PlayerControls } from "./playerControls.js";
 import { SimplePhysicsController } from './simplePhysicsController.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
         constructor() {
             super();
-            this.controls = null;
+            this.playerControls = null;
             this.delegate = null;
             this.canvas = null;
             this.debugEnabled = false;
@@ -93,17 +93,17 @@ customElements.define('three-canvas',
         render(canvas)
         {
             if (
-                this.controls == null &&
+                this.playerControls == null &&
                 canvas.userObjectName != null
             ) {
-                this.controls = new Controls(
+                this.playerControls = new PlayerControls(
                     canvas.userObjectName,
                     this.graphicsCanvas,
                     4,
                     this.sceneController,
                     this.sceneController
                 );
-                this.sceneController.controls = this.controls;
+                this.sceneController.playerControls = this.playerControls;
             }
             if (canvas.scene == null || canvas.scene == undefined) {
                 debugPrint("AAAAAAHHH MODEL SCENE IS EMPTY - CAN'T RENDER!!!!!!");
