@@ -4,7 +4,6 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.114/build/three.mod
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.114/examples/jsm/loaders/GLTFLoader.js";
 // @ts-ignore
 import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.114/examples/jsm/loaders/RGBELoader.js";
-import { PlayerControls } from "./playerControls.js";
 import { Utils } from "./utils.js"
 import { SceneObject } from "./sceneObject.js";
 // @ts-ignore

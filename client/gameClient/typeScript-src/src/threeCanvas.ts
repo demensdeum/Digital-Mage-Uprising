@@ -5,6 +5,7 @@ import { SceneController } from './sceneController.js';
 import { Names } from './names.js'
 import { PlayerControls } from "./playerControls.js";
 import { SimplePhysicsController } from './simplePhysicsController.js';
+import { EnemyControls } from './enemyControls.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
@@ -96,13 +97,20 @@ customElements.define('three-canvas',
                 this.playerControls == null &&
                 canvas.userObjectName != null
             ) {
-                this.playerControls = new PlayerControls(
+                // this.playerControls = new PlayerControls(
+                //     canvas.userObjectName,
+                //     this.graphicsCanvas,
+                //     4,
+                //     this.sceneController,
+                //     this.sceneController
+                // );
+
+                this.playerControls = new EnemyControls(
                     canvas.userObjectName,
-                    this.graphicsCanvas,
-                    4,
                     this.sceneController,
                     this.sceneController
                 );
+
                 this.sceneController.playerControls = this.playerControls;
             }
             if (canvas.scene == null || canvas.scene == undefined) {
