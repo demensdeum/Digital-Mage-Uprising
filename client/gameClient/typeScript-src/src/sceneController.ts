@@ -10,8 +10,8 @@ import { SceneObject } from "./sceneObject.js";
 // @ts-ignore
 import * as dat from "../build/dat.gui.module.js";
 import { Names } from "./names.js"
-import { PlayerControlsDataSource } from "./playerControlsDataSource.js";
-import { PlayerControlsDelegate } from "./playerControlsDelegate.js";
+import { ControlsDataSource } from "./playerControlsDataSource.js";
+import { ControlsDelegate } from "./controlsDelegate.js";
 import { PhysicsController } from "./physicsController.js";
 import { SimplePhysicsController } from "./simplePhysicsController.js";
 import { SimplePhysicsControllerDelegate } from "./simplePhysicsControllerDelegate.js";
@@ -26,8 +26,8 @@ import { Controls } from "./controls.js";
 const gui = new dat.GUI();
 
 export class SceneController implements 
-                                        PlayerControlsDataSource, 
-                                        PlayerControlsDelegate,
+                                        ControlsDataSource, 
+                                        ControlsDelegate,
                                         PhysicsControllerDelegate,
                                         SimplePhysicsControllerDelegate {
 
@@ -245,8 +245,8 @@ export class SceneController implements
         this.scene.remove(arrowHelper);
     }
 
-    public playerControlsQuaternionForObject(
-        _: PlayerControls,
+    public controlsQuaternionForObject(
+        _: Controls,
         objectName: string
     ): any
     {
@@ -257,44 +257,16 @@ export class SceneController implements
         return sceneObject.threeObject.quaternion;
     }
 
-    playerControlsRequireJump(
-        controls: PlayerControls,
+    controlsRequireJump(
+        controls: Controls,
         objectName: string
     ) {
         const sceneObject = this.sceneObject(objectName);
         this.physicsController.requireJump(sceneObject);
     }
 
-    playerControlsCanMoveLeftObject(
-        controls: PlayerControls,
-        objectName: string
-    ) {
-        return this.canMoveLeft;
-    }
-
-    playerControlsCanMoveRightObject(
-        controls: PlayerControls,
-        objectName: string
-    ) {
-        return this.canMoveRight;
-    }
-
-    playerControlsCanMoveForwardObject(
-        controls: PlayerControls,
-        objectName: string
-    ) {
-        return this.canMoveForward;
-    }
-
-    playerControlsCanMoveBackwardObject(
-        controls: PlayerControls,
-        objectName: string
-    ) {
-        return this.canMoveBackward;
-    }
-
-    public playerControlsRequireObjectTranslate(
-        controls: PlayerControls,
+    public controlsRequireObjectTranslate(
+        controls: Controls,
         objectName: string,
         x: float,
         y: float,
@@ -308,16 +280,43 @@ export class SceneController implements
         )
     }
 
-    public playerControlsRequireObjectRotation(
-        controls: PlayerControls,
+    public controlsRequireObjectRotation(
+        controls: Controls,
         objectName: string, 
         euler: any
     ) {
-        debugger;
         const sceneObject = this.sceneObject(
             objectName
         );
         sceneObject.threeObject.quaternion.setFromEuler(euler);
+    }
+
+    controlsCanMoveLeftObject(
+        controls: Controls,
+        objectName: string
+    ) {
+        return this.canMoveLeft;
+    }
+
+    controlsCanMoveRightObject(
+        controls: Controls,
+        objectName: string
+    ) {
+        return this.canMoveRight;
+    }
+
+    controlsCanMoveForwardObject(
+        controls: Controls,
+        objectName: string
+    ) {
+        return this.canMoveForward;
+    }
+
+    controlsCanMoveBackwardObject(
+        controls: Controls,
+        objectName: string
+    ) {
+        return this.canMoveBackward;
     }
 
     public addTextUI(

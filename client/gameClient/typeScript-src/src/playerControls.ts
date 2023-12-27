@@ -2,8 +2,8 @@
 // @ts-nocheck
 
 import { Vector3 } from "./vector3.js";
-import { PlayerControlsDataSource } from "./playerControlsDataSource.js";
-import { PlayerControlsDelegate } from "./playerControlsDelegate.js"
+import { ControlsDataSource } from "./playerControlsDataSource.js";
+import { ControlsDelegate } from "./controlsDelegate.js"
 import { debugPrint } from "./runtime.js";
 
 //ThreeJS
@@ -1857,8 +1857,8 @@ export class PlayerControls implements Controls {
     private rightButtonPressed: boolean = false;
     private readonly moveDiff = 0.01;
     private objectName: string;
-    private dataSource: PlayerControlsDataSource;
-    private delegate: PlayerControlsDelegate;
+    private dataSource: ControlsDataSource;
+    private delegate: ControlsDelegate;
     private isFocused: boolean = false;
     private targetElement?: HTMLElement;
     private pointerDiffX: float = 0;
@@ -1869,8 +1869,8 @@ export class PlayerControls implements Controls {
         objectName: string,
         targetElement: HTMLElement,
         pointerSensivity: int,
-        dataSource: PlayerControlsDataSource,
-        delegate: PlayerControlsDelegate
+        dataSource: ControlsDataSource,
+        delegate: ControlsDelegate
     )
     {
         this.pointerSensivity = pointerSensivity;
@@ -1894,7 +1894,7 @@ export class PlayerControls implements Controls {
             switch (key) {
 				case 32:
 					controls.spaceButtonPressed = true;
-					this.delegate.playerControlsRequireJump(this, this.objectName);
+					this.delegate.controlsRequireJump(this, this.objectName);
 					break;
                 case 87:
                     controls.forwardButtonPressed = true;
@@ -1960,28 +1960,28 @@ export class PlayerControls implements Controls {
         var z = 0;
 
         if (this.leftButtonPressed) {
-			if (this.dataSource.playerControlsCanMoveLeftObject()) {
+			if (this.dataSource.controlsCanMoveLeftObject()) {
             	x = -speed;
 			}
         }
         else if (this.rightButtonPressed) {
-			if (this.dataSource.playerControlsCanMoveRightObject()) {
+			if (this.dataSource.controlsCanMoveRightObject()) {
             	x = speed;
 			}
         }
 
         if (this.forwardButtonPressed) {
-			if (this.dataSource.playerControlsCanMoveForwardObject(this, this.objectName)) {
+			if (this.dataSource.controlsCanMoveForwardObject(this, this.objectName)) {
             	z = -speed;
 			}
         }
         else if (this.backwardButtonPressed) {
-			if (this.dataSource.playerControlsCanMoveBackwardObject(this, this.objectName)) {
+			if (this.dataSource.controlsCanMoveBackwardObject(this, this.objectName)) {
             	z = speed;
 			}
         }
 
-        this.delegate.playerControlsRequireObjectTranslate(
+        this.delegate.controlsRequireObjectTranslate(
             this,
             this.objectName,
             x,
@@ -1992,7 +1992,7 @@ export class PlayerControls implements Controls {
         // @ts-ignore
         const euler = new Euler( 0, 0, 0, 'YXZ' );
         var PI_2 = Math.PI / 2;        
-        const quaternion = this.dataSource.playerControlsQuaternionForObject(
+        const quaternion = this.dataSource.controlsQuaternionForObject(
             this,
             this.objectName
         );
@@ -2003,7 +2003,7 @@ export class PlayerControls implements Controls {
 
 		euler.x = Math.max( - PI_2, Math.min( PI_2, euler.x ) );
 
-        this.delegate.playerControlsRequireObjectRotation(
+        this.delegate.controlsRequireObjectRotation(
             this,
             this.objectName,
             euler

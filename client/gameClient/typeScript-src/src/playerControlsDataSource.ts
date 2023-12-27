@@ -1,28 +1,28 @@
-import { PlayerControls } from "./playerControls.js"
+import { Controls } from "./controls.js";
 
-export interface PlayerControlsDataSource {
-    playerControlsQuaternionForObject(
-        controls: PlayerControls,
+export interface ControlsDataSource {
+    controlsQuaternionForObject(
+        controls: Controls,
         objectName: string
     ): any;
 
-    playerControlsCanMoveForwardObject(
-        controls: PlayerControls,
+    controlsCanMoveForwardObject(
+        controls: Controls,
         objectName: string
     ): any;
 
-    playerControlsCanMoveBackwardObject(
-        controls: PlayerControls,
+    controlsCanMoveBackwardObject(
+        controls: Controls,
         objectName: string
     ): any;    
 
-    playerControlsCanMoveLeftObject(
-        controls: PlayerControls,
+    controlsCanMoveLeftObject(
+        controls: Controls,
         objectName: string
     ): any;   
     
-    playerControlsCanMoveRightObject(
-        controls: PlayerControls,
+    controlsCanMoveRightObject(
+        controls: Controls,
         objectName: string
     ): any;   
 }
