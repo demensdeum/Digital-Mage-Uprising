@@ -34,6 +34,8 @@ State Machine based on Elm SPA example
 benjamin-thomas  
 https://github.com/benjamin-thomas/elm-spa-example  
 
+### Client Demo W/O Server  
+https://demensdeum.com/demos/dust_flyer/  
 
 ### Resources  
 

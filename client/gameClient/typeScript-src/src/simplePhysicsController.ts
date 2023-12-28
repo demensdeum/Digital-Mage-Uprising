@@ -178,6 +178,9 @@ export class SimplePhysicsController implements PhysicsController {
             if (alice.name == bob.name) {
                 return;
             }
+            if (bob.isMovable == true) {
+                return;
+            }
             const collisions = this.raycaster.intersectObjects(
                 bob.meshes,
                 false

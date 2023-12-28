@@ -97,19 +97,22 @@ customElements.define('three-canvas',
                 this.playerControls == null &&
                 canvas.userObjectName != null
             ) {
-                this.playerControls = new PlayerControls(
-                    canvas.userObjectName,
-                    this.graphicsCanvas,
-                    4,
-                    this.sceneController,
-                    this.sceneController
-                );
-
-                // this.playerControls = new EnemyControls(
-                //     canvas.userObjectName,
-                //     this.sceneController,
-                //     this.sceneController
-                // );
+                if (confirm("You AI?")) {
+                    this.playerControls = new EnemyControls(
+                        canvas.userObjectName,
+                        this.sceneController,
+                        this.sceneController
+                    );                    
+                }
+                else {
+                    this.playerControls = new PlayerControls(
+                        canvas.userObjectName,
+                        this.graphicsCanvas,
+                        4,
+                        this.sceneController,
+                        this.sceneController
+                    );
+                }
 
                 this.sceneController.playerControls = this.playerControls;
             }
