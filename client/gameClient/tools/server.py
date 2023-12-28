@@ -15,7 +15,11 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     server_address = (IP_ADDRESS, PORT)
-    httpd = socketserver.TCPServer(server_address, NoCacheHTTPRequestHandler)
+    httpd = socketserver.TCPServer(server_address, NoCacheHTTPRequestHandler,
+                                                   bind_and_activate=False)
+    httpd.allow_reuse_address = True
+    httpd.server_bind()
+    httpd.server_activate()
     
     print(f"Serving on {IP_ADDRESS}:{PORT}...")
     httpd.serve_forever()
