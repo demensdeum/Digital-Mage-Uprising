@@ -109,6 +109,7 @@ customElements.define('three-canvas',
                         canvas.userObjectName,
                         this.graphicsCanvas,
                         4,
+                        true,
                         this.sceneController,
                         this.sceneController
                     );

@@ -101,3 +101,9 @@ Chicken Bot
 Avatar of lorib2306  
 lorib2306  
 https://sketchfab.com/3d-models/chicken-bot-84e54e73a9a842d89198edc1acf1c900  
+
+Dante ChiBi  
+3D Model  
+Avatar of hoamomcho_qd  
+hoamomcho_qd  
+https://sketchfab.com/3d-models/dante-chibi-2bf32bd5f0dd452da54d30705336ee57  

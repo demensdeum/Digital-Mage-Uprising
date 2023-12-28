@@ -23,16 +23,19 @@ export class PlayerControls implements Controls {
     private pointerDiffX: float = 0;
     private pointerDiffY: float = 0;
     public pointerSensivity: int = 4;
+    private verticalLock: boolean = false;
 
     constructor(
         objectName: string,
         targetElement: HTMLElement,
         pointerSensivity: int,
+        verticalLock: boolean,
         dataSource: ControlsDataSource,
         delegate: ControlsDelegate
     )
     {
         this.pointerSensivity = pointerSensivity;
+        this.verticalLock = verticalLock;
         this.dataSource = dataSource;
         this.delegate = delegate;
           
@@ -158,9 +161,11 @@ export class PlayerControls implements Controls {
 		euler.setFromQuaternion(quaternion);
 
 		euler.y -= this.pointerDiffX * 0.001 * this.pointerSensivity;
-		euler.x -= this.pointerDiffY * 0.001 * this.pointerSensivity;
 
-		euler.x = Math.max( - PI_2, Math.min( PI_2, euler.x ) );
+        if (!this.verticalLock) {
+            euler.x -= this.pointerDiffY * 0.001 * this.pointerSensivity;
+		    euler.x = Math.max( - PI_2, Math.min( PI_2, euler.x ) );
+        }
 
         this.delegate.controlsRequireObjectRotation(
             this,
