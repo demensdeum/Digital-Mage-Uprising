@@ -18,6 +18,13 @@ export class CommandsFactory {
         )
     }
 
+    static moveBackward(time: int): SceneObjectCommand {
+        return new SceneObjectCommand(
+            SceneObjectCommandType.moveBackward,
+            time
+        )
+    }    
+
     static moveLeft(time: int): SceneObjectCommand {
         return new SceneObjectCommand(
             SceneObjectCommandType.moveLeft,
@@ -38,4 +45,18 @@ export class CommandsFactory {
             time
         )
     }
+
+    static rotateLeft(time: int): SceneObjectCommand {
+        return new SceneObjectCommand(
+            SceneObjectCommandType.rotateLeft,
+            time
+        )
+    }
+
+    static rotateRight(time: int): SceneObjectCommand {
+        return new SceneObjectCommand(
+            SceneObjectCommandType.rotateRight,
+            time
+        )
+    }    
 }

@@ -4,5 +4,7 @@ export enum SceneObjectCommandType {
     moveBackward,
     moveLeft,
     moveRight,
-    jump
+    jump,
+    rotateLeft,
+    rotateRight
 }

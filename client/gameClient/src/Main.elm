@@ -1,7 +1,6 @@
 port module Main exposing (..)
 
 import Browser
-import Browser.Events
 import Html exposing (..)
 import Html.Events exposing (..)
 import Process exposing (..)

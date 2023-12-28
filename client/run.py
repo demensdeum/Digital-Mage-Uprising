@@ -1,25 +1,18 @@
 #!/usr/bin/env python3
 
 import os
+import subprocess
+import shlex
 
 def run_commands():
-    # Change directory to 'gameClient'
     os.chdir('gameClient')
-
-    # Change directory to 'typeScript-src'
+    os.system('python ./tools/build.py')
+    subprocess.Popen("python ./tools/server.py", shell=True)
+    subprocess.Popen("python ./tools/watchNbuild.py src ./tools/build.py", shell=True)
     os.chdir('typeScript-src')
-
-    # Execute the build.bat script inside typeScript-src/tools
-    os.system('python ./tools/build.py')
-
-    # Go back one directory to 'gameClient'
-    os.chdir('..')
-
-    # Execute the build.bat script inside gameClient/tools
-    os.system('python ./tools/build.py')
-
-    # Execute the run.bat script inside gameClient/tools
-    os.system('python ./tools/run.py')
+    subprocess.Popen("python ../tools/watchNbuild.py src ./tools/build.py", shell=True)
+    while True:
+        pass
 
 if __name__ == "__main__":
     run_commands()

@@ -36,8 +36,6 @@ export class SceneController implements
     private readonly assetsDirectory: string = "assets";
     private readonly collisionsDebugEnabled: boolean = false;
 
-    private canvas: HTMLCanvasElement;
-    
     public static readonly itemSize: number = 1;
     public static readonly carSize: number = 1;
     public static readonly roadSegmentSize: number = 2;
@@ -81,7 +79,6 @@ export class SceneController implements
         flyMode: boolean = false
     ) {
         this.flyMode = flyMode;
-        this.canvas = canvas;
         this.physicsController = physicsController;
         this.physicsController.delegate = this;
 

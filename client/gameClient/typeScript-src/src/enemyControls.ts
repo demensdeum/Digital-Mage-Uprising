@@ -6,6 +6,9 @@ import { debugPrint } from "./runtime.js";
 import { SceneObjectCommand } from "./sceneObjectCommand.js";
 import { SceneObjectCommandType } from "./sceneObjectCommandType.js";
 import { Utils } from "./utils.js";
+import { Euler } from "./euler.js";
+
+//ThreeJS
 
 export class EnemyControls implements Controls {
     public delegate: ControlsDelegate;
@@ -13,7 +16,9 @@ export class EnemyControls implements Controls {
     private objectName: string;
 
     private moveCommand: SceneObjectCommand = CommandsFactory.idle(0);
-    private secondaryMoveCommand: SceneObjectCommand = CommandsFactory.idle(0);
+    private secondaryMoveCommand: SceneObjectCommand = CommandsFactory.idle(0);    
+    private extraMoveCommand: SceneObjectCommand = CommandsFactory.idle(0);   
+    private rotationCommand: SceneObjectCommand = CommandsFactory.idle(0); 
     private actionCommand: SceneObjectCommand = CommandsFactory.idle(0);
 
     constructor(
@@ -38,23 +43,61 @@ export class EnemyControls implements Controls {
             this.handleCommand(this.secondaryMoveCommand);
         }
         else {
-            this.secondaryMoveCommand = this.comeUpWithIdeaForMoveCommand();
+            this.secondaryMoveCommand = this.comeUpWithIdeaForSecondaryMoveCommand();
         }
+
+        if (!this.rotationCommand.isExpired()) {
+            this.handleCommand(this.rotationCommand);
+        }
+        else {
+            this.rotationCommand = this.comeUpWithIdeaForRotationCommand();
+        }
+
+        if (!this.extraMoveCommand.isExpired()) {
+            this.handleCommand(this.extraMoveCommand);
+        }
+        else {
+            this.extraMoveCommand = this.comeUpWithIdeaForExtraMoveCommand();
+        }
+    }
+
+    private comeUpWithIdeaForRotationCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 9) {
+            return CommandsFactory.rotateLeft(Utils.randomInt(100));
+        }
+        else if (idea == 14) {
+            return CommandsFactory.rotateRight(Utils.randomInt(100));
+        }
+        return CommandsFactory.idle(Utils.randomInt(10));
     }
 
     private comeUpWithIdeaForMoveCommand() {
         const idea = Utils.randomInt(30);
-        if (idea == 3) {
-            return CommandsFactory.moveForward(100 + Utils.randomInt(100));
+        if (idea > 6  && idea < 20) {
+            return CommandsFactory.moveForward(100 + Utils.randomInt(1000));
         }
         else if (idea == 4) {
-            return CommandsFactory.moveLeft(100 + Utils.randomInt(100));
+            return CommandsFactory.moveBackward(100 + Utils.randomInt(1000));
         }        
-        else if (idea == 22) {
-            return CommandsFactory.moveRight(100 + Utils.randomInt(100));
+        return CommandsFactory.idle(Utils.randomInt(10));
+    }
+
+    private comeUpWithIdeaForSecondaryMoveCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 3) {
+            return CommandsFactory.jump(10);
         }
-        else if (idea == 8) {
-            return CommandsFactory.jump(Utils.randomInt(100));
+        return CommandsFactory.idle(Utils.randomInt(10));
+    }
+
+    private comeUpWithIdeaForExtraMoveCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 4) {
+            return CommandsFactory.moveLeft(100 + Utils.randomInt(500));
+        }
+        else if (idea == 6) {
+            return CommandsFactory.moveRight(100 + Utils.randomInt(500));
         }
         return CommandsFactory.idle(Utils.randomInt(10));
     }
@@ -69,6 +112,7 @@ export class EnemyControls implements Controls {
                 break
 
             case SceneObjectCommandType.moveBackward:
+                this.moveBackward();
                 break
 
             case SceneObjectCommandType.moveLeft:
@@ -82,6 +126,14 @@ export class EnemyControls implements Controls {
             case SceneObjectCommandType.jump:
                 this.jump();
                 break
+
+            case SceneObjectCommandType.rotateLeft:
+                this.rotateLeft();
+                break
+
+            case SceneObjectCommandType.rotateRight:
+                this.rotateRight();
+                break
         }
         command.step();   
     }
@@ -92,15 +144,32 @@ export class EnemyControls implements Controls {
             this, 
             this.objectName
             )
-            ) {
+        ) {
             this.delegate.controlsRequireObjectTranslate(
                 this,
                 this.objectName,
                 0,
                 0, 
-                -0.01
+                -0.05
             );
         }
+    }
+
+    private moveBackward() {
+        if (
+            this.dataSource.controlsCanMoveBackwardObject(
+            this, 
+            this.objectName
+            )
+        ) {
+            this.delegate.controlsRequireObjectTranslate(
+                this,
+                this.objectName,
+                0,
+                0, 
+                0.05
+            );
+        }        
     }
 
     private moveLeft() {
@@ -109,11 +178,11 @@ export class EnemyControls implements Controls {
             this, 
             this.objectName
             )
-            ) {
+        ) {
             this.delegate.controlsRequireObjectTranslate(
                 this,
                 this.objectName,
-                -0.01,
+                -0.1,
                 0, 
                 0
             );
@@ -126,16 +195,58 @@ export class EnemyControls implements Controls {
             this, 
             this.objectName
             )
-            ) {
+        ) {
             this.delegate.controlsRequireObjectTranslate(
                 this,
                 this.objectName,
-                0.01,
+                0.1,
                 0, 
                 0
             );
         }
-    }    
+    }
+
+    private rotateLeft() {
+        const euler = new Euler(0, 0, 0, 'YXZ' );        
+        const quaternion = this.dataSource.controlsQuaternionForObject(
+            this,
+            this.objectName
+        );
+
+        // @ts-ignore
+		euler.setFromQuaternion(quaternion);
+
+        const PI_2 = Math.PI / 2;   
+
+		euler.y += 0.1;
+
+        this.delegate.controlsRequireObjectRotation(
+            this,
+            this.objectName,
+            euler
+        );
+    }
+
+    private rotateRight() {
+        const euler = new Euler(0, 0, 0, 'YXZ' );        
+        const quaternion = this.dataSource.controlsQuaternionForObject(
+            this,
+            this.objectName
+        );
+
+        // @ts-ignore
+		euler.setFromQuaternion(quaternion);
+
+        const PI_2 = Math.PI / 2;   
+
+		euler.y -= 0.1;
+
+        this.delegate.controlsRequireObjectRotation(
+            this,
+            this.objectName,
+            euler
+        );
+    }
 
     private jump() {
         this.delegate.controlsRequireJump(this, this.objectName);
