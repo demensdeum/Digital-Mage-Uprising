@@ -58,9 +58,9 @@ initialScene userObjectName  =
                   name = userObjectName
                   , objectType = Model
                   , position = {
-                    x = 2
+                    x = 4
                     , y = 0
-                    , z = -2
+                    , z = 0
                   }
                   , rotation = Vector3.default
                   , texture = Texture.default
