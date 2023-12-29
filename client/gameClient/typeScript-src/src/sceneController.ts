@@ -21,6 +21,7 @@ import { debugPrint, raiseCriticalError } from "./runtime.js";
 import { float } from "./types.js";
 import { Vector3 } from "./vector3.js";
 import { Controls } from "./controls.js";
+import { Paths } from "./paths.js";
 
 const gui = new dat.GUI();
 
@@ -30,10 +31,6 @@ export class SceneController implements
                                         PhysicsControllerDelegate,
                                         SimplePhysicsControllerDelegate {
 
-    private readonly modelExtension: string = "glb";
-    private readonly textureExtension: string = "png";
-    private readonly environmentExtension: string = "hdr";
-    private readonly assetsDirectory: string = "assets";
     private readonly collisionsDebugEnabled: boolean = false;
 
     public static readonly itemSize: number = 1;
@@ -96,17 +93,15 @@ export class SceneController implements
         }
 // @ts-ignore
         this.failbackTexture = this.textureLoader.load(
-            "./" +
-             sceneController.assetsDirectory +
-             "/com.demensdeum.failback.texture." +
-              sceneController.textureExtension
+            Paths.texturePath(
+                "com.demensdeum.failback"
+            )
         );
 
         this.loadingTexture = this.textureLoader.load(
-            "./" +
-             sceneController.assetsDirectory +
-             "/com.demensdeum.loading.texture." +
-              sceneController.textureExtension
+            Paths.texturePath(
+                "com.demensdeum.loading"
+            )
         );
 // @ts-ignore
     this.scene = new THREE.Scene();
@@ -474,7 +469,7 @@ export class SceneController implements
             -SceneController.skyboxPositionDiff,
             1,
             1,
-            name + ".skybox.front.texture." + this.textureExtension,
+            Paths.skyboxFrontTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -486,7 +481,7 @@ export class SceneController implements
             SceneController.skyboxPositionDiff,
             1,
             1,
-            name + ".skybox.back.texture." + this.textureExtension,
+            Paths.skyboxBackTexturePath(name),
             0xFFFFFF,
             true
         );    
@@ -505,7 +500,7 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.top.texture." + this.textureExtension,
+            Paths.skyboxTopTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -524,7 +519,7 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.bottom.texture." + this.textureExtension,
+            Paths.skyboxBottomTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -543,7 +538,7 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.left.texture." + this.textureExtension,
+            Paths.skyboxLeftTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -562,7 +557,7 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.right.texture." + this.textureExtension,
+            Paths.skyboxRightTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -578,11 +573,10 @@ export class SceneController implements
 // @ts-ignore
       new RGBELoader()
       .setDataType( THREE.UnsignedByteType )
-      .setPath("./" + this.assetsDirectory + "/")
+      .setPath("./" + Paths.assetsDirectory + "/")
 // @ts-ignore      
-      .load(name + ".skybox.environment." + this.environmentExtension, (texture) => {
+      .load(Paths.environmentPath(name), (texture) => {
         var environmentMap = pmremGenerator.fromEquirectangular(texture).texture;
-        //this.scene.background = environmentMap;
         this.scene.environment = environmentMap;
         texture.dispose();
         pmremGenerator.dispose();      
@@ -636,7 +630,7 @@ export class SceneController implements
 
         const scene = this.scene;
         const loader = new GLTFLoader();
-        const modelPath = "./" + this.assetsDirectory + "/" + modelName + ".model." + this.modelExtension;
+        const modelPath = Paths.modelPath(modelName);
 
         loader.load(
           modelPath,
@@ -698,7 +692,7 @@ export class SceneController implements
         opacity: number = 1.0
     ): void {
         debugPrint("addBoxAt: " + x + " " + y + " " + z);
-        const texturePath = "./" + this.assetsDirectory + "/" + textureName;
+        const texturePath = Paths.texturePath(textureName);
         // @ts-ignore
         const boxGeometry = new THREE.BoxGeometry(
             size, 
@@ -762,7 +756,7 @@ export class SceneController implements
         opacity: number = 1.0
     ): void {
         debugPrint("addPlaneAt");
-        const texturePath = "./" + this.assetsDirectory + "/" + textureName;
+        const texturePath = Paths.texturePath(textureName);
         // @ts-ignore
         const planeGeometry = new THREE.PlaneGeometry(width, height);
 
