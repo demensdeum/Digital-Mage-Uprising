@@ -17,7 +17,7 @@ export class SnowflakesController implements WeatherController {
     private readonly snowflakeModelPath = "com.demensdeum.snowflake";
 
     private instancedSnowflakeMesh?: any;
-    private readonly snowflakesCount: int = 260;
+    private readonly snowflakesCount: int = 1040;
 
     private delegate: WeatherControllerDelegate;
 
@@ -58,8 +58,8 @@ export class SnowflakesController implements WeatherController {
                         const startZ = -40;
 
                         for (let i = 0; i < this.snowflakesCount; i++) {
-                            this.position.x = startX + i / 5.0;
-                            this.position.y = 4 + Utils.randomFloat(4);
+                            this.position.x = startX + i / 20.0;
+                            this.position.y = 1 + Utils.randomFloat(7);
                             this.position.z = startZ + Utils.randomInt(55);
                             
                             const euler = new THREE.Euler(Utils.angleToRadians(90), 0, 0, 'YXZ' );
@@ -88,13 +88,16 @@ export class SnowflakesController implements WeatherController {
     }
 
     step(delta: any) {
-        this.changeSnowflakesPosition();
+        this.changeSnowflakesPositionStep();
     }
 
-    private changeSnowflakesPosition()  {
+    private changeSnowflakesPositionStep()  {
         if (!this.instancedSnowflakeMesh) {
             return;
         }
+
+        const startX = -30;
+
         for (let i = 0; i < this.snowflakesCount; i++) {
             this.instancedSnowflakeMesh.getMatrixAt(i, this.matrix);
             this.position.setFromMatrixPosition(this.matrix);

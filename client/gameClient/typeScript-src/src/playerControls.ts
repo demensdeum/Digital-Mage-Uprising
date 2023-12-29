@@ -116,7 +116,7 @@ export class PlayerControls implements Controls {
     }
 
     public step(delta: any) {
-        const speed = 0.1;
+        const speed = 0.05;
         var x = 0;
         const y = 0;
         var z = 0;

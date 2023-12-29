@@ -33,7 +33,7 @@ customElements.define('three-canvas',
             this.sceneController = new SceneController(
                 this.graphicsCanvas,
                 this.physicsController,
-                true
+                false
             );          
 
             document.threeCanvasDidLoad(this);
