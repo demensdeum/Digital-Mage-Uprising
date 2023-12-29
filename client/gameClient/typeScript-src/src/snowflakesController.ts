@@ -59,7 +59,7 @@ export class SnowflakesController implements WeatherController {
 
                         for (let i = 0; i < this.snowflakesCount; i++) {
                             this.position.x = startX + i / 5.0;
-                            this.position.y = 4;
+                            this.position.y = 4 + Utils.randomFloat(4);
                             this.position.z = startZ + Utils.randomInt(55);
                             
                             const euler = new THREE.Euler(Utils.angleToRadians(90), 0, 0, 'YXZ' );
@@ -100,7 +100,7 @@ export class SnowflakesController implements WeatherController {
             this.position.setFromMatrixPosition(this.matrix);
             this.position.y -= 0.01;
             if (this.position.y < -1.5) {
-                this.position.y = 4;
+                this.position.y = 4 + Utils.randomFloat(4);
             }
             debugPrint(this.position.y);
             this.matrix.setPosition(this.position);
