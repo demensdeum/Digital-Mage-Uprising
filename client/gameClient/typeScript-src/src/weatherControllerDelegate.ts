@@ -1,7 +1,7 @@
 import { WeatherController } from "./weatherController.js";
 
 export interface WeatherControllerDelegate {
-    weatherControllerDidRequireIntancedMeshToScene(
+    weatherControllerDidRequireToAddInstancedMeshToScene(
         weatherController: WeatherController,
         instancedMesh: any
     ): void;

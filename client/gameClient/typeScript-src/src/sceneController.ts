@@ -22,6 +22,9 @@ import { float } from "./types.js";
 import { Vector3 } from "./vector3.js";
 import { Controls } from "./controls.js";
 import { Paths } from "./paths.js";
+import { SnowflakesController } from "./snowflakesController.js";
+import { WeatherControllerDelegate } from "./weatherControllerDelegate.js";
+import { WeatherController } from "./weatherController.js";
 
 const gui = new dat.GUI();
 
@@ -29,7 +32,8 @@ export class SceneController implements
                                         ControlsDataSource, 
                                         ControlsDelegate,
                                         PhysicsControllerDelegate,
-                                        SimplePhysicsControllerDelegate {
+                                        SimplePhysicsControllerDelegate,
+                                        WeatherControllerDelegate {
 
     private readonly collisionsDebugEnabled: boolean = false;
 
@@ -70,6 +74,8 @@ export class SceneController implements
 
     private flyMode: boolean = false;
 
+    private weatherController?: WeatherController;
+    
     constructor(
         canvas: HTMLCanvasElement,
         physicsController: PhysicsController,
@@ -157,6 +163,9 @@ export class SceneController implements
       }      
 
       window.addEventListener("resize", onWindowResize, false);
+
+      this.weatherController = new SnowflakesController(this);
+      this.weatherController.initialize();      
     }
 
     physicControllerRequireApplyPosition(
@@ -310,6 +319,13 @@ export class SceneController implements
         return this.canMoveBackward;
     }
 
+    weatherControllerDidRequireToAddInstancedMeshToScene(
+        weatherController: WeatherController,
+        instancedMesh: any
+    ): void {
+        this.scene.add(instancedMesh);
+    }
+
     public addTextUI(
         object: any,
         property: String
@@ -329,6 +345,8 @@ export class SceneController implements
         if (this.physicsController) {
             this.physicsController.step(delta);
         }
+
+        this.weatherController?.step(delta);
         this.animationsStep(delta);
         this.updateSkyboxPosition();
         this.render();
@@ -671,8 +689,11 @@ export class SceneController implements
             sceneController.animationMixers.push(animationMixer);
 
             // @ts-ignore
-            model.traverse((mesh) => {
-                sceneObject.meshes.push(mesh);
+            model.traverse((entity) => {
+                if (entity.isMesh) {
+                    const mesh = entity;
+                    sceneObject.meshes.push(mesh);
+                }
             }); 
             
             successCallback();

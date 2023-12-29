@@ -6,7 +6,7 @@ import cleanterminus
 
 def run_commands():
     cleanterminus.clear()
-    os.system('npm install typescript')
+    # os.system('npm install typescript')
     os.environ["PATH"] += os.pathsep + os.path.join('.', 'node_modules', '.bin')
     preprocessor_path = os.path.join('.', 'tools', 'preprocessor', 'preprocessor.py')
     src_path = os.path.join('.', 'src')
