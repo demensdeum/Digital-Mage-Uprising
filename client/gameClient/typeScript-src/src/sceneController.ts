@@ -628,11 +628,10 @@ export class SceneController implements
         );
         sceneController.addSceneObject(sceneObject);
 
-        const scene = this.scene;
-        const loader = new GLTFLoader();
+        const modelLoader = new GLTFLoader();
         const modelPath = Paths.modelPath(modelName);
 
-        loader.load(
+        modelLoader.load(
           modelPath,
           // @ts-ignore
           function (container) {
@@ -672,7 +671,7 @@ export class SceneController implements
             sceneController.animationMixers.push(animationMixer);
 
             // @ts-ignore
-            model.traverse((mesh)=> {
+            model.traverse((mesh) => {
                 sceneObject.meshes.push(mesh);
             }); 
             

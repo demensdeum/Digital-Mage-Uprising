@@ -65,7 +65,7 @@ initialScene userObjectName  =
                   , rotation = Vector3.default
                   , texture = Texture.default
                   , model = {
-                        name = "com.demensdeum.snowflake"
+                        name = "com.demensdeum.gunner"
                   }
                   , isMovable = True
             }
