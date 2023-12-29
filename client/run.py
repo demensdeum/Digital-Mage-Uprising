@@ -11,7 +11,7 @@ def run_commands():
     os.chdir('typeScript-src')
     subprocess.Popen("python ../tools/watchNbuild.py src ./tools/build.py", shell=True)
     os.chdir('..')
-    os.command("python ./tools/server.py")
+    os.system("python ./tools/server.py")
 
 if __name__ == "__main__":
     run_commands()

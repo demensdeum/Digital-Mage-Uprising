@@ -9,6 +9,7 @@ import { WeatherController } from "./weatherController.js";
 import { int } from "./types.js";
 import { WeatherControllerDelegate } from "./weatherControllerDelegate.js";
 import { Utils } from "./utils.js";
+import { debugPrint } from "./runtime.js";
 
 export class SnowflakesController implements WeatherController {
 
@@ -16,12 +17,16 @@ export class SnowflakesController implements WeatherController {
     private readonly snowflakeModelPath = "com.demensdeum.snowflake";
 
     private instancedSnowflakeMesh?: any;
-    private readonly snowflakesCount: int = 10;
+    private readonly snowflakesCount: int = 100;
 
     private delegate: WeatherControllerDelegate;
 
     private position = new THREE.Vector3();
     private matrix = new THREE.Matrix4();
+
+    private readonly material = new THREE.MeshBasicMaterial({
+        color: "white"
+    });    
 
 
     constructor(
@@ -43,28 +48,31 @@ export class SnowflakesController implements WeatherController {
                 model.traverse((entity) => {
                     if (entity.isMesh) {
                         const mesh = entity;
-                        const material = new THREE.MeshNormalMaterial();
                         self.instancedSnowflakeMesh = new THREE.InstancedMesh(
                             mesh.geometry,
-                            material, 
+                            this.material, 
                             self.snowflakesCount
                         );
 
+                        const startX = 2;
+                        const startZ = -2;
 
                         for (let i = 0; i < this.snowflakesCount; i++) {
-                            this.position.x = 2 + i / 10.0;
-                            this.position.y = 0;
-                            this.position.z = -2;
+                            this.position.x = startX + i / 5.0;
+                            this.position.y = 2;
+                            this.position.z = startZ;
                             
+                            const euler = new THREE.Euler(Utils.angleToRadians(90), 0, 0, 'YXZ' );
                             const quaternion = new THREE.Quaternion();
-                            // quaternion.random();
+                            quaternion.setFromEuler(euler);
 
-                            const scale = new THREE.Vector3();
-                            scale.x = 1;
-                            scale.y = 1;
-                            scale.z = 1;
+                            const scale = 0.05;
+                            const scaleVector = new THREE.Vector3();
+                            scaleVector.x = scale;
+                            scaleVector.y = scale;
+                            scaleVector.z = scale;
 
-                            this.matrix.compose(this.position, quaternion, scale );
+                            this.matrix.compose(this.position, quaternion, scaleVector);
                             self.instancedSnowflakeMesh.setMatrixAt(i, this.matrix);
                         }
 
@@ -91,6 +99,10 @@ export class SnowflakesController implements WeatherController {
             this.instancedSnowflakeMesh.getMatrixAt(i, this.matrix);
             this.position.setFromMatrixPosition(this.matrix);
             this.position.y -= 0.01;
+            if (this.position.y < -1.5) {
+                this.position.y = 2;
+            }
+            debugPrint(this.position.y);
             this.matrix.setPosition(this.position);
             this.instancedSnowflakeMesh.setMatrixAt(i, this.matrix);
             this.instancedSnowflakeMesh.instanceMatrix.needsUpdate = true;

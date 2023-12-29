@@ -13,7 +13,7 @@ class FilesChangeHandler(FileSystemEventHandler):
         if event.is_directory:
             return
         elif event.event_type == 'modified':
-            print(f'File {event.src_path} has been modified. Running bat file...')
+            print(f'File {event.src_path} has been modified. Running script...')
             rebuild()
 
 def rebuild():
