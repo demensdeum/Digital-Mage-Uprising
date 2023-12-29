@@ -108,6 +108,12 @@ Avatar of hoamomcho_qd
 hoamomcho_qd  
 https://sketchfab.com/3d-models/dante-chibi-2bf32bd5f0dd452da54d30705336ee57  
 
-Floor texture 
-DeadKir
-https://opengameart.org/content/floor-texture?destination=node/45506
+Floor texture  
+DeadKir  
+https://opengameart.org/content/floor-texture?destination=node/45506  
+
+CC0 - Snowflake
+3D Model
+Avatar of plaggy
+plaggy
+https://sketchfab.com/3d-models/cc0-snowflake-aea026ecfe5f4a8c844dde6bd5b4fec8
