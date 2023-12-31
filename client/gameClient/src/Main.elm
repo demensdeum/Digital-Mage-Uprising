@@ -96,8 +96,8 @@ initialGameContext: Int -> Context
 initialGameContext seed =
   {
     initialSeed = seed
-    , state = InGame InGame.initialSubstate
-    , canvas = InGame.initialCanvas seed
+    , state = CompanyLogo CompanyLogo.initialSubstate
+    , canvas = CompanyLogo.initialCanvas
   }
 
 update : EngineMessage -> Context -> (Context, Cmd EngineMessage)
@@ -162,18 +162,18 @@ step context =
   case context.state of
     Idle substate ->
       let newCanvas = States.Idle.step canvas in
-        {context | canvas = newCanvas}
+        { context | canvas = newCanvas}
 
     CompanyLogo substate ->
         case States.CompanyLogo.step canvas substate of
           Rendering newSubstate ->
-            {context | state = CompanyLogo newSubstate}
-          GoToMainMenu ->
-            {context | state = MainMenu {} }
+            { context | state = CompanyLogo newSubstate}
+          GoToInGame ->
+            { context | state = InGame InGame.initialSubstate , canvas = InGame.initialCanvas context.initialSeed }
 
     MainMenu substate ->
       let newCanvas = States.MainMenu.step context.canvas in
-        {context | canvas = newCanvas}
+        { context | canvas = newCanvas}
 
     InGame substate ->
         case States.InGame.step canvas substate of

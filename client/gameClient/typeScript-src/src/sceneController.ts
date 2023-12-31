@@ -877,6 +877,7 @@ export class SceneController implements
                 debugPrint("But it's skybox so don't mind!")
             }
             else {
+                debugger;
                 debugPrint("Adding dummy box with name: " + name);
                 this.addBoxAt(
                     name, 

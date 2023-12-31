@@ -18,7 +18,8 @@ class FilesChangeHandler(FileSystemEventHandler):
 
 def rebuild():
     try:
-        subprocess.run([build_script])
+        print(f"Trying to run: {build_script}")
+        subprocess.run(["python", build_script])
     except Exception as e:
         print(f'Error running build script file: {e}')
 

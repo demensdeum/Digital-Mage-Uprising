@@ -95,7 +95,8 @@ customElements.define('three-canvas',
         {
             if (
                 this.playerControls == null &&
-                canvas.userObjectName != null
+                canvas.userObjectName != null &&
+                canvas.userObjectName.length > 0
             ) {
                 if (confirm("You AI?")) {
                     this.playerControls = new EnemyControls(

@@ -11,7 +11,7 @@ import Shared.Vector3 as Vector3
 
 screenTime: Int 
 screenTime = 
-      10000
+      500
 
 type alias Substate =
       {
@@ -19,8 +19,22 @@ type alias Substate =
       }
 
 type Command =
-  GoToMainMenu
+  GoToInGame
   | Rendering Substate
+
+initialSubstate: Substate 
+initialSubstate =
+      {
+            tick = 0
+      }
+
+initialCanvas: Canvas
+initialCanvas = 
+      {
+            scene = scene
+            , message = "Initial Company Logo"
+            , userObjectName = ""
+      }
 
 scene : Scene
 scene =
@@ -47,4 +61,4 @@ step canvas substate =
       if substate.tick < screenTime then
             Rendering  {substate | tick = substate.tick + 1}
       else
-            GoToMainMenu         
+            GoToInGame         
