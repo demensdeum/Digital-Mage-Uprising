@@ -28,6 +28,7 @@ import States.CompanyLogo as CompanyLogo
 
 import Time exposing (every, Posix, now, posixToMillis)
 import Platform.Cmd as Cmd
+import States.MainMenu as MainMenu
 
 -- PORTS
 
@@ -168,8 +169,8 @@ step context =
         case States.CompanyLogo.step canvas substate of
           Rendering newSubstate ->
             { context | state = CompanyLogo newSubstate}
-          GoToInGame ->
-            { context | state = InGame InGame.initialSubstate , canvas = InGame.initialCanvas context.initialSeed }
+          GoToMainMenu ->
+            { context | state = MainMenu MainMenu.initialSubstate , canvas = MainMenu.initialCanvas }
 
     MainMenu substate ->
       let newCanvas = States.MainMenu.step context.canvas in

@@ -13,39 +13,33 @@ type alias Substate =
   {
   }
 
+initialSubstate: Substate 
+initialSubstate =
+      {
+      }
+
+initialCanvas: Canvas
+initialCanvas =
+      {
+        scene = initialScene,
+        message = "Initial Main Menu Canvas",
+        userObjectName = ""            
+      }
+
+initialScene: Scene
+initialScene = 
+      {
+        name = "Main Menu Scene"
+        , objects = Dict.empty
+        , physicsEnabled = False
+      }
+
 scene : Scene
 scene =
     {
         name = "Main Menu Scene"
-        , objects = Dict.fromList [
-            ("Skybox", {
-                  name = "Skybox"
-                  , objectType = Skybox
-                  , position = Vector3.default
-                  , rotation = Vector3.default
-                  , texture = {
-                        name = "com.demensdeum.skybox"
-                  }
-                  , model = Model.default
-                  , isMovable = False
-            }),
-            ("Spaceship", {
-                  name = "Spaceship"
-                  , objectType = Model
-                  , position = {
-                    x = -0.5
-                    , y = 0
-                    , z = -1
-                  }
-                  , rotation = Vector3.default
-                  , texture = Texture.default
-                  , model = {
-                        name = "com.demensdeum.spaceship"
-                  }
-                  , isMovable = False
-            })        
-          ]
-          , physicsEnabled = False
+        , objects = Dict.empty
+        , physicsEnabled = False
     }
 
 step: Canvas -> Canvas

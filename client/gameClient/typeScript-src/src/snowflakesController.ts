@@ -105,7 +105,6 @@ export class SnowflakesController implements WeatherController {
             if (this.position.y < -1.5) {
                 this.position.y = 4 + Utils.randomFloat(4);
             }
-            debugPrint(this.position.y);
             this.matrix.setPosition(this.position);
             this.instancedSnowflakeMesh.setMatrixAt(i, this.matrix);
             this.instancedSnowflakeMesh.instanceMatrix.needsUpdate = true;

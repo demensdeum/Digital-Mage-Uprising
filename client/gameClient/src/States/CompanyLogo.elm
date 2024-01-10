@@ -19,7 +19,7 @@ type alias Substate =
       }
 
 type Command =
-  GoToInGame
+  GoToMainMenu
   | Rendering Substate
 
 initialSubstate: Substate 
@@ -61,4 +61,4 @@ step canvas substate =
       if substate.tick < screenTime then
             Rendering  {substate | tick = substate.tick + 1}
       else
-            GoToInGame         
+            GoToMainMenu        

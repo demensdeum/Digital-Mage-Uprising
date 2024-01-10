@@ -465,7 +465,7 @@ export class SceneController implements
                 return;
             }
             const v = this.objects[k];
-            this.scene.remove(v);
+            this.scene.remove(v.threeObject);
             delete this.objects[k];
         });
         this.skyboxAdded = false;        

@@ -2,7 +2,6 @@
 
 import os
 import subprocess
-import shlex
 
 def run_commands():
     os.chdir('gameClient')
