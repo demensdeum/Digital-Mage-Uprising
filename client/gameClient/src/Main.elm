@@ -32,6 +32,7 @@ import States.MainMenu as MainMenu
 
 -- PORTS
 
+port buttonPressedReceiver: (String -> msg) -> Sub msg
 port websocketsConnected: (String -> msg) -> Sub msg
 port sendCanvas : String -> Cmd msg
 port nativeCanvasReceiver : (String -> msg) -> Sub msg
@@ -67,6 +68,7 @@ subscriptions _ =
   Sub.batch
         [ nativeCanvasReceiver ReceiveNativeCanvas
         , serverCanvasReceiver ReceiveServerCanvas
+        , buttonPressedReceiver ButtonPressed
         , every 30 SendCanvas
         ]
 
@@ -86,6 +88,7 @@ init _ =
 
 type EngineMessage
   = WebsocketConnectionInitialized String
+  | ButtonPressed String
   | ReceiveNativeCanvas String
   | ReceiveServerCanvas String
   | UpdateTimestamp Posix
@@ -109,6 +112,18 @@ update msg context =
 
   WebsocketConnectionInitialized message ->
       (context, Cmd.none)
+
+  ButtonPressed name ->
+    case context.state of
+      Idle substate ->
+        (context, Cmd.none)
+      CompanyLogo substate ->
+        (context, Cmd.none)
+      MainMenu substate ->
+        let newSubstate = {substate | pressedButtonName = name} in
+        ({context | state = MainMenu newSubstate} , Cmd.none)
+      InGame substate ->
+        (context, Cmd.none)
 
   ReceiveNativeCanvas canvasJsonString ->
     case Decode.decodeString Canvas.canvasFromJsonString canvasJsonString of
@@ -173,8 +188,11 @@ step context =
             { context | state = MainMenu MainMenu.initialSubstate , canvas = MainMenu.initialCanvas }
 
     MainMenu substate ->
-      let newCanvas = States.MainMenu.step context.canvas in
-        { context | canvas = newCanvas}
+        case States.MainMenu.step canvas substate of
+          MainMenu.Idle ->
+            context
+          StartNewGame ->
+            { context | state = InGame InGame.initialSubstate, canvas = InGame.initialCanvas context.initialSeed }
 
     InGame substate ->
         case States.InGame.step canvas substate of

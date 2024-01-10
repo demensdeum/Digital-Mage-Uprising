@@ -15,6 +15,18 @@ export class ThreeCanvasHandler implements ThreeCanvasDelegate {
             .send(output);
             console.log("sent canvas to Elm");            
     }
+
+    threeCanvasButtonDidPress(
+        threeCanvas: any, 
+        name: string
+    ): void {
+        this
+            .application
+            .ports
+            .buttonPressedReceiver
+            .send(name);
+            console.log("sent button pressed to Elm: " + name);          
+    }
 }
 
 // @ts-ignore

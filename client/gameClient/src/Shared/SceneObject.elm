@@ -12,6 +12,7 @@ type Type =
     | Camera
     | Box
     | Plane
+    | Button
 
 stringFromType: Type -> String
 stringFromType objectType =
@@ -26,6 +27,8 @@ stringFromType objectType =
             "Box"
         Plane ->
             "Plane"
+        Button ->
+            "Button"
 
 type alias SceneObject = 
     {
@@ -49,6 +52,7 @@ decoderObjectType =
             "Camera" -> Decode.succeed Camera
             "Box" -> Decode.succeed Box
             "Plane" -> Decode.succeed Plane
+            "Button" -> Decode.succeed Button
             _ -> Decode.fail "Invalid type"
         )
     ]

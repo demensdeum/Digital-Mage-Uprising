@@ -11,11 +11,17 @@ import Shared.Canvas exposing (..)
 
 type alias Substate =
   {
+      pressedButtonName: String
   }
+
+type Command =
+  Idle
+  | StartNewGame
 
 initialSubstate: Substate 
 initialSubstate =
       {
+            pressedButtonName = "NONE"
       }
 
 initialCanvas: Canvas
@@ -86,11 +92,24 @@ initialScene =
                         name = "com.demensdeum.planet1"
                   }
                   , isMovable = False
-            })            
+            })
+            , ("NewGame", {
+                  name = "NewGame"
+                  , objectType = Button
+                  , position = Vector3.default
+                  , rotation = Vector3.default
+                  , texture = Texture.default
+                  , model = Model.default
+                  , isMovable = False
+            })     
           ]
         , physicsEnabled = False
       }
 
-step: Canvas -> Canvas
-step model = 
-  model     
+step: Canvas -> Substate -> Command
+step canvas substate = 
+      if substate.pressedButtonName == "NewGame" then
+            StartNewGame
+      else
+            Idle
+      

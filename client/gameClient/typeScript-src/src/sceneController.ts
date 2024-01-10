@@ -452,8 +452,49 @@ export class SceneController implements
         return output;
     }
     
+    public addButton(
+        name: string, 
+        object: any
+    ) {
+        debugger;
+        gui.add(
+            object,
+            name
+        )
 
-    public updateUI(): void {
+        const boxSize: number = 1
+
+        // @ts-ignore
+        const boxGeometry = new THREE.BoxGeometry(
+            boxSize, 
+            boxSize, 
+            boxSize
+        );
+        // @ts-ignore
+        const material = new THREE.MeshBasicMaterial({
+             color: "white",
+             map: this.loadingTexture,
+             transparent: true,             
+             opacity: 0
+        });    
+
+        const box = new THREE.Mesh(boxGeometry, material);
+        box.position.x = 0;
+        box.position.y = 0;
+        box.position.z = 0;
+
+        const buttonSceneObject = new SceneObject(
+            name,
+            "Button",
+            "",
+            "",
+            box,
+            false
+        )
+        this.objects[name] = buttonSceneObject
+    }
+
+    public updateUI() {
         for (const i in gui.__controllers) {
             gui.__controllers[i].updateDisplay();
         }

@@ -6,6 +6,7 @@ import { Names } from './names.js'
 import { PlayerControls } from "./playerControls.js";
 import { SimplePhysicsController } from './simplePhysicsController.js';
 import { EnemyControls } from './enemyControls.js';
+import { debugPrint } from './runtime.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
@@ -210,8 +211,23 @@ customElements.define('three-canvas',
                         )                       
                         return;
                     }
-                    else if (type == "Plane") {
-                        console.error("Plane add from json scene does not implemented!");                        
+                    else if (type == "Button") {
+                        debugger;
+                        const self = this;
+                        let action = () => {
+                            debugPrint("Button " + name + " Pressed!!!")
+                            self.delegate.threeCanvasButtonDidPress(
+                                self,
+                                name
+                            )
+                        }
+                        var button = {
+                            [name] : action
+                        }
+                        this.sceneController.addButton(
+                            name,
+                            button
+                        )
                     }
                     else {
                         debugPrint("Unknown object type: " + type + "; uhh what the hell???");
