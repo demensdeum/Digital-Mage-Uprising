@@ -112,8 +112,20 @@ Floor texture
 DeadKir  
 https://opengameart.org/content/floor-texture?destination=node/45506  
 
-CC0 - Snowflake
-3D Model
-Avatar of plaggy
-plaggy
-https://sketchfab.com/3d-models/cc0-snowflake-aea026ecfe5f4a8c844dde6bd5b4fec8
+CC0 - Snowflake  
+3D Model  
+Avatar of plaggy  
+plaggy  
+https://sketchfab.com/3d-models/cc0-snowflake-aea026ecfe5f4a8c844dde6bd5b4fec8  
+
+Lava planet  
+3D Model  
+Avatar of FPSunreal  
+FPSunreal  
+https://sketchfab.com/3d-models/lava-planet-9792612f76184ee3b48530c7515ce747  
+
+Planet Of Phoenix  
+3D Model  
+Avatar of arctic.wolves  
+ARCTIC WOLVES™  
+https://sketchfab.com/3d-models/planet-of-phoenix-bbe2737a863445f7bb2a6901d10b090a  

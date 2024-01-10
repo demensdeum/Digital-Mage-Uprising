@@ -164,8 +164,8 @@ export class SceneController implements
 
       window.addEventListener("resize", onWindowResize, false);
 
-      this.weatherController = new SnowflakesController(this);
-      this.weatherController.initialize();      
+      // this.weatherController = new SnowflakesController(this);
+      this.weatherController?.initialize();      
     }
 
     physicControllerRequireApplyPosition(

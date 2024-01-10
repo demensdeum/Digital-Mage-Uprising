@@ -11,7 +11,7 @@ import Shared.Vector3 as Vector3
 
 screenTime: Int 
 screenTime = 
-      500
+      100
 
 type alias Substate =
       {
