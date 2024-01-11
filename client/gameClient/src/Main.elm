@@ -29,10 +29,7 @@ import States.CompanyLogo as CompanyLogo
 import Time exposing (every, Posix, now, posixToMillis)
 import Platform.Cmd as Cmd
 import States.MainMenu as MainMenu
-import Platform.Cmd as Cmd
-import Platform.Cmd as Cmd
-import Platform.Cmd as Cmd
-import Platform.Cmd as Cmd
+import Http
 
 -- PORTS
 
@@ -99,6 +96,7 @@ type EngineMessage
   | SendCanvas Posix
   | ConnectionError
   | Step Float
+  | GotSceneJson (Result Http.Error String)
 
 initialGameContext: Int -> Context
 initialGameContext seed =
@@ -177,6 +175,9 @@ update msg context =
   Step _ ->
       step context
 
+  GotSceneJson result ->
+    step context
+
 step: Context -> (Context, Cmd EngineMessage)
 step context =
   let canvas = context.canvas in
@@ -203,9 +204,13 @@ step context =
         case States.InGame.step canvas substate of
           Update newCanvas ->
             ({ context | canvas = newCanvas}, Cmd.none)
-          LoadScene sceneName ->
+          InGame.LoadScene sceneName ->
             let newSubstate = { substate | initializationState = Loading } in
-              ({ context | state = InGame newSubstate}, Cmd.none)
+              ({ context | state = InGame newSubstate}
+              , Http.get
+              { url = "./assets/" ++ sceneName ++ ".scene.json"
+              , expect = Http.expectString GotSceneJson
+              })
 
 -- VIEW
 
