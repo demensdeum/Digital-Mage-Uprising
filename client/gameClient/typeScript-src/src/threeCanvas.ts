@@ -212,7 +212,6 @@ customElements.define('three-canvas',
                         return;
                     }
                     else if (type == "Button") {
-                        debugger;
                         const self = this;
                         let action = () => {
                             debugPrint("Button " + name + " Pressed!!!")

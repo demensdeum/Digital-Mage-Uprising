@@ -456,7 +456,6 @@ export class SceneController implements
         name: string, 
         object: any
     ) {
-        debugger;
         gui.add(
             object,
             name
@@ -503,13 +502,16 @@ export class SceneController implements
     public removeAllSceneObjectsExceptCamera() {
         Object.keys(this.objects).map(k => {
             if (k == Names.Camera) {
-                return;
+                return
             }
-            const v = this.objects[k];
-            this.scene.remove(v.threeObject);
-            delete this.objects[k];
+            const v = this.objects[k]
+            this.scene.remove(v.threeObject)
+            delete this.objects[k]
         });
-        this.skyboxAdded = false;        
+        this.skyboxAdded = false
+        for (const i in gui.__controllers) {
+            gui.remove(gui.__controllers[i]);
+        }
     }
 
     public addSkybox(

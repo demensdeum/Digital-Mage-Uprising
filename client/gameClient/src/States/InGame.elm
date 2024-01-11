@@ -37,6 +37,10 @@ randomHeroName seed =
     let (number, newSeed) = Random.step (Random.int 0 1000000) seed in
     "Udod" ++ String.fromInt number
 
+-- sceneWithName : String -> Scene
+-- sceneWithName sceneName =
+
+
 initialScene : String -> Scene
 initialScene userObjectName  =
     {
