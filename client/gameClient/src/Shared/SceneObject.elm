@@ -13,6 +13,7 @@ type Type =
     | Box
     | Plane
     | Button
+    | Entity
 
 stringFromType: Type -> String
 stringFromType objectType =
@@ -29,6 +30,8 @@ stringFromType objectType =
             "Plane"
         Button ->
             "Button"
+        Entity ->
+            "Entity"
 
 type alias SceneObject = 
     {
@@ -53,6 +56,7 @@ decoderObjectType =
             "Box" -> Decode.succeed Box
             "Plane" -> Decode.succeed Plane
             "Button" -> Decode.succeed Button
+            "Entity" -> Decode.succeed Entity
             _ -> Decode.fail "Invalid type"
         )
     ]

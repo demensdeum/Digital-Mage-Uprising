@@ -46,7 +46,10 @@ initialCanvas seed =
 
 canvasWithSceneJson: Int -> String -> Canvas
 canvasWithSceneJson seed sceneJson =
-      let scene =  sceneFromJsonString sceneJson in
+      let userObjectName = randomHeroName <| Random.initialSeed seed in
+      let formattedSceneJson = String.replace "PlayerStartPosition" userObjectName sceneJson in
+      let formattedFormattedSceneJson = String.replace "Entity" "Model" formattedSceneJson in
+      let scene = sceneFromJsonString formattedFormattedSceneJson in
             canvasWithScene seed scene
 
 canvasWithScene: Int -> Scene -> Canvas

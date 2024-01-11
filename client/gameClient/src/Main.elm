@@ -194,7 +194,9 @@ update msg context =
           MainMenu substate ->
             step context
           InGame substate ->
-            ({context | canvas = InGame.canvasWithSceneJson context.initialSeed jsonText }, Cmd.none)
+            let newContext = {context | canvas = InGame.canvasWithSceneJson context.initialSeed jsonText } in
+              let newNewContext = { newContext | state = InGame {substate | initializationState = Success } } in
+                (newNewContext, Cmd.none)
       Err _ ->
         step context
 
