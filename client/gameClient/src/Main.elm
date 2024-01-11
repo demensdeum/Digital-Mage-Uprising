@@ -29,6 +29,10 @@ import States.CompanyLogo as CompanyLogo
 import Time exposing (every, Posix, now, posixToMillis)
 import Platform.Cmd as Cmd
 import States.MainMenu as MainMenu
+import Platform.Cmd as Cmd
+import Platform.Cmd as Cmd
+import Platform.Cmd as Cmd
+import Platform.Cmd as Cmd
 
 -- PORTS
 
@@ -96,19 +100,11 @@ type EngineMessage
   | ConnectionError
   | Step Float
 
--- initialGameContext: Int -> Context
--- initialGameContext seed =
---   {
---     initialSeed = seed
---     , state = CompanyLogo CompanyLogo.initialSubstate
---     , canvas = CompanyLogo.initialCanvas
---   }
-
 initialGameContext: Int -> Context
 initialGameContext seed =
   {
     initialSeed = seed
-    , state = InGame InGame.initialSubstate
+    , state = InGame <| InGame.initialSubstate "com.demensdeum.hitech.town"
     , canvas = InGame.initialCanvas seed
   }
 
@@ -138,7 +134,7 @@ update msg context =
     case Decode.decodeString Canvas.canvasFromJsonString canvasJsonString of
       Ok importedCanvas ->
         let newContext = {context | canvas = importedCanvas } in
-           (step newContext, Cmd.none)    
+           step newContext   
 
       Err error ->
         let canvas = context.canvas in
@@ -179,34 +175,37 @@ update msg context =
       (context, Cmd.none)
 
   Step _ ->
-      (step context, Cmd.none)
+      step context
 
-step: Context -> Context
+step: Context -> (Context, Cmd EngineMessage)
 step context =
   let canvas = context.canvas in
   case context.state of
     Idle substate ->
       let newCanvas = States.Idle.step canvas in
-        { context | canvas = newCanvas}
+        ({ context | canvas = newCanvas}, Cmd.none)
 
     CompanyLogo substate ->
         case States.CompanyLogo.step canvas substate of
           Rendering newSubstate ->
-            { context | state = CompanyLogo newSubstate}
+            ({ context | state = CompanyLogo newSubstate}, Cmd.none)
           GoToMainMenu ->
-            { context | state = MainMenu MainMenu.initialSubstate , canvas = MainMenu.initialCanvas }
+            ({ context | state = MainMenu MainMenu.initialSubstate , canvas = MainMenu.initialCanvas }, Cmd.none)
 
     MainMenu substate ->
         case States.MainMenu.step canvas substate of
           MainMenu.Idle ->
-            context
+            (context, Cmd.none)
           StartNewGame ->
-            { context | state = InGame InGame.initialSubstate, canvas = InGame.initialCanvas context.initialSeed }
+            ({ context | state = InGame (InGame.initialSubstate "com.demensdeum.hitech.town"), canvas = InGame.initialCanvas context.initialSeed }, Cmd.none)
 
     InGame substate ->
         case States.InGame.step canvas substate of
           Update newCanvas ->
-            { context | canvas = newCanvas}
+            ({ context | canvas = newCanvas}, Cmd.none)
+          LoadScene sceneName ->
+            let newSubstate = { substate | initializationState = Loading } in
+              ({ context | state = InGame newSubstate}, Cmd.none)
 
 -- VIEW
 
