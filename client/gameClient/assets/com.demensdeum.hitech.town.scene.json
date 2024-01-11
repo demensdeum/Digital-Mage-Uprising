@@ -12,7 +12,22 @@
                 "name": "NONE"
             },
             "position": {
+                "x": 2,
+                "y": 1,
+                "z": 0
+            },
+            "rotation": {
                 "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "isMovable": true
+        },
+        "PlayerStartPosition" : {
+            "name": "PlayerStartPosition",
+            "type": "Entity",
+            "position": {
+                "x": 4,
                 "y": 0,
                 "z": 0
             },
@@ -21,13 +36,40 @@
                 "y": 0,
                 "z": 0
             },
-            "isMovable": false
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.gunner"
+            },
+            "isMovable": true      
         },
+        "Map" : {
+            "name": "Map",
+            "type": "Model",
+            "position": {
+                "x": -2,
+                "y": -1,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.blue.field.map"
+            },
+            "isMovable": false      
+        },        
         "Skybox": {
             "name": "Skybox",
             "type": "Skybox",
             "texture": {
-                "name": "com.demensdeum.logo"
+                "name": "com.demensdeum.blue.field"
             },
             "model": {
                 "name": "NONE"
