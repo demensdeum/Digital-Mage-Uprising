@@ -31,6 +31,14 @@ import Platform.Cmd as Cmd
 import States.MainMenu as MainMenu
 import Http
 
+-- Constants
+
+sceneSuffix : String
+sceneSuffix = "scene"
+
+sceneFormat : String
+sceneFormat = "json"
+
 -- PORTS
 
 port buttonPressedReceiver: (String -> msg) -> Sub msg
@@ -176,7 +184,19 @@ update msg context =
       step context
 
   GotSceneJson result ->
-    step context
+    case result of
+      Ok jsonText ->
+        case context.state of
+          Idle substate ->
+            step context
+          CompanyLogo substate ->
+            step context
+          MainMenu substate ->
+            step context
+          InGame substate ->
+            ({context | canvas = InGame.canvasWithSceneJson context.initialSeed jsonText }, Cmd.none)
+      Err _ ->
+        step context
 
 step: Context -> (Context, Cmd EngineMessage)
 step context =
@@ -208,7 +228,7 @@ step context =
             let newSubstate = { substate | initializationState = Loading } in
               ({ context | state = InGame newSubstate}
               , Http.get
-              { url = "./assets/" ++ sceneName ++ ".scene.json"
+              { url = "./assets/" ++ sceneName ++ "." ++ sceneSuffix ++ "." ++ sceneFormat
               , expect = Http.expectString GotSceneJson
               })
 

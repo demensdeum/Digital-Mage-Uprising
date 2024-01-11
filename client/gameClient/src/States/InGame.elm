@@ -38,11 +38,24 @@ initialSubstate sceneName =
 
 initialCanvas: Int -> Canvas
 initialCanvas seed = 
+      {
+        scene = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Camera":{"name":"Camera","type":"Camera","texture":{"name":"NONE"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false},"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false}}}"""
+        , message = "Initial InGame Canvas Loading..."
+        , userObjectName = ""
+      }
+
+canvasWithSceneJson: Int -> String -> Canvas
+canvasWithSceneJson seed sceneJson =
+      let scene =  sceneFromJsonString sceneJson in
+            canvasWithScene seed scene
+
+canvasWithScene: Int -> Scene -> Canvas
+canvasWithScene seed scene =
       let userObjectName = randomHeroName <| Random.initialSeed seed in
       {
-        scene = sceneFromJsonString """{"name":"Hi-Tech Town","physicsEnabled":false,"objects":{"Camera":{"name":"Camera","type":"Camera","texture":{"name":"NONE"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false},"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false}}}""", 
-        message = "Initial InGame Canvas",
-        userObjectName = ""
+            scene = scene
+            , message = "InGame Canvas With Scene" ++ scene.name
+            , userObjectName = userObjectName
       }
 
 randomHeroName: Random.Seed -> String

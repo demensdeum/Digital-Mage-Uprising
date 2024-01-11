@@ -1,1 +1,48 @@
-{"name":"Hi-Tech Town","physicsEnabled":false,"objects":{"Camera":{"name":"Camera","type":"Camera","texture":{"name":"NONE"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false},"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.logo"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false}}}
+{
+    "name": "Hi-Tech Town",
+    "physicsEnabled": false,
+    "objects": {
+        "Camera": {
+            "name": "Camera",
+            "type": "Camera",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "NONE"
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "isMovable": false
+        },
+        "Skybox": {
+            "name": "Skybox",
+            "type": "Skybox",
+            "texture": {
+                "name": "com.demensdeum.logo"
+            },
+            "model": {
+                "name": "NONE"
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "isMovable": false
+        }
+    }
+}
