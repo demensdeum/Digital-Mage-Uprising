@@ -443,6 +443,7 @@ export class SceneController implements
         const keys = Object.keys(this.objects);
         const output = keys.map(key => ({ [key]: this.objects[key].serialize() }));
         const result = output.reduce((acc, obj) => ({ ...acc, ...obj }), {});
+        debugPrint(JSON.stringify(result))
         return result;
     }
 

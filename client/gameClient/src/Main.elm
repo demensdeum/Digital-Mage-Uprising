@@ -96,13 +96,22 @@ type EngineMessage
   | ConnectionError
   | Step Float
 
+-- initialGameContext: Int -> Context
+-- initialGameContext seed =
+--   {
+--     initialSeed = seed
+--     , state = CompanyLogo CompanyLogo.initialSubstate
+--     , canvas = CompanyLogo.initialCanvas
+--   }
+
 initialGameContext: Int -> Context
 initialGameContext seed =
   {
     initialSeed = seed
-    , state = CompanyLogo CompanyLogo.initialSubstate
-    , canvas = CompanyLogo.initialCanvas
+    , state = InGame InGame.initialSubstate
+    , canvas = InGame.initialCanvas seed
   }
+
 
 update : EngineMessage -> Context -> (Context, Cmd EngineMessage)
 update msg context =

@@ -1,0 +1,149 @@
+{
+    "Camera": {
+        "name": "Camera",
+        "type": "Camera",
+        "texture": {
+            "name": "NONE"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "isMovable": false
+    },
+    "SkyboxFront": {
+        "name": "SkyboxFront",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.front"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": -0.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "isMovable": false
+    },
+    "SkyboxBack": {
+        "name": "SkyboxBack",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.back"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 3.141592653589793,
+            "z": 0
+        },
+        "isMovable": false
+    },
+    "SkyboxTop": {
+        "name": "SkyboxTop",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.top"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.5707963267948966,
+            "y": 0,
+            "z": 0
+        },
+        "isMovable": false
+    },
+    "SkyboxBottom": {
+        "name": "SkyboxBottom",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.bottom"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0,
+            "y": -0.5,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.5707963267948966,
+            "y": 3.141592653589793,
+            "z": 3.141592653589793
+        },
+        "isMovable": false
+    },
+    "SkyboxLeft": {
+        "name": "SkyboxLeft",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.left"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": -0.5,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 1.5707963267948966,
+            "z": 0
+        },
+        "isMovable": false
+    },
+    "SkyboxRight": {
+        "name": "SkyboxRight",
+        "type": "Plane",
+        "texture": {
+            "name": "com.demensdeum.logo.skybox.right"
+        },
+        "model": {
+            "name": "NONE"
+        },
+        "position": {
+            "x": 0.5,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 4.71238898038469,
+            "z": 0
+        },
+        "isMovable": false
+    }
+}

@@ -125,6 +125,7 @@ customElements.define('three-canvas',
             }
             
             if (this.canvas.scene.name != canvas.scene.name) {
+                debugger;
                 console.log("clear");
                 this.resetCanvas();
                 this.sceneController.removeAllSceneObjectsExceptCamera();
