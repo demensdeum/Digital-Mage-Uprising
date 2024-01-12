@@ -1,0 +1,107 @@
+{
+    "name": "Hi-Tech Town",
+    "format": {
+        "name": "DemensDeum Digital Mage Uprising Scene File",
+        "version": "1.0.0.0"
+    },
+    "physics_enabled": true,
+    "objects": {
+        "Skybox": {
+            "name": "Skybox",
+            "type": "Skybox",
+            "texture": {
+                "name": "com.demensdeum.blue.field"
+            },
+            "model": {
+                "name": "NONE"
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "isMovable": false
+        },
+        "Model_NPC_com.demensdeum.npc.generic": {
+            "name": "Model_NPC_com.demensdeum.npc.generic",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": "Model_NPC_com.demensdeum.npc.generic",
+            "position": {
+                "x": 5.912559509277344,
+                "y": 0.0,
+                "z": 0.368614137172699
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": true
+        },
+        "PlayerStartPosition": {
+            "name": "PlayerStartPosition",
+            "type": "Entity",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": "PlayerStartPosition",
+            "position": {
+                "x": 4.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": true
+        },
+        "Model_Map_com.demensdeum.hitech.town": {
+            "name": "Model_Map_com.demensdeum.hitech.town",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": "Model_Map_com.demensdeum.hitech.town",
+            "position": {
+                "x": -2.0,
+                "y": -1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": true
+        },
+        "Camera": {
+            "name": "Camera",
+            "type": "Camera",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": "Camera",
+            "position": {
+                "x": 4.0,
+                "y": 6.000978469848633,
+                "z": 1.623246431350708
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": true
+        }
+    }
+}
