@@ -44,12 +44,15 @@ class SceneObject:
         
         type = "Model"
         model_name = "None"
+        is_movable = True
         
         if name.startswith("Model_"):
             components = name.split("_")
             type = components[0]
             name = components[1]
             model_name = components[2]
+            if name == "Map":
+                is_movable = False
         elif name.startswith("PlayerStartPosition_"):
             components = name.split("_")
             type = "Entity"
@@ -65,15 +68,14 @@ class SceneObject:
         model = SceneObjectModel(model_name)
         position = Vector3(
             node.location.x,
-            node.location.y,
-            node.location.z
+            node.location.z,
+            node.location.y
         )
         rotation = Vector3(
             node.rotation_euler.x,
             node.rotation_euler.y,
             node.rotation_euler.z
         )
-        is_movable = True
         
         sceneObject = SceneObject(name, type, texture, model, position, rotation, is_movable)
     
