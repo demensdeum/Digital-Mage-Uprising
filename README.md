@@ -129,3 +129,9 @@ Planet Of Phoenix
 Avatar of arctic.wolves  
 ARCTIC WOLVES™  
 https://sketchfab.com/3d-models/planet-of-phoenix-bbe2737a863445f7bb2a6901d10b090a  
+
+Scifi Building 1  
+3D Model  
+Avatar of daniyalmalik  
+Daniyal Malik  
+https://sketchfab.com/3d-models/scifi-building-1-0ae51cf0fd21473a98a26207cbc932df
