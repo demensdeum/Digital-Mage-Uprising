@@ -50,6 +50,11 @@ class SceneObject:
             type = components[0]
             name = components[1]
             model_name = components[2]
+        elif name.startswith("PlayerStartPosition_"):
+            components = name.split("_")
+            type = "Entity"
+            name = "PlayerStartPosition"
+            model_name = components[1]
         
         if name == "Camera":
             type = "Camera"
@@ -92,7 +97,7 @@ class Scene:
     def __init__(self, name, skybox_texture_name, physics_enabled = True):
         self.name = name
         self.format = SceneFormat("DemensDeum Digital Mage Uprising Scene File", "1.0.0.0")
-        self.physics_enabled = physics_enabled
+        self.physicsEnabled = physics_enabled
         self.objects = dict()
         skyboxSceneObject = SceneObject(
             "Skybox",

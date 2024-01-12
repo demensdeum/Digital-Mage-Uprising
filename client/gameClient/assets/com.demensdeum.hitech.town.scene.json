@@ -4,7 +4,7 @@
         "name": "DemensDeum Digital Mage Uprising Scene File",
         "version": "1.0.0.0"
     },
-    "physics_enabled": true,
+    "physicsEnabled": true,
     "objects": {
         "Skybox": {
             "name": "Skybox",
@@ -55,7 +55,7 @@
                 "name": "NONE"
             },
             "model": {
-                "name": "None"
+                "name": "com.demensdeum.gunner"
             },
             "position": {
                 "x": 4.0,
@@ -76,7 +76,7 @@
                 "name": "NONE"
             },
             "model": {
-                "name": "com.demensdeum.hitech.town"
+                "name": "com.demensdeum.hitech.town.map"
             },
             "position": {
                 "x": -2.0,
@@ -88,7 +88,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "isMovable": true
+            "isMovable": false
         },
         "Camera": {
             "name": "Camera",
