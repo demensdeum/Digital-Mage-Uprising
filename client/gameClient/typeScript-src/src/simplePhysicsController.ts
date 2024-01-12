@@ -174,6 +174,9 @@ export class SimplePhysicsController implements PhysicsController {
             origin,
             directionVector
         );
+
+        var didDetectCollision = false;
+
         this.sceneObjects.forEach((bob) => {
             if (alice.name == bob.name) {
                 return;
@@ -186,6 +189,7 @@ export class SimplePhysicsController implements PhysicsController {
                 false
             );                
             if (collisions.length > 0) {  
+                didDetectCollision = true;
                 const distance = collisions[0].distance;          
                 if (this.delegate) {
                     const collision = new PhysicsControllerCollision(
@@ -216,10 +220,18 @@ export class SimplePhysicsController implements PhysicsController {
                             alice.name,
                             this,
                             position
-                        );                        
+                        )                     
                     }
                 }
             }
-        });     
+        }) 
+        
+        if (didDetectCollision == false) {
+            this.delegate?.physicsControllerDidDetectFreeSpace(
+                this,
+                alice,
+                direction
+            )            
+        }
     }
 }

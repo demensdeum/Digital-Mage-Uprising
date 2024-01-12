@@ -61,7 +61,7 @@
                 "name": "NONE"
             },
             "model": {
-                "name": "com.demensdeum.blue.field.map"
+                "name": "com.demensdeum.hitech.town.map"
             },
             "isMovable": false      
         },        

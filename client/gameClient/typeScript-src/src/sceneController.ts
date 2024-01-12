@@ -181,6 +181,25 @@ export class SceneController implements
         this.sceneObject(objectName).threeObject.position.z = position.z;
     }
 
+    physicsControllerDidDetectFreeSpace(
+        physicsController: PhysicsController,
+        sceneObject: SceneObject,
+        direction: PhysicsControllerCollisionDirection
+    ): void {
+        switch (direction) {
+            case PhysicsControllerCollisionDirection.Down:
+                break
+            case PhysicsControllerCollisionDirection.Front:
+                this.canMoveForward = true
+            case PhysicsControllerCollisionDirection.Back:
+                this.canMoveBackward = true
+            case PhysicsControllerCollisionDirection.Left:
+                this.canMoveLeft = true
+            case PhysicsControllerCollisionDirection.Right:
+                this.canMoveRight = true
+        }
+    }
+
     physicsControllerDidDetectDistance(
         physicsController: PhysicsController,
         collision: PhysicsControllerCollision
@@ -443,7 +462,6 @@ export class SceneController implements
         const keys = Object.keys(this.objects);
         const output = keys.map(key => ({ [key]: this.objects[key].serialize() }));
         const result = output.reduce((acc, obj) => ({ ...acc, ...obj }), {});
-        debugPrint(JSON.stringify(result))
         return result;
     }
 
