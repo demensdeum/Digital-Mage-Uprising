@@ -41,9 +41,23 @@ class SceneObject:
         print(node.rotation_euler)
         
         name = node.name
+        
         type = "Model"
+        model_name = "None"
+        
+        if name.startswith("Model_"):
+            components = name.split("_")
+            type = components[0]
+            name = components[1]
+            model_name = components[2]
+        
+        if name == "Camera":
+            type = "Camera"
+        elif name == "PlayerStartPosition":
+            type = "Entity"
+        
         texture = SceneObjectTexture("NONE")
-        model = node.name
+        model = SceneObjectModel(model_name)
         position = Vector3(
             node.location.x,
             node.location.y,
