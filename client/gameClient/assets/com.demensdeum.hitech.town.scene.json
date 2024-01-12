@@ -44,6 +44,27 @@
             },
             "isMovable": true      
         },
+        "NPC" : {
+            "name": "NPC",
+            "type": "Model",
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.npc.generic"
+            },
+            "isMovable": true      
+        },        
         "Map" : {
             "name": "Map",
             "type": "Model",
