@@ -1,5 +1,9 @@
 {
     "name": "Hi-Tech Town",
+    "format": {
+        "name": "DemensDeum Digital Mage Uprising Scene File",
+        "version": "1.0.0.0"
+    },
     "physicsEnabled": false,
     "objects": {
         "Camera": {
