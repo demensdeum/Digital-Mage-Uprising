@@ -58,9 +58,9 @@
                 "name": "com.demensdeum.gunner"
             },
             "position": {
-                "x": 4.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": 67.51959228515625,
+                "y": 0.5507672429084778,
+                "z": -67.49639129638672
             },
             "rotation": {
                 "x": 0.0,
@@ -79,9 +79,9 @@
                 "name": "com.demensdeum.hitech.town.map"
             },
             "position": {
-                "x": -2.0,
+                "x": 0.0,
                 "y": 0.0,
-                "z": -1.0
+                "z": 0.0
             },
             "rotation": {
                 "x": 0.0,
