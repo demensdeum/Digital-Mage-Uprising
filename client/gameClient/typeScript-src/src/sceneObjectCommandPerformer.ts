@@ -11,7 +11,7 @@ import { ControlsDataSource } from "./playerControlsDataSource.js";
 export class SceneObjectCommandPerformer implements Controls {
     public delegate: ControlsDelegate;
     public dataSource: ControlsDataSource;
-    private objectName: string;
+    public objectName: string;
 
     constructor(
         objectName: string,

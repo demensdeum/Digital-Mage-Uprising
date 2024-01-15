@@ -25,10 +25,13 @@
                 "y": 0,
                 "z": 0
             },
-            "isMovable": false
+            "isMovable": false,
+            "controls": {
+                "name": "NONE"
+            }
         },
-        "Model_NPC_com.demensdeum.npc.generic": {
-            "name": "Model_NPC_com.demensdeum.npc.generic",
+        "NPC": {
+            "name": "NPC",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -46,7 +49,10 @@
                 "y": 1.2460410594940186,
                 "z": -3.3670778274536133
             },
-            "isMovable": true
+            "isMovable": true,
+            "controls": {
+                "name": "NONE"
+            }
         },
         "PlayerStartPosition": {
             "name": "PlayerStartPosition",
@@ -67,10 +73,13 @@
                 "y": 3.1415927410125732,
                 "z": -0.0
             },
-            "isMovable": true
+            "isMovable": true,
+            "controls": {
+                "name": "player"
+            }
         },
-        "Model_Map_com.demensdeum.hitech.town.map": {
-            "name": "Model_Map_com.demensdeum.hitech.town.map",
+        "Map": {
+            "name": "Map",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -88,10 +97,13 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "isMovable": false
+            "isMovable": false,
+            "controls": {
+                "name": "NONE"
+            }
         },
-        "Decor_Car_com.demensdeum.car.flying.taxi": {
-            "name": "Decor_Car_com.demensdeum.car.flying.taxi",
+        "Car": {
+            "name": "Car",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -109,7 +121,10 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "isMovable": false
+            "isMovable": false,
+            "controls": {
+                "name": "NONE"
+            }
         }
     }
 }

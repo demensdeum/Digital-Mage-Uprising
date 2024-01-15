@@ -39,7 +39,7 @@ initialSubstate sceneName =
 initialCanvas: Int -> Canvas
 initialCanvas seed = 
       {
-        scene = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Camera":{"name":"Camera","type":"Camera","texture":{"name":"NONE"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false},"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false}}}"""
+        scene = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false,"controls":{"name":"NONE"}}}}"""
         , message = "Initial InGame Canvas Loading..."
         , userObjectName = ""
       }
@@ -68,7 +68,7 @@ randomHeroName seed =
 
 sceneFromJsonString: String -> Scene
 sceneFromJsonString sceneJsonString = 
-      case Decode.decodeString Scene.sceneFromJsonString sceneJsonString  of
+      case Decode.decodeString Scene.decodeScene sceneJsonString  of
             Ok scene ->
                   scene
             Err error ->

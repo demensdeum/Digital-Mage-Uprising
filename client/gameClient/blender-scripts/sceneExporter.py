@@ -16,7 +16,16 @@ class SceneObjectTexture:
     
     @staticmethod
     def default():
-        return SceneObjectModel("NONE")
+        return SceneObjectTexture("NONE")
+        
+    def __init__(self,name):
+        self.name = name
+
+class SceneObjectControls:
+    
+    @staticmethod
+    def default():
+        return SceneObjectControls("NONE")
         
     def __init__(self,name):
         self.name = name
@@ -45,24 +54,33 @@ class SceneObject:
         type = "Model"
         model_name = "None"
         is_movable = True
+        controls = None
         
         if name.startswith("Model_") or name.startswith("Decor_"):
             components = name.split("_")
             type = "Model"
-            name = components[1]
+            export_name = components[1]
             model_name = components[2]
-            if name == "Map" or name.startswith("Decor_"):
+            if export_name == "Map" or name.startswith("Decor_"):
                 is_movable = False
+                
         elif name.startswith("PlayerStartPosition_"):
             components = name.split("_")
             type = "Entity"
-            name = "PlayerStartPosition"
+            export_name = "PlayerStartPosition"
             model_name = components[1]
         
         if name == "Camera":
             type = "Camera"
         elif name == "PlayerStartPosition":
             type = "Entity"
+        
+        controlsName = "NONE"
+        
+        if "controlsName" in bpy.data.objects[name]:
+            controlsName = bpy.data.objects[name]["controlsName"]
+        
+        controls = SceneObjectControls(controlsName)
         
         texture = SceneObjectTexture("NONE")
         model = SceneObjectModel(model_name)
@@ -77,11 +95,11 @@ class SceneObject:
             node.rotation_euler.y
         )
         
-        sceneObject = SceneObject(name, type, texture, model, position, rotation, is_movable)
+        sceneObject = SceneObject(export_name, type, texture, model, position, rotation, is_movable, controls)
     
         return sceneObject
     
-    def __init__(self, name, type, texture, model, position, rotation, is_movable):
+    def __init__(self, name, type, texture, model, position, rotation, is_movable, controls):
         self.name = name
         self.type = type
         self.texture = texture
@@ -89,6 +107,7 @@ class SceneObject:
         self.position = position
         self.rotation = rotation
         self.isMovable = is_movable
+        self.controls = controls
 
 class SceneFormat:
     def __init__(self, name, version):
@@ -108,7 +127,8 @@ class Scene:
             SceneObjectModel("NONE"),
             Vector3(0, 0, 0),
             Vector3(0, 0, 0),
-            False
+            False,
+            SceneObjectControls("NONE")
         )
         self.objects["Skybox"] = skyboxSceneObject
         

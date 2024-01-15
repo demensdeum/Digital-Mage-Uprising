@@ -1,3 +1,5 @@
+import { Controls } from "./controls";
+
 class Texture {
     public readonly name: string;
     constructor(name: string) {
@@ -20,6 +22,7 @@ export class SceneObject {
     public threeObject: any; 
     public meshes: any[] = [];
     public readonly isMovable: boolean;
+    public controls?: Controls;
 
     constructor(
         name: string,
@@ -27,14 +30,21 @@ export class SceneObject {
         texture: string,
         model: string,
         threeObject: any,
-        movable: boolean = false
+        movable: boolean = false,
+        controls: Controls| null = null
     ) {
+        if (name.startsWith("Udod")) {
+            debugger;
+        }
         this.name = name;
         this.type = type;
         this.texture = new Texture(texture);
         this.model = new Model(model);
         this.threeObject = threeObject;
         this.isMovable = movable;
+        if (controls != null) {
+            this.controls = controls;
+        }
     }
 
     public serialize(): any {
@@ -53,7 +63,10 @@ export class SceneObject {
                 "y" : this.threeObject.rotation.y,
                 "z" : this.threeObject.rotation.z
             },
-            "isMovable" : this.isMovable
+            "isMovable" : this.isMovable,
+            "controls": {
+                "name": "player"
+            }
         }
         return output;
     }

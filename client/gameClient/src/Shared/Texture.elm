@@ -9,7 +9,7 @@ type alias Texture =
 
 default : Texture
 default =
-    { name = "default"
+    { name = "NONE"
     }    
 
 decoderTexture : Decode.Decoder Texture

@@ -7,6 +7,8 @@ import Shared.Vector3 as Vector3
 import Shared.Model as Model
 import Dict exposing (..)
 import Shared.Canvas exposing (..)
+import Shared.Controls exposing (Controls)
+import Shared.Controls as Controls
 
 
 type alias Substate =
@@ -47,6 +49,7 @@ initialScene =
                   }
                   , model = Model.default
                   , isMovable = False
+                  , controls = Controls.default
             })
             , ("Planet1", {
                   name = "Planet1"
@@ -62,6 +65,7 @@ initialScene =
                         name = "com.demensdeum.planet1"
                   }
                   , isMovable = False
+                  , controls = Controls.default
             })
             , ("Planet2", {
                   name = "Planet2"
@@ -77,6 +81,7 @@ initialScene =
                         name = "com.demensdeum.planet1"
                   }
                   , isMovable = False
+                  , controls = Controls.default
             })            
             , ("Planet3", {
                   name = "Planet3"
@@ -92,6 +97,7 @@ initialScene =
                         name = "com.demensdeum.planet1"
                   }
                   , isMovable = False
+                  , controls = Controls.default
             })
             , ("NewGame", {
                   name = "NewGame"
@@ -101,6 +107,7 @@ initialScene =
                   , texture = Texture.default
                   , model = Model.default
                   , isMovable = False
+                  , controls = Controls.default
             })     
           ]
         , physicsEnabled = False

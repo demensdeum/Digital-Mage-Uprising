@@ -8,6 +8,7 @@ import Shared.Model as Model
 import Dict exposing (..)
 import Shared.Canvas exposing (..)
 import Shared.Vector3 as Vector3
+import Shared.Controls exposing (..)
 
 screenTime: Int 
 screenTime = 
@@ -51,6 +52,7 @@ scene =
                   }
                   , model = Model.default
                   , isMovable = False
+                  , controls = Shared.Controls.default
             })
         ]
         , physicsEnabled = False

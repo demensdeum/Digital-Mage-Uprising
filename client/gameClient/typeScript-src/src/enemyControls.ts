@@ -13,6 +13,11 @@ export class EnemyControls extends SceneObjectCommandPerformer {
 
     public step(delta: any): void {
         super.step(delta)
+
+        if (this.objectName == "NONE") {
+            return;
+        }
+
         if (!this.moveCommand.isExpired()) {
             super.handleCommand(this.moveCommand);
         }

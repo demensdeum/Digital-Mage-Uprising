@@ -28,7 +28,7 @@ type alias ServerScene =
 default: Scene
 default = 
     {
-        name = "default"
+        name = "Empty Scene"
         , objects = Dict.empty
         , physicsEnabled = True
     }
@@ -82,8 +82,8 @@ serverSceneFromJsonString =
     Decode.map ServerScene
         (Decode.field "objects" <| Decode.dict sceneObjectDecoder)
 
-sceneFromJsonString: Decode.Decoder Scene
-sceneFromJsonString =
+decodeScene: Decode.Decoder Scene
+decodeScene =
     Decode.map3 Scene
         (Decode.field "name" Decode.string)
         (Decode.field "objects" (Decode.dict sceneObjectDecoder))

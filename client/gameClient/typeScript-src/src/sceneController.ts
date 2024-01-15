@@ -55,8 +55,6 @@ export class SceneController implements
     // @ts-ignore
     private pmremGenerator: any;
 
-    private playerControls?: Controls;
-
     private clock = new THREE.Clock();
     private animationMixers: any[] = []; 
 
@@ -357,19 +355,27 @@ export class SceneController implements
 
     public step() {
         const delta = this.clock.getDelta();
-        if (this.playerControls) {    
-            this.playerControls.step(delta);
-        }
-
+        this.controlsStep(
+            delta
+        );
         if (this.physicsController) {
             this.physicsController.step(delta);
         }
-
         this.weatherController?.step(delta);
         this.animationsStep(delta);
         this.updateSkyboxPosition();
         this.render();
-        this.updateUI();    
+        this.updateUI();
+    }
+
+    private controlsStep(
+        delta: float
+    ) {
+        Object.keys(this.objects).forEach(key => {
+            const sceneObject = this.objects[key];
+            const controls = sceneObject.controls;
+            controls?.step(delta);  
+        })
     }
 
     private updateSkyboxPosition() {
@@ -673,6 +679,7 @@ export class SceneController implements
         rY: number,
         rZ: number,
         isMovable: boolean,        
+        controls: Controls,
         boxSize: number = 1.0,
         successCallback: (()=>void) = ()=>{},     
         color: number = 0xFFFFFF,
@@ -711,7 +718,8 @@ export class SceneController implements
             "NONE",
             modelName,
             box,
-            isMovable
+            isMovable,
+            controls
         );
         sceneController.addSceneObject(sceneObject);
 

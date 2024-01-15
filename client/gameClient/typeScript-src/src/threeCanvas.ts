@@ -13,6 +13,7 @@ customElements.define('three-canvas',
         constructor() {
             super();
             this.playerControls = null;
+
             this.delegate = null;
             this.canvas = null;
             this.debugEnabled = false;
@@ -20,7 +21,7 @@ customElements.define('three-canvas',
             this.resetCanvas();
             this.innerHTML = "<canvas class=\"webgl\"></canvas>";
 
-            this.graphicsCanvas = document.querySelector("canvas");
+            this.graphicsCanvas = document.querySelector("canvas");           
 
             if (this.graphicsCanvas == null) {
                 console.log("CANVAS IS NULL WTF?????!!!!");
@@ -36,6 +37,24 @@ customElements.define('three-canvas',
                 this.physicsController,
                 false
             );          
+
+            if (confirm("You AI?")) {
+                this.playerControls = new EnemyControls(
+                    "NONE",
+                    this.sceneController,
+                    this.sceneController
+                );                    
+            }
+            else {
+                this.playerControls = new PlayerControls(
+                    "NONE",
+                    this.graphicsCanvas,
+                    4,
+                    true,
+                    this.sceneController,
+                    this.sceneController
+                );
+            } 
 
             document.threeCanvasDidLoad(this);
 
@@ -94,31 +113,6 @@ customElements.define('three-canvas',
 
         render(canvas)
         {
-            if (
-                this.playerControls == null &&
-                canvas.userObjectName != null &&
-                canvas.userObjectName.length > 0
-            ) {
-                if (confirm("You AI?")) {
-                    this.playerControls = new EnemyControls(
-                        canvas.userObjectName,
-                        this.sceneController,
-                        this.sceneController
-                    );                    
-                }
-                else {
-                    this.playerControls = new PlayerControls(
-                        canvas.userObjectName,
-                        this.graphicsCanvas,
-                        4,
-                        true,
-                        this.sceneController,
-                        this.sceneController
-                    );
-                }
-
-                this.sceneController.playerControls = this.playerControls;
-            }
             if (canvas.scene == null || canvas.scene == undefined) {
                 debugPrint("AAAAAAHHH MODEL SCENE IS EMPTY - CAN'T RENDER!!!!!!");
                 return;
@@ -149,6 +143,7 @@ customElements.define('three-canvas',
                 const isMovable = object.isMovable;
 
                 const modelName = object.model.name;
+                const controlsName = object.controls?.name;
 
                 if (this.debugEnabled) {
                     console.log("name: " + name + " x: " + x + " y: " + y + " z: " + z );
@@ -181,9 +176,18 @@ customElements.define('three-canvas',
                                 x,
                                 y,
                                 z
-                            );    
+                            );
                         }
                         else {
+                            if (name.startsWith("Udod")) {
+                                debugger;
+                            }                            
+                            var controls = null;
+                            if (controlsName == "player") {
+                                this.playerControls.objectName = name;
+                                controls = this.playerControls;
+                                debugger;
+                            }
                             this.sceneController.addModelAt(
                                 name,
                                 modelName,
@@ -193,7 +197,8 @@ customElements.define('three-canvas',
                                 rX,
                                 rY,
                                 rZ,
-                                isMovable
+                                isMovable,
+                                controls
                             );    
                         }
                     }
