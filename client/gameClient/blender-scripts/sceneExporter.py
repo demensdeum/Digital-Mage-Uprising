@@ -69,12 +69,12 @@ class SceneObject:
         position = Vector3(
             node.location.x,
             node.location.z,
-            node.location.y
+            -node.location.y
         )
         rotation = Vector3(
             node.rotation_euler.x,
-            node.rotation_euler.y,
-            node.rotation_euler.z
+            node.rotation_euler.z,
+            node.rotation_euler.y
         )
         
         sceneObject = SceneObject(name, type, texture, model, position, rotation, is_movable)

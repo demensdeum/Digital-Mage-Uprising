@@ -190,6 +190,9 @@ customElements.define('three-canvas',
                                 x,
                                 y,
                                 z,
+                                rX,
+                                rY,
+                                rZ,
                                 isMovable
                             );    
                         }

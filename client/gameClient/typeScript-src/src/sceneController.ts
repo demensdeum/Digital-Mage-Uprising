@@ -566,7 +566,7 @@ export class SceneController implements
             true
         );    
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Back",
             0,
             Utils.angleToRadians(180),
@@ -585,7 +585,7 @@ export class SceneController implements
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Top",
             Utils.angleToRadians(90),
             0,
@@ -604,7 +604,7 @@ export class SceneController implements
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Bottom",
             Utils.angleToRadians(90),
             Utils.angleToRadians(180),
@@ -623,7 +623,7 @@ export class SceneController implements
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Left",
             0,
             Utils.angleToRadians(90),
@@ -642,7 +642,7 @@ export class SceneController implements
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Right",
             0,
             Utils.angleToRadians(270),
@@ -668,7 +668,10 @@ export class SceneController implements
         modelName: string,
         x: number,
         y: number,
-        z: number,   
+        z: number,
+        rX: number,
+        rY: number,
+        rZ: number,
         isMovable: boolean,        
         boxSize: number = 1.0,
         successCallback: (()=>void) = ()=>{},     
@@ -695,6 +698,10 @@ export class SceneController implements
         box.position.x = x;
         box.position.y = y;
         box.position.z = z;
+
+        box.rotation.x = rX;
+        box.rotation.y = rY;
+        box.rotation.z = rZ;
 
         const sceneController = this;
 
@@ -955,23 +962,6 @@ export class SceneController implements
         return object;
     }
 
-    public rotateObjectTo(
-        name: string,
-        x: number,
-        y: number,
-        z: number
-    ): void {
-        const sceneObject = this.sceneObject(
-            name,
-            x,
-            y,
-            z
-        );
-        sceneObject.threeObject.rotation.x = x;
-        sceneObject.threeObject.rotation.y = y;
-        sceneObject.threeObject.rotation.z = z;
-    }
-
     public translateObject(
         name: string,
         x: float,
@@ -1003,7 +993,7 @@ export class SceneController implements
         sceneObject.threeObject.position.z = z;
     }
 
-    public rotateObject(
+    public rotateObjectTo(
         name: string,
         x: number,
         y: number,
@@ -1014,5 +1004,5 @@ export class SceneController implements
         sceneObject.threeObject.rotation.x = x;
         sceneObject.threeObject.rotation.y = y;
         sceneObject.threeObject.rotation.z = z;
-    }
+    }  
 }

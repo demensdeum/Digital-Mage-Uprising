@@ -23,9 +23,9 @@ decoderVector3 =
         (Decode.field "z" Decode.float)
 
 encodeVector3 : Vector3 -> Encode.Value
-encodeVector3 position =
+encodeVector3 vector =
     Encode.object
-        [ ("x", Encode.float position.x)
-        , ("y", Encode.float position.y)
-        , ("z", Encode.float position.z)
+        [ ("x", Encode.float vector.x)
+        , ("y", Encode.float vector.y)
+        , ("z", Encode.float vector.z)
         ]
