@@ -962,6 +962,22 @@ export class SceneController implements
         return object;
     }
 
+    controlsRequireObjectTeleport(
+        controls: Controls,
+        name: string,
+        x: number,
+        y: number,
+        z: number
+    ): void {
+        const sceneObject = this.sceneObject(
+            name
+        );
+
+        sceneObject.threeObject.position.x = x;
+        sceneObject.threeObject.position.y = y;
+        sceneObject.threeObject.position.z = z;
+    }
+
     public translateObject(
         name: string,
         x: float,

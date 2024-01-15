@@ -10,6 +10,14 @@ export interface ControlsDelegate {
         z: float
     ): void;
 
+    controlsRequireObjectTeleport(
+        controls: Controls,
+        objectName: string,
+        x: float,
+        y: float,
+        z: float
+    ): void;    
+
     controlsRequireObjectRotation(
         controls: Controls,
         objectName: string,

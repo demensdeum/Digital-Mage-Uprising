@@ -1,62 +1,64 @@
 import { SceneObjectCommand } from "./sceneObjectCommand.js";
-import { SceneObjectCommandType } from "./sceneObjectCommandType.js";
 import { int } from "./types.js";
+import { Vector3 } from "./vector3.js";
+import { SceneObjectCommandIdle } from "./sceneObjectCommandIdle.js"
+import { SceneObjectCommandTranslate } from "./sceneObjectCommandTranslate.js"
+import { SceneObjectCommandJump } from "./sceneObjectCommandJump.js"
+import { SceneObjectCommandRotate } from "./sceneObjectCommandRotate.js";
 
-export class CommandsFactory {
+export class SceneObjectCommandsFactory {
 
     static idle(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.idle,
+        return new SceneObjectCommandIdle(
             time
         )
     }
 
     static moveForward(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.moveForward,
-            time
+        return new SceneObjectCommandTranslate(
+            time,
+            new Vector3(0, 0, -0.05)
         )
     }
 
     static moveBackward(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.moveBackward,
-            time
+        return new SceneObjectCommandTranslate(
+            time,
+            new Vector3(0, 0, 0.05)
         )
     }    
 
     static moveLeft(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.moveLeft,
-            time
+        return new SceneObjectCommandTranslate(
+            time,
+            new Vector3(-0.1, 0.0, 0)
         )
     }
 
     static moveRight(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.moveRight,
-            time
+        return new SceneObjectCommandTranslate(
+            time,
+            new Vector3(0.1, 0.0, 0)
         )
     }
 
     static jump(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.jump,
+        return new SceneObjectCommandJump(
             time
         )
     }
 
     static rotateLeft(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.rotateLeft,
-            time
+        return new SceneObjectCommandRotate(
+            time,
+            new Vector3(0.0, 0.01, 0.0)
         )
     }
 
     static rotateRight(time: int): SceneObjectCommand {
-        return new SceneObjectCommand(
-            SceneObjectCommandType.rotateRight,
-            time
+        return new SceneObjectCommandRotate(
+            time,
+            new Vector3(0.0, -0.01, 0.0)
         )
-    }    
+    }
 }
