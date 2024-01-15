@@ -89,6 +89,27 @@
                 "z": 0.0
             },
             "isMovable": false
+        },
+        "Car": {
+            "name": "Car",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.car.flying.taxi"
+            },
+            "position": {
+                "x": 3.2270586490631104,
+                "y": 1.6359589099884033,
+                "z": 1.0951313972473145
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": true
         }
     }
 }
