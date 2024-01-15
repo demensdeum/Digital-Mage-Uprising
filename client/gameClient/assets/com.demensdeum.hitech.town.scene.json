@@ -27,8 +27,8 @@
             },
             "isMovable": false
         },
-        "NPC": {
-            "name": "NPC",
+        "Model_NPC_com.demensdeum.npc.generic": {
+            "name": "Model_NPC_com.demensdeum.npc.generic",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -69,8 +69,8 @@
             },
             "isMovable": true
         },
-        "Map": {
-            "name": "Map",
+        "Model_Map_com.demensdeum.hitech.town.map": {
+            "name": "Model_Map_com.demensdeum.hitech.town.map",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -90,8 +90,8 @@
             },
             "isMovable": false
         },
-        "Car": {
-            "name": "Car",
+        "Decor_Car_com.demensdeum.car.flying.taxi": {
+            "name": "Decor_Car_com.demensdeum.car.flying.taxi",
             "type": "Model",
             "texture": {
                 "name": "NONE"
@@ -109,7 +109,7 @@
                 "y": 0.0,
                 "z": 0.0
             },
-            "isMovable": true
+            "isMovable": false
         }
     }
 }

@@ -11,9 +11,8 @@ export class EnemyControls extends SceneObjectCommandPerformer {
     private rotationCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle(0); 
     private actionCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle(0);
 
-
-
     public step(delta: any): void {
+        super.step(delta)
         if (!this.moveCommand.isExpired()) {
             super.handleCommand(this.moveCommand);
         }

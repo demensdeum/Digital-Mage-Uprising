@@ -2,6 +2,7 @@ import { int } from "./types"
 
 export class SceneObjectCommand {
     time: int
+    nextCommand?: SceneObjectCommand
 
     constructor(
         time: int

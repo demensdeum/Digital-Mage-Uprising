@@ -46,12 +46,12 @@ class SceneObject:
         model_name = "None"
         is_movable = True
         
-        if name.startswith("Model_"):
+        if name.startswith("Model_") or name.startswith("Decor_"):
             components = name.split("_")
-            type = components[0]
+            type = "Model"
             name = components[1]
             model_name = components[2]
-            if name == "Map":
+            if name == "Map" or name.startswith("Decor_"):
                 is_movable = False
         elif name.startswith("PlayerStartPosition_"):
             components = name.split("_")
