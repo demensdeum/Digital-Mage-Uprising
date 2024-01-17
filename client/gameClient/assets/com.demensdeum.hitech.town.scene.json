@@ -113,7 +113,7 @@
             },
             "position": {
                 "x": 3.2270586490631104,
-                "y": 1.6359589099884033,
+                "y": 7.251412391662598,
                 "z": 1.0951313972473145
             },
             "rotation": {
@@ -122,6 +122,30 @@
                 "z": 0.0
             },
             "isMovable": false,
+            "controls": {
+                "name": "decor"
+            }
+        },
+        "CarStartPosition": {
+            "name": "CarStartPosition",
+            "type": "Command",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "None"
+            },
+            "position": {
+                "x": 4.331549644470215,
+                "y": 0.5507672429084778,
+                "z": 1.909553050994873
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 3.1415927410125732,
+                "z": -0.0
+            },
+            "isMovable": true,
             "controls": {
                 "name": "NONE"
             }

@@ -55,17 +55,21 @@ class SceneObject:
         model_name = "None"
         is_movable = True
         controls = None
+
+        components = name.split("_")
         
         if name.startswith("Model_") or name.startswith("Decor_"):
-            components = name.split("_")
             type = "Model"
             export_name = components[1]
             model_name = components[2]
             if export_name == "Map" or name.startswith("Decor_"):
                 is_movable = False
                 
+        elif name.startswith("Command_"):
+            type = "Command"
+            export_name = components[1]
+                
         elif name.startswith("PlayerStartPosition_"):
-            components = name.split("_")
             type = "Entity"
             export_name = "PlayerStartPosition"
             model_name = components[1]

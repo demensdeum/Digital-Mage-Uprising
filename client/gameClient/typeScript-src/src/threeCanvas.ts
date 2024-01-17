@@ -17,6 +17,7 @@ customElements.define('three-canvas',
             this.delegate = null;
             this.canvas = null;
             this.debugEnabled = false;
+            this.previousMessage = "";
 
             this.resetCanvas();
             this.innerHTML = "<canvas class=\"webgl\"></canvas>";
@@ -71,7 +72,7 @@ customElements.define('three-canvas',
                             "objects" : sceneController.serializedSceneObjects(),
                             "physicsEnabled" : threeCanvas.canvas.scene.physicsEnabled
                         },
-                        "message" : "JS OVERRIDE",
+                        "message" : threeCanvas.canvas.message,
                         "userObjectName" : threeCanvas.canvas.userObjectName            
                     }
                     if (threeCanvas.delegate) {
@@ -111,8 +112,23 @@ customElements.define('three-canvas',
             this.render(canvas);
         }
 
+        showErrorIfNeeded(canvas)
+        {
+            if (this.previousMessage != canvas.message) {
+                this.previousMessage = canvas.message;
+                if (canvas.message.startsWith("Error: ")) {
+                    alert(canvas.message);
+                }
+            }
+        }
+
         render(canvas)
         {
+            if (this.messageReaderInstalled != true) {
+                this.messageReaderInstalled = true;
+                this.sceneController.addText("message", canvas);
+            }
+            this.showErrorIfNeeded(canvas);
             if (canvas.scene == null || canvas.scene == undefined) {
                 debugPrint("AAAAAAHHH MODEL SCENE IS EMPTY - CAN'T RENDER!!!!!!");
                 return;
@@ -123,6 +139,7 @@ customElements.define('three-canvas',
                 console.log("clear");
                 this.resetCanvas();
                 this.sceneController.removeAllSceneObjectsExceptCamera();
+                this.messageReaderInstalled = false;
             }
 
             this.sceneController.userObjectName = canvas.userObjectName;

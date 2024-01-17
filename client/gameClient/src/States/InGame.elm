@@ -12,6 +12,7 @@ import Random
 import Shared.Canvas as Canvas
 import Shared.Scene as Scene
 import Json.Decode as Decode
+import Platform.Cmd exposing (none)
 
 type InitializationState =
       Started
@@ -38,9 +39,12 @@ initialSubstate sceneName =
 
 initialCanvas: Int -> Canvas
 initialCanvas seed = 
+      let result = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false,"controls":{"name":"NONE"}}}}""" in
+      let scene = Tuple.first result in
+      let errorText = Tuple.second result in
       {
-        scene = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false,"controls":{"name":"NONE"}}}}"""
-        , message = "Initial InGame Canvas Loading..."
+        scene = scene, 
+        message = errorText
         , userObjectName = ""
       }
 
@@ -49,15 +53,17 @@ canvasWithSceneJson seed sceneJson =
       let userObjectName = randomHeroName <| Random.initialSeed seed in
       let formattedSceneJson = String.replace "PlayerStartPosition" userObjectName sceneJson in
       let formattedFormattedSceneJson = String.replace "Entity" "Model" formattedSceneJson in
-      let scene = sceneFromJsonString formattedFormattedSceneJson in
-            canvasWithScene seed scene
+      let result = sceneFromJsonString formattedFormattedSceneJson in
+      let scene = Tuple.first result in
+      let errorText = Tuple.second result in
+            canvasWithScene seed scene errorText
 
-canvasWithScene: Int -> Scene -> Canvas
-canvasWithScene seed scene =
+canvasWithScene: Int -> Scene -> String -> Canvas
+canvasWithScene seed scene errorText =
       let userObjectName = randomHeroName <| Random.initialSeed seed in
       {
             scene = scene
-            , message = "InGame Canvas With Scene" ++ scene.name
+            , message = errorText
             , userObjectName = userObjectName
       }
 
@@ -66,13 +72,13 @@ randomHeroName seed =
     let (number, newSeed) = Random.step (Random.int 0 1000000) seed in
     "Udod" ++ String.fromInt number
 
-sceneFromJsonString: String -> Scene
+sceneFromJsonString: String -> (Scene, String)
 sceneFromJsonString sceneJsonString = 
       case Decode.decodeString Scene.decodeScene sceneJsonString  of
             Ok scene ->
-                  scene
+                  (scene, "Success")
             Err error ->
-                  Scene.default
+                  (Scene.default, "Error: " ++ Decode.errorToString error)
 
 handleServerCanvas: Canvas.Canvas -> Canvas.ServerCanvas -> Canvas.Canvas
 handleServerCanvas oldCanvas serverCanvas =

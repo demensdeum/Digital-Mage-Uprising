@@ -477,6 +477,16 @@ export class SceneController implements
         return output;
     }
     
+    public addText(
+        name: string, 
+        object: any
+    ) {
+        gui.add(
+            object,
+            name            
+        )
+    }
+
     public addButton(
         name: string, 
         object: any

@@ -2,7 +2,7 @@ import { SceneObjectCommand } from "./sceneObjectCommand.js";
 import { SceneObjectCommandPerformer } from "./sceneObjectCommandPerformer.js";
 import { float } from "./types.js";
 
-export class DecorControls extends SceneObjectCommandPerformer {
+export class ScriptControls extends SceneObjectCommandPerformer {
 
     private command?: SceneObjectCommand
 

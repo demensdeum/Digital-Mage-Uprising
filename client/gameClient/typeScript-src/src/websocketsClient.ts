@@ -12,6 +12,7 @@ export class WebsocketsClient {
     private delegate?: WebsocketsClientDelegate;
     private receivedVerboseEnabled: boolean = false;
     private sendingVersboseEnabled: boolean = false;
+    private debugEnabled: boolean = false;
 
     constructor(url: string) {
         console.log("WebsocketsClient constructor!");
@@ -97,7 +98,9 @@ export class WebsocketsClient {
             debugPrint("Sending data from client: " + data);
         }        
         if (this.state != WebsocketsClientState.Connected) {
-            console.log("Trying to send data while is not connected!111");
+            if (this.debugEnabled) {
+                console.log("Trying to send data while is not connected!111");
+            }
             return;
         }
         this.socket?.send(data);
