@@ -8,55 +8,87 @@ import { SceneObjectCommandRotate } from "./sceneObjectCommandRotate.js";
 
 export class SceneObjectCommandsFactory {
 
-    static idle(time: int): SceneObjectCommand {
+    static idle(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandIdle(
+            name,
             time
         )
     }
 
-    static moveForward(time: int): SceneObjectCommand {
+    static moveForward(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
+            name,
             time,
             new Vector3(0, 0, -0.05)
         )
     }
 
-    static moveBackward(time: int): SceneObjectCommand {
+    static moveBackward(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
+            name,
             time,
             new Vector3(0, 0, 0.05)
         )
     }    
 
-    static moveLeft(time: int): SceneObjectCommand {
+    static moveLeft(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
+            name,
             time,
             new Vector3(-0.1, 0.0, 0)
         )
     }
 
-    static moveRight(time: int): SceneObjectCommand {
+    static moveRight(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
+            name,
             time,
             new Vector3(0.1, 0.0, 0)
         )
     }
 
-    static jump(time: int): SceneObjectCommand {
+    static jump(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandJump(
+            name,
             time
         )
     }
 
-    static rotateLeft(time: int): SceneObjectCommand {
+    static rotateLeft(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandRotate(
+            name,
             time,
             new Vector3(0.0, 0.01, 0.0)
         )
     }
 
-    static rotateRight(time: int): SceneObjectCommand {
+    static rotateRight(
+        name: String,
+        time: int
+    ): SceneObjectCommand {
         return new SceneObjectCommandRotate(
+            name,
             time,
             new Vector3(0.0, -0.01, 0.0)
         )

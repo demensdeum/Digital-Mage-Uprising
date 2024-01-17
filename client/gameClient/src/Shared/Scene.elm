@@ -1,7 +1,7 @@
 module Shared.Scene exposing (..)
 
 import Shared.SceneObject exposing (SceneObject, stringFromType, decoderObjectType)
-import Shared.Texture exposing(..)
+import Shared.Texture exposing (..)
 import Shared.Vector3 exposing (Vector3)
 import Shared.Model exposing (Model)
 
@@ -12,17 +12,20 @@ import Json.Decode as Decode
 import Shared.SceneObject exposing (sceneObjectDecoder)
 import Shared.Vector3 as Vector3
 import Shared.SceneObject exposing (encodeSceneObject)
+import Shared.Command exposing (..)
 
 type alias Scene =
     {
         name : String
         , objects : Dict String SceneObject
         , physicsEnabled: Bool
+        , commands : Dict String Command
     }
 
 type alias ServerScene =
     {
         objects : Dict String SceneObject
+        , commands: Dict String Command
     }
 
 default: Scene
@@ -31,6 +34,7 @@ default =
         name = "Empty Scene"
         , objects = Dict.empty
         , physicsEnabled = True
+        , commands = Dict.empty
     }
 
 copyRotationFromObjectToObject: String -> String -> Scene -> Scene
@@ -79,15 +83,17 @@ setSceneObject key sceneObject scene =
 
 serverSceneFromJsonString: Decode.Decoder ServerScene
 serverSceneFromJsonString =
-    Decode.map ServerScene
+    Decode.map2 ServerScene
         (Decode.field "objects" <| Decode.dict sceneObjectDecoder)
+        (Decode.field "commands" <| Decode.dict commandDecoder)
 
 decodeScene: Decode.Decoder Scene
 decodeScene =
-    Decode.map3 Scene
+    Decode.map4 Scene
         (Decode.field "name" Decode.string)
         (Decode.field "objects" (Decode.dict sceneObjectDecoder))
         (Decode.field "physicsEnabled" Decode.bool)
+        (Decode.field "commands" (Decode.dict commandDecoder))
 
 encodeScene : Scene -> Encode.Value
 encodeScene scene =
@@ -95,8 +101,13 @@ encodeScene scene =
         [ ("name", Encode.string scene.name)
         , ("objects", Encode.dict encodeSceneObjectKey encodeSceneObject scene.objects)
         , ("physicsEnabled", Encode.bool scene.physicsEnabled)
+        , ("commands", Encode.dict encodeCommandKey encodeCommand scene.commands)
         ]
 
 encodeSceneObjectKey: String -> String
 encodeSceneObjectKey key = 
+    key
+
+encodeCommandKey: String -> String
+encodeCommandKey key = 
     key

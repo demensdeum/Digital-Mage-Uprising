@@ -3,6 +3,49 @@ import bpy
 import json
 from json import JSONEncoder
 
+class Command:
+    
+    @staticmethod
+    def default():
+        return SceneObjectCommand("NONE", 0)
+    
+    @staticmethod
+    def fromNode(node):
+        name = node.name
+        components = name.split("_")
+        properties = bpy.data.objects[name]   
+                     
+        type = properties["type"]              
+        time = properties["time"]
+        export_name = components[1]
+        
+        position = Vector3(
+            node.location.x,
+            node.location.z,
+            -node.location.y
+        )        
+        
+        rotation = Vector3(
+            node.rotation_euler.x,
+            node.rotation_euler.z,
+            node.rotation_euler.y
+        )        
+        
+        return Command(
+                export_name,
+                type, 
+                time, 
+                position, 
+                rotation
+                )    
+    
+    def __init__(self, name, type, time, position, rotation):
+        self.name = name
+        self.type = type
+        self.time = time
+        self.position = position
+        self.rotation = rotation
+        
 class SceneObjectModel:
     
     @staticmethod
@@ -25,10 +68,11 @@ class SceneObjectControls:
     
     @staticmethod
     def default():
-        return SceneObjectControls("NONE")
+        return SceneObjectControls("NONE", "NONE")
         
-    def __init__(self,name):
+    def __init__(self, name, startCommand):
         self.name = name
+        self.startCommand = startCommand
 
 class Vector3:
     
@@ -65,10 +109,6 @@ class SceneObject:
             if export_name == "Map" or name.startswith("Decor_"):
                 is_movable = False
                 
-        elif name.startswith("Command_"):
-            type = "Command"
-            export_name = components[1]
-                
         elif name.startswith("PlayerStartPosition_"):
             type = "Entity"
             export_name = "PlayerStartPosition"
@@ -79,12 +119,19 @@ class SceneObject:
         elif name == "PlayerStartPosition":
             type = "Entity"
         
-        controlsName = "NONE"
+        controls_name = "NONE"
+        controls_start_command = "NONE"
         
-        if "controlsName" in bpy.data.objects[name]:
-            controlsName = bpy.data.objects[name]["controlsName"]
         
-        controls = SceneObjectControls(controlsName)
+        properties = bpy.data.objects[name]
+        
+        if "controlsName" in properties:
+            controls_name = bpy.data.objects[name]["controlsName"]
+            
+        if "startCommand" in properties:
+            controls_start_command = bpy.data.objects[name]["startCommand"]
+        
+        controls = SceneObjectControls(controls_name, controls_start_command)
         
         texture = SceneObjectTexture("NONE")
         model = SceneObjectModel(model_name)
@@ -124,6 +171,7 @@ class Scene:
         self.format = SceneFormat("DemensDeum Digital Mage Uprising Scene File", "1.0.0.0")
         self.physicsEnabled = physics_enabled
         self.objects = dict()
+        self.commands = dict()
         skyboxSceneObject = SceneObject(
             "Skybox",
             "Skybox",
@@ -132,12 +180,17 @@ class Scene:
             Vector3(0, 0, 0),
             Vector3(0, 0, 0),
             False,
-            SceneObjectControls("NONE")
+            SceneObjectControls("NONE", 0)
         )
         self.objects["Skybox"] = skyboxSceneObject
         
-    def addSceneObject(self, sceneObject):
-        self.objects[sceneObject.name] = sceneObject
+    def addCommandFromNode(self, command):
+        export_name = command.name.split("_")[0]
+        self.commands[export_name] = Command.fromNode(node)
+        
+    def addSceneObjectFromNode(self, object):
+        export_name = object.name.split("_")[0]
+        self.objects[export_name] = SceneObject.fromNode(node)
 
 class SceneEncoder(JSONEncoder):
         def default(self, o):
@@ -166,6 +219,7 @@ debugC = blender_scene.collection
 print(f"debugC: {debugC}")
 
 blender_scene_objects_collection = next(c for c in blender_scene.collection.children if c.name == "SceneObjects")
+blender_scene_commands_collection = next(c for c in blender_scene.collection.children if c.name == "Commands")
 
 scene_file = open(scene_filepath, "w")
 
@@ -174,7 +228,15 @@ for node in blender_scene_objects_collection.all_objects:
     print(node.location)
     print(node.rotation_euler)
     
-    scene.addSceneObject(SceneObject.fromNode(node))
+    scene.addSceneObjectFromNode(node)
+
+for node in blender_scene_commands_collection.all_objects:
+    print(node.name)
+    print(node.location)
+    print(node.rotation_euler)
+    
+    scene.addCommandFromNode(node)
+
 
 scene_file.write(json.dumps(scene, indent = 4, cls = SceneEncoder))
 

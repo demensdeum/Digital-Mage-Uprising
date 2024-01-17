@@ -27,7 +27,8 @@
             },
             "isMovable": false,
             "controls": {
-                "name": "NONE"
+                "name": "NONE",
+                "startCommand": 0
             }
         },
         "NPC": {
@@ -51,10 +52,11 @@
             },
             "isMovable": true,
             "controls": {
-                "name": "NONE"
+                "name": "NONE",
+                "startCommand": "NONE"
             }
         },
-        "PlayerStartPosition": {
+        "com.demensdeum.gunner": {
             "name": "PlayerStartPosition",
             "type": "Entity",
             "texture": {
@@ -75,7 +77,8 @@
             },
             "isMovable": true,
             "controls": {
-                "name": "player"
+                "name": "player",
+                "startCommand": "NONE"
             }
         },
         "Map": {
@@ -99,7 +102,8 @@
             },
             "isMovable": false,
             "controls": {
-                "name": "NONE"
+                "name": "NONE",
+                "startCommand": "NONE"
             }
         },
         "Car": {
@@ -123,18 +127,16 @@
             },
             "isMovable": false,
             "controls": {
-                "name": "decor"
+                "name": "decor",
+                "startCommand": "CarStartPosition"
             }
-        },
+        }
+    },
+    "commands": {
         "CarStartPosition": {
             "name": "CarStartPosition",
-            "type": "Command",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "None"
-            },
+            "type": "teleport",
+            "time": 1,
             "position": {
                 "x": 4.331549644470215,
                 "y": 0.5507672429084778,
@@ -144,10 +146,6 @@
                 "x": 0.0,
                 "y": 3.1415927410125732,
                 "z": -0.0
-            },
-            "isMovable": true,
-            "controls": {
-                "name": "NONE"
             }
         }
     }

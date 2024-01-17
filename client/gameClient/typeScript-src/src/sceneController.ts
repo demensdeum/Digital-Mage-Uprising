@@ -25,6 +25,9 @@ import { Paths } from "./paths.js";
 import { SnowflakesController } from "./snowflakesController.js";
 import { WeatherControllerDelegate } from "./weatherControllerDelegate.js";
 import { WeatherController } from "./weatherController.js";
+import { int } from "./types.js";
+import { SceneObjectCommandTeleport } from "./sceneObjectCommandTeleport.js";
+import { SceneObjectCommandIdle } from "./sceneObjectCommandIdle.js";
 
 const gui = new dat.GUI();
 
@@ -341,6 +344,40 @@ export class SceneController implements
         instancedMesh: any
     ): void {
         this.scene.add(instancedMesh);
+    }
+
+    public addCommand(
+        name: String,
+        type: String,
+        time: int,
+        x: float,
+        y: float,
+        z: float,
+        rX: float,
+        rY: float,
+        rZ: float
+    )
+    {
+        debugger;
+        const position = new Vector3(
+            x,
+            y,
+            z
+        )
+        if (type == "teleport") {
+            return new SceneObjectCommandTeleport(
+                name,
+                time, 
+                position
+            )
+        }
+        
+        raiseCriticalError("Unknown type for command parser: " + type);
+
+        return new SceneObjectCommandIdle(
+            name,
+            time
+        )
     }
 
     public addTextUI(

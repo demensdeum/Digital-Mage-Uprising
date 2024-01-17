@@ -6,10 +6,14 @@ export class SceneObjectCommandRotate extends SceneObjectCommand {
     rotate: Vector3
 
     constructor(
+        name: String,
         time: number,
         rotate: Vector3
     ) {
-        super(time)
+        super(
+            name,
+            time
+        )
         this.rotate = rotate
     }
 

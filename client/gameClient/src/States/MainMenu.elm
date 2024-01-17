@@ -111,6 +111,7 @@ initialScene =
             })     
           ]
         , physicsEnabled = False
+        , commands = Dict.empty
       }
 
 step: Canvas -> Substate -> Command

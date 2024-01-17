@@ -70,7 +70,8 @@ customElements.define('three-canvas',
                         "scene" : {
                             "name" : threeCanvas.canvas.scene.name,
                             "objects" : sceneController.serializedSceneObjects(),
-                            "physicsEnabled" : threeCanvas.canvas.scene.physicsEnabled
+                            "physicsEnabled" : threeCanvas.canvas.scene.physicsEnabled,
+                            "commands" : threeCanvas.canvas.scene.commands
                         },
                         "message" : threeCanvas.canvas.message,
                         "userObjectName" : threeCanvas.canvas.userObjectName            
@@ -98,8 +99,10 @@ customElements.define('three-canvas',
                 scene: {
                     name: "",
                     objects: {},
+                    commands: {},
+                    physicsEnabled: false
                 },
-                message: "No message"                
+                message: "Reset canvas"                
             };            
         }
 
@@ -116,7 +119,7 @@ customElements.define('three-canvas',
         {
             if (this.previousMessage != canvas.message) {
                 this.previousMessage = canvas.message;
-                if (canvas.message.startsWith("Error: ")) {
+                if (canvas.message.startsWith("Elm-Side Error: ")) {
                     alert(canvas.message);
                 }
             }
@@ -143,6 +146,39 @@ customElements.define('three-canvas',
             }
 
             this.sceneController.userObjectName = canvas.userObjectName;
+
+            Object.values(canvas.scene.commands).forEach((command) => {
+                
+                const name = command.name
+                const type = command.type
+                const time = command.time
+                const x = command.position.x
+                const y = command.position.y
+                const z = command.position.z
+                const rX = command.position.x
+                const rY = command.position.y
+                const rZ = command.position.z
+
+                if (this.canvas.scene.commands == undefined) {
+                    debugger;
+                }
+                if (name in this.canvas.scene.commands) {
+                    // debugPrint("Commands updating does not support")
+                }
+                else {
+                    this.sceneController.addCommand(
+                        name,
+                        type,
+                        time,
+                        x,
+                        y,
+                        z,
+                        rX,
+                        rY,
+                        rZ
+                    );
+                }
+            })
 
             Object.values(canvas.scene.objects).forEach ((object) => {
                 const name = object.name;
