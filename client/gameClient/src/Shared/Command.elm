@@ -11,16 +11,18 @@ type alias Command =
         , time: Int
         , position: Vector3
         , rotation: Vector3
+        , nextCommand: String
     }
 
 commandDecoder : Decode.Decoder Command
 commandDecoder =
-    Decode.map5 Command
+    Decode.map6 Command
         (Decode.field "name" Decode.string)
         (Decode.field "type" Decode.string)
         (Decode.field "time" Decode.int)
         (Decode.field "position" decoderVector3)
         (Decode.field "rotation" decoderVector3)
+        (Decode.field "nextCommand" Decode.string)
 
 encodeCommand : Command -> Encode.Value
 encodeCommand command =
@@ -30,4 +32,5 @@ encodeCommand command =
         , ("time", Encode.int command.time)
         , ("position", encodeVector3 command.position)
         , ("rotation", encodeVector3 command.rotation)
+        , ("nextCommand", Encode.string command.nextCommand)
         ]    

@@ -3,15 +3,19 @@ import { int } from "./types"
 export class SceneObjectCommand {
     name: String
     time: int
-    nextCommand?: SceneObjectCommand
+    nextCommandName?: String
 
     constructor(
         name: String,
-        time: int
+        time: int,
+        nextCommand?: String
     )
     {
         this.name = name;
         this.time = time;
+        if (nextCommand != null) {
+            this.nextCommandName = nextCommand
+        }
     }
 
     public step() {

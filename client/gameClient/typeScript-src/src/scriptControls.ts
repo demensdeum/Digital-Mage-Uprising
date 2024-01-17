@@ -11,7 +11,7 @@ export class ScriptControls extends SceneObjectCommandPerformer {
 
         if (this.command != null) {
             if (this.command.isExpired()) {
-                this.command = this.command.nextCommand
+                
             }
             else {
                 this.handleCommand(this.command)

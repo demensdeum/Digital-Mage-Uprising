@@ -8,9 +8,10 @@ export class SceneObjectCommandTeleport extends SceneObjectCommand {
     constructor(
         name: String,
         time: number,
-        position: Vector3
+        position: Vector3,
+        nextCommand: String
     ) {
-        super(name, time)
+        super(name, time, nextCommand)
         this.position = position
     }
 

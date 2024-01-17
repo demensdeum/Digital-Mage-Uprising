@@ -355,7 +355,8 @@ export class SceneController implements
         z: float,
         rX: float,
         rY: float,
-        rZ: float
+        rZ: float,
+        nextCommandName: String
     )
     {
         debugger;
@@ -368,7 +369,8 @@ export class SceneController implements
             return new SceneObjectCommandTeleport(
                 name,
                 time, 
-                position
+                position,
+                nextCommandName
             )
         }
         
