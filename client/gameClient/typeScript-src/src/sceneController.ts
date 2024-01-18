@@ -28,6 +28,9 @@ import { WeatherController } from "./weatherController.js";
 import { int } from "./types.js";
 import { SceneObjectCommandTeleport } from "./sceneObjectCommandTeleport.js";
 import { SceneObjectCommandIdle } from "./sceneObjectCommandIdle.js";
+import { DecorControlsDataSource } from "./decorControlsDataSource.js";
+import { DecorControls } from "./decorControls.js";
+import { SceneObjectCommand } from "./sceneObjectCommand.js";
 
 const gui = new dat.GUI();
 
@@ -36,7 +39,8 @@ export class SceneController implements
                                         ControlsDelegate,
                                         PhysicsControllerDelegate,
                                         SimplePhysicsControllerDelegate,
-                                        WeatherControllerDelegate {
+                                        WeatherControllerDelegate,
+                                        DecorControlsDataSource {
 
     private readonly collisionsDebugEnabled: boolean = false;
 
@@ -62,6 +66,7 @@ export class SceneController implements
     private animationMixers: any[] = []; 
 
     private objects: { [key: string]: SceneObject } = {};
+    private commands: { [key: string]: SceneObjectCommand } = {};
 
     private failbackTexture: any;
     private loadingTexture: any;
@@ -264,6 +269,20 @@ export class SceneController implements
     ): void {
         this.scene.remove(arrowHelper);
     }
+    
+    public decorControlsDidRequestCommandWithName(
+        decorControls: DecorControls,
+        commandName: string
+    ): SceneObjectCommand
+    {
+        if (commandName in this.commands) {
+            return this.commands[commandName]
+        }
+        else {
+            raiseCriticalError("SceneController DecorControlsDataSource Error: No command with name " + commandName);
+            return new SceneObjectCommandIdle("Error Placeholder", 0);
+        }
+    }
 
     public controlsQuaternionForObject(
         _: Controls,
@@ -347,8 +366,8 @@ export class SceneController implements
     }
 
     public addCommand(
-        name: String,
-        type: String,
+        name: string,
+        type: string,
         time: int,
         x: float,
         y: float,
@@ -356,7 +375,7 @@ export class SceneController implements
         rX: float,
         rY: float,
         rZ: float,
-        nextCommandName: String
+        nextCommandName: string
     )
     {
         debugger;
@@ -365,13 +384,22 @@ export class SceneController implements
             y,
             z
         )
+        const rotation = new Vector3(
+            rX,
+            rY,
+            rZ
+        )
         if (type == "teleport") {
-            return new SceneObjectCommandTeleport(
+            const command = new SceneObjectCommandTeleport(
                 name,
                 time, 
                 position,
+                rotation,
                 nextCommandName
             )
+            this.commands[name] = command
+            debugger
+            return command;
         }
         
         raiseCriticalError("Unknown type for command parser: " + type);
@@ -380,6 +408,12 @@ export class SceneController implements
             name,
             time
         )
+    }
+
+    public commandWithName(
+        name: string
+    ) {
+        return this.commands[name]
     }
 
     public addTextUI(

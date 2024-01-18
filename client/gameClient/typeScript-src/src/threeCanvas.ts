@@ -6,7 +6,8 @@ import { Names } from './names.js'
 import { PlayerControls } from "./playerControls.js";
 import { SimplePhysicsController } from './simplePhysicsController.js';
 import { EnemyControls } from './enemyControls.js';
-import { debugPrint } from './runtime.js';
+import { debugPrint, raiseCriticalError } from './runtime.js';
+import { DecorControls } from './decorControls.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
@@ -102,6 +103,7 @@ customElements.define('three-canvas',
                     commands: {},
                     physicsEnabled: false
                 },
+                userObjectName: "",
                 message: "Reset canvas"                
             };            
         }
@@ -155,9 +157,14 @@ customElements.define('three-canvas',
                 const x = command.position.x
                 const y = command.position.y
                 const z = command.position.z
-                const rX = command.position.x
-                const rY = command.position.y
-                const rZ = command.position.z
+                const rX = command.rotation.x
+                const rY = command.rotation.y
+                const rZ = command.rotation.z
+                var nextCommandName = command.nextCommand
+
+                if (nextCommandName == "NONE") {
+                    nextCommandName = null
+                }
 
                 if (this.canvas.scene.commands == undefined) {
                     debugger;
@@ -166,6 +173,7 @@ customElements.define('three-canvas',
                     // debugPrint("Commands updating does not support")
                 }
                 else {
+                    debugger
                     this.sceneController.addCommand(
                         name,
                         type,
@@ -175,7 +183,8 @@ customElements.define('three-canvas',
                         z,
                         rX,
                         rY,
-                        rZ
+                        rZ,
+                        nextCommandName
                     );
                 }
             })
@@ -240,6 +249,24 @@ customElements.define('three-canvas',
                                 this.playerControls.objectName = name;
                                 controls = this.playerControls;
                                 debugger;
+                            }
+                            else if (controlsName == "decor") {
+                                const commandName = object.controls.startCommand
+                                if (commandName in canvas.scene.commands) {
+                                    const command = this.sceneController.commandWithName(commandName)                                    
+                                    
+                                    controls = new DecorControls(
+                                        name,
+                                        command,
+                                        this.sceneController,
+                                        this.sceneController,
+                                        this.sceneController
+                                    )                                    
+                                }
+                                else {
+                                    debugger;
+                                    raiseCriticalError("Can't initialize decor controls with name: " + commandName + " there is no command with such name!")
+                                }
                             }
                             this.sceneController.addModelAt(
                                 name,

@@ -8,13 +8,13 @@ export class SceneObjectCommand {
     constructor(
         name: String,
         time: int,
-        nextCommand?: String
+        nextCommandName?: String
     )
     {
         this.name = name;
         this.time = time;
-        if (nextCommand != null) {
-            this.nextCommandName = nextCommand
+        if (nextCommandName != null) {
+            this.nextCommandName = nextCommandName
         }
     }
 

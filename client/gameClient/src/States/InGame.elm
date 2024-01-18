@@ -39,7 +39,40 @@ initialSubstate sceneName =
 
 initialCanvas: Int -> Canvas
 initialCanvas seed = 
-      let result = sceneFromJsonString """{"name":"Loading Scene","physicsEnabled":false,"objects":{"Skybox":{"name":"Skybox","type":"Skybox","texture":{"name":"com.demensdeum.space"},"model":{"name":"NONE"},"position":{"x":0,"y":0,"z":0},"rotation":{"x":0,"y":0,"z":0},"isMovable":false,"controls":{"name":"NONE"}}},"commands":{}}""" in
+      let result = sceneFromJsonString """
+      {
+            "name": "Loading Scene",
+            "physicsEnabled": false,
+            "objects": {
+                  "Skybox": {
+                        "name": "Skybox",
+                        "type": "Skybox",
+                        "texture": {
+                              "name": "com.demensdeum.space"
+                        },
+                        "model": {
+                              "name": "NONE"
+                        },
+                        "position": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                        },
+                        "rotation": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                        },
+                        "isMovable": false,
+                        "controls": {
+                              "name": "NONE",
+                              "startCommand": "NONE"
+                        }
+                  }
+            },
+            "commands": {}
+      }      
+      """ in
       let scene = Tuple.first result in
       let errorText = Tuple.second result in
       {

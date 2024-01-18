@@ -28,7 +28,7 @@
             "isMovable": false,
             "controls": {
                 "name": "NONE",
-                "startCommand": 0
+                "startCommand": "NONE"
             }
         },
         "NPC": {
@@ -139,12 +139,12 @@
             "time": 1,
             "position": {
                 "x": 4.331549644470215,
-                "y": 0.5507672429084778,
+                "y": 5.06076717376709,
                 "z": 1.909553050994873
             },
             "rotation": {
                 "x": 0.0,
-                "y": 3.1415927410125732,
+                "y": 0.0,
                 "z": -0.0
             },
             "nextCommand": "NONE"

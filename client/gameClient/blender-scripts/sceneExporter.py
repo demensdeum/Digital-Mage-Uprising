@@ -214,7 +214,7 @@ class Scene:
             Vector3(0, 0, 0),
             Vector3(0, 0, 0),
             False,
-            SceneObjectControls("NONE", 0)
+            SceneObjectControls("NONE", "NONE")
         )
         self.objects["Skybox"] = skyboxSceneObject
         

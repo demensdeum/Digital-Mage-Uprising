@@ -48,6 +48,10 @@ export class SceneObject {
     }
 
     public serialize(): any {
+
+        var controlsName = "NONE"
+        var controlsStartCommand = "NONE"
+
         const output = {
             "name" : this.name,
             "type" : this.type,
@@ -65,7 +69,8 @@ export class SceneObject {
             },
             "isMovable" : this.isMovable,
             "controls": {
-                "name": "player"
+                "name": controlsName,
+                "startCommand": controlsStartCommand
             }
         }
         return output;
