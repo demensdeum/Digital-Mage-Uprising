@@ -19,6 +19,11 @@ class Command:
         time = properties["time"]
         export_name = components[1]
         
+        next_command = "NONE"
+        
+        if "nextCommand" in properties:
+            next_command = properties["nextCommand"]        
+        
         position = Vector3(
             node.location.x,
             node.location.z,
@@ -36,15 +41,25 @@ class Command:
                 type, 
                 time, 
                 position, 
-                rotation
+                rotation,
+                next_command
                 )    
     
-    def __init__(self, name, type, time, position, rotation):
+    def __init__(
+    self, 
+    name, 
+    type, 
+    time, 
+    position, 
+    rotation,
+    next_command
+    ):
         self.name = name
         self.type = type
         self.time = time
         self.position = position
         self.rotation = rotation
+        self.nextCommand = next_command
         
 class SceneObjectModel:
     
@@ -121,15 +136,15 @@ class SceneObject:
         
         controls_name = "NONE"
         controls_start_command = "NONE"
-        
+        next_command = "NONE"
         
         properties = bpy.data.objects[name]
         
         if "controlsName" in properties:
-            controls_name = bpy.data.objects[name]["controlsName"]
+            controls_name = properties["controlsName"]
             
         if "startCommand" in properties:
-            controls_start_command = bpy.data.objects[name]["startCommand"]
+            controls_start_command = properties["startCommand"]
         
         controls = SceneObjectControls(controls_name, controls_start_command)
         
@@ -146,11 +161,30 @@ class SceneObject:
             node.rotation_euler.y
         )
         
-        sceneObject = SceneObject(export_name, type, texture, model, position, rotation, is_movable, controls)
+        sceneObject = SceneObject(
+        export_name, 
+        type, 
+        texture, 
+        model, 
+        position, 
+        rotation, 
+        is_movable, 
+        controls
+        )
     
         return sceneObject
     
-    def __init__(self, name, type, texture, model, position, rotation, is_movable, controls):
+    def __init__(
+    self, 
+    name, 
+    type, 
+    texture, 
+    model, 
+    position, 
+    rotation, 
+    is_movable, 
+    controls
+    ):
         self.name = name
         self.type = type
         self.texture = texture
@@ -185,11 +219,11 @@ class Scene:
         self.objects["Skybox"] = skyboxSceneObject
         
     def addCommandFromNode(self, command):
-        export_name = command.name.split("_")[0]
+        export_name = command.name.split("_")[1]
         self.commands[export_name] = Command.fromNode(node)
         
     def addSceneObjectFromNode(self, object):
-        export_name = object.name.split("_")[0]
+        export_name = object.name.split("_")[1]
         self.objects[export_name] = SceneObject.fromNode(node)
 
 class SceneEncoder(JSONEncoder):
