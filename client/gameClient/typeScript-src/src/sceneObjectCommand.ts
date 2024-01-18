@@ -13,8 +13,9 @@ export class SceneObjectCommand {
         nextCommandName?: String
     )
     {
-        this.name = name;
-        this.originalTime = time;
+        this.name = name
+        this.time = time
+        this.originalTime = time
         if (nextCommandName != null) {
             this.nextCommandName = nextCommandName
         }

@@ -9,7 +9,7 @@ export class SceneObjectCommandTranslate extends SceneObjectCommand {
         name: string,
         time: number,
         translate: Vector3,
-        nextCommandName: string
+        nextCommandName?: string
     ) {
         debugger
         super(name, time, nextCommandName)

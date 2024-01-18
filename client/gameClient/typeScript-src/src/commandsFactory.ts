@@ -9,7 +9,7 @@ import { SceneObjectCommandRotate } from "./sceneObjectCommandRotate.js";
 export class SceneObjectCommandsFactory {
 
     static idle(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandIdle(
@@ -19,7 +19,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static moveForward(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
@@ -30,7 +30,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static moveBackward(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
@@ -41,7 +41,7 @@ export class SceneObjectCommandsFactory {
     }    
 
     static moveLeft(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
@@ -52,7 +52,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static moveRight(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandTranslate(
@@ -63,7 +63,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static jump(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandJump(
@@ -73,7 +73,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static rotateLeft(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandRotate(
@@ -84,7 +84,7 @@ export class SceneObjectCommandsFactory {
     }
 
     static rotateRight(
-        name: String,
+        name: string,
         time: int
     ): SceneObjectCommand {
         return new SceneObjectCommandRotate(
