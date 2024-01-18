@@ -6,11 +6,13 @@ export class SceneObjectCommandTranslate extends SceneObjectCommand {
     translate: Vector3
 
     constructor(
-        name: String,
+        name: string,
         time: number,
-        translate: Vector3
+        translate: Vector3,
+        nextCommandName: string
     ) {
-        super(name, time)
+        debugger
+        super(name, time, nextCommandName)
         this.translate = translate
     }
 

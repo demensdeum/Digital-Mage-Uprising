@@ -138,16 +138,32 @@
             "type": "teleport",
             "time": 1,
             "position": {
-                "x": 4.331549644470215,
-                "y": 5.06076717376709,
-                "z": 1.909553050994873
+                "x": 1.8515498638153076,
+                "y": 8.020767211914062,
+                "z": 42.579551696777344
             },
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": -0.0
             },
-            "nextCommand": "NONE"
+            "nextCommand": "CarTranslate"
+        },
+        "CarTranslate": {
+            "name": "CarTranslate",
+            "type": "translate",
+            "time": 300,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "CarStartPosition"
         }
     }
 }

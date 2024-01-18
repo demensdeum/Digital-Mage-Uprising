@@ -31,6 +31,7 @@ import { SceneObjectCommandIdle } from "./sceneObjectCommandIdle.js";
 import { DecorControlsDataSource } from "./decorControlsDataSource.js";
 import { DecorControls } from "./decorControls.js";
 import { SceneObjectCommand } from "./sceneObjectCommand.js";
+import { SceneObjectCommandTranslate } from "./sceneObjectCommandTranslate.js";
 
 const gui = new dat.GUI();
 
@@ -398,8 +399,18 @@ export class SceneController implements
                 nextCommandName
             )
             this.commands[name] = command
-            debugger
-            return command;
+            return command
+        }
+        else if (type == "translate") {
+            const translate = position
+            const command = new SceneObjectCommandTranslate(
+                name,
+                time,
+                translate,
+                nextCommandName
+            )
+            this.commands[name] = command
+            return command
         }
         
         raiseCriticalError("Unknown type for command parser: " + type);

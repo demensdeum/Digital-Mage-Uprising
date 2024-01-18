@@ -23,8 +23,13 @@ export class DecorControls extends SceneObjectCommandPerformer {
             dataSource
         )
 
-        this.command = startCommand
+        this.setCommand(startCommand)
         this.decorControlsDataSource = decorControlsDataSource
+    }
+
+    setCommand(command: SceneObjectCommand) {
+        command.reset()
+        this.command = command
     }
 
     step(delta: float) {
@@ -34,7 +39,8 @@ export class DecorControls extends SceneObjectCommandPerformer {
             if (this.command.isExpired()) {
                 const nextCommandName = this.command.nextCommandName
                 if (nextCommandName != null && nextCommandName != "NONE") {
-                    this.command = this.decorControlsDataSource.decorControlsDidRequestCommandWithName(this, nextCommandName)
+                    const command = this.decorControlsDataSource.decorControlsDidRequestCommandWithName(this, nextCommandName)
+                    this.setCommand(command)
                 }
             }
             else {
