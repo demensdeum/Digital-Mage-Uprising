@@ -37,6 +37,7 @@ customElements.define('three-canvas',
             this.sceneController = new SceneController(
                 this.graphicsCanvas,
                 this.physicsController,
+                true,
                 false
             );          
 
@@ -129,6 +130,7 @@ customElements.define('three-canvas',
 
         render(canvas)
         {
+            this.sceneController.physicsEnabled = canvas.scene.physicsEnabled;
             if (this.messageReaderInstalled != true) {
                 this.messageReaderInstalled = true;
                 this.sceneController.addText("message", canvas);

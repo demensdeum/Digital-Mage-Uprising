@@ -135,17 +135,23 @@ export class SimplePhysicsController implements PhysicsController {
         hex: int
     ) {      
         if (this.enabled == false) {
+            debugger
             const collision = new PhysicsControllerCollision(
                 alice,
                 alice,
                 0,
                 direction
-            );
+            )
             this.delegate?.physicsControllerDidDetectDistance(
                 this,
                 collision
-            );
-            return;
+            )
+            this.delegate?.physicsControllerDidDetectFreeSpace(
+                this,
+                alice,
+                direction
+            )            
+            return
         }        
         var arrowHelper: any = null;  
         

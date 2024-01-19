@@ -4,7 +4,7 @@
         "name": "DemensDeum Digital Mage Uprising Scene File",
         "version": "1.0.0.0"
     },
-    "physicsEnabled": true,
+    "physicsEnabled": false,
     "objects": {
         "Skybox": {
             "name": "Skybox",
@@ -130,6 +130,131 @@
                 "name": "decor",
                 "startCommand": "CarStartPosition"
             }
+        },
+        "Car2": {
+            "name": "Car2",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.car.flying.taxi"
+            },
+            "position": {
+                "x": 0.7844157218933105,
+                "y": 7.251412391662598,
+                "z": 15.371316909790039
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "decor",
+                "startCommand": "Car2StartPosition"
+            }
+        },
+        "Car3": {
+            "name": "Car3",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.car.flying.generic"
+            },
+            "position": {
+                "x": 2.1838619709014893,
+                "y": 8.662786483764648,
+                "z": -5.507513523101807
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "decor",
+                "startCommand": "Car3StartPosition"
+            }
+        },
+        "GenericBuilding": {
+            "name": "GenericBuilding",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.building.scifi.terraform"
+            },
+            "position": {
+                "x": 40.80772399902344,
+                "y": 0.30087852478027344,
+                "z": 27.382524490356445
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "GenericBuilding2": {
+            "name": "GenericBuilding2",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.building.scifi.terraform"
+            },
+            "position": {
+                "x": -30.316429138183594,
+                "y": 0.30087852478027344,
+                "z": -29.900388717651367
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1573.9378662109375,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "JobCenter": {
+            "name": "JobCenter",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hitech.building"
+            },
+            "position": {
+                "x": 17.4114990234375,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
         }
     },
     "commands": {
@@ -139,7 +264,7 @@
             "time": 1,
             "position": {
                 "x": 1.8515498638153076,
-                "y": 8.020767211914062,
+                "y": 6.231311798095703,
                 "z": 42.579551696777344
             },
             "rotation": {
@@ -164,6 +289,70 @@
                 "z": -0.0
             },
             "nextCommand": "CarStartPosition"
+        },
+        "Car2StartPosition": {
+            "name": "Car2StartPosition",
+            "type": "teleport",
+            "time": 1,
+            "position": {
+                "x": -0.23722219467163086,
+                "y": 6.231311798095703,
+                "z": 76.60446166992188
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car2Translate"
+        },
+        "Car2Translate": {
+            "name": "Car2Translate",
+            "type": "translate",
+            "time": 300,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car2StartPosition"
+        },
+        "Car3StartPosition": {
+            "name": "Car3StartPosition",
+            "type": "teleport",
+            "time": 1,
+            "position": {
+                "x": 2.6952006816864014,
+                "y": 6.231311798095703,
+                "z": 55.051937103271484
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car3Translate"
+        },
+        "Car3Translate": {
+            "name": "Car3Translate",
+            "type": "translate",
+            "time": 300,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car3StartPosition"
         }
     }
 }

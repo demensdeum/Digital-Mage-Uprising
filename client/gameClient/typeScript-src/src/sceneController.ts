@@ -82,10 +82,13 @@ export class SceneController implements
     private flyMode: boolean = false;
 
     private weatherController?: WeatherController;
+
+    public physicsEnabled: boolean;
     
     constructor(
         canvas: HTMLCanvasElement,
         physicsController: PhysicsController,
+        physicsEnabled: boolean,
         flyMode: boolean = false
     ) {
         this.flyMode = flyMode;
@@ -443,6 +446,9 @@ export class SceneController implements
             delta
         );
         if (this.physicsController) {
+            if (this.physicsController instanceof SimplePhysicsController) {
+                this.physicsController.enabled = this.physicsEnabled
+            }
             this.physicsController.step(delta);
         }
         this.weatherController?.step(delta);
