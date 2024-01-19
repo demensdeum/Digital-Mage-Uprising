@@ -126,3 +126,9 @@ Terraform Regulation Facility
 Avatar of toomanydemons
 TooManyDemons
 https://sketchfab.com/3d-models/terraform-regulation-facility-3f5dd6aa3db84da7b43b7d9b462eeeab
+
+Hydroponics Facility
+3D Model
+Avatar of toomanydemons
+TooManyDemons
+https://sketchfab.com/3d-models/hydroponics-facility-6d8d8bad7fb34fcca373805184672e89

@@ -255,6 +255,206 @@
                 "name": "NONE",
                 "startCommand": "NONE"
             }
+        },
+        "BuildingGeneric": {
+            "name": "BuildingGeneric",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hydroponics.building"
+            },
+            "position": {
+                "x": -22.713584899902344,
+                "y": 0.0,
+                "z": 1.4709510803222656
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "BuildingGeneric2": {
+            "name": "BuildingGeneric2",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hydroponics.building"
+            },
+            "position": {
+                "x": 28.006675720214844,
+                "y": 0.0,
+                "z": -28.425979614257812
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1.5707963705062866,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "BuildingGeneric3": {
+            "name": "BuildingGeneric3",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hydroponics.building"
+            },
+            "position": {
+                "x": -23.69399642944336,
+                "y": 0.0,
+                "z": 44.55060577392578
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1.5707963705062866,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "ArmorShop": {
+            "name": "ArmorShop",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hitech.building"
+            },
+            "position": {
+                "x": -5.609933853149414,
+                "y": 0.0,
+                "z": -26.780454635620117
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "WeaponShop": {
+            "name": "WeaponShop",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hitech.building"
+            },
+            "position": {
+                "x": 11.9000244140625,
+                "y": 0.0,
+                "z": -45.87986755371094
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1.5707963705062866,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "DrugStore": {
+            "name": "DrugStore",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.hitech.building"
+            },
+            "position": {
+                "x": -5.609933853149414,
+                "y": 0.0,
+                "z": 34.473472595214844
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "NONE",
+                "startCommand": "NONE"
+            }
+        },
+        "Car4": {
+            "name": "Car4",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.car.flying.taxi"
+            },
+            "position": {
+                "x": -39.02772903442383,
+                "y": 14.428388595581055,
+                "z": -12.766680717468262
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1.5707963705062866,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "decor",
+                "startCommand": "Car4StartPosition"
+            }
+        },
+        "Car5": {
+            "name": "Car5",
+            "type": "Model",
+            "texture": {
+                "name": "NONE"
+            },
+            "model": {
+                "name": "com.demensdeum.car.flying.generic"
+            },
+            "position": {
+                "x": -45.630374908447266,
+                "y": 15.839761734008789,
+                "z": -11.723483085632324
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 1.5707963705062866,
+                "z": -0.0
+            },
+            "isMovable": false,
+            "controls": {
+                "name": "decor",
+                "startCommand": "Car5StartPosition"
+            }
         }
     },
     "commands": {
@@ -277,7 +477,7 @@
         "CarTranslate": {
             "name": "CarTranslate",
             "type": "translate",
-            "time": 300,
+            "time": 600,
             "position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -297,7 +497,7 @@
             "position": {
                 "x": -0.23722219467163086,
                 "y": 6.231311798095703,
-                "z": 76.60446166992188
+                "z": 110.89252471923828
             },
             "rotation": {
                 "x": 0.0,
@@ -309,7 +509,7 @@
         "Car2Translate": {
             "name": "Car2Translate",
             "type": "translate",
-            "time": 300,
+            "time": 600,
             "position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -322,26 +522,58 @@
             },
             "nextCommand": "Car2StartPosition"
         },
-        "Car3StartPosition": {
-            "name": "Car3StartPosition",
-            "type": "teleport",
-            "time": 1,
+        "Car4Translate": {
+            "name": "Car4Translate",
+            "type": "translate",
+            "time": 600,
             "position": {
-                "x": 2.6952006816864014,
-                "y": 6.231311798095703,
-                "z": 55.051937103271484
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
             },
             "rotation": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": -0.0
             },
-            "nextCommand": "Car3Translate"
+            "nextCommand": "Car4StartPosition"
+        },
+        "Car5StartPosition": {
+            "name": "Car5StartPosition",
+            "type": "teleport",
+            "time": 1,
+            "position": {
+                "x": 139.3197021484375,
+                "y": 6.231311798095703,
+                "z": -8.943266868591309
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car5Translate"
+        },
+        "Car4StartPosition": {
+            "name": "Car4StartPosition",
+            "type": "teleport",
+            "time": 1,
+            "position": {
+                "x": 93.70477294921875,
+                "y": 6.231311798095703,
+                "z": -17.40087890625
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car4Translate"
         },
         "Car3Translate": {
             "name": "Car3Translate",
             "type": "translate",
-            "time": 300,
+            "time": 600,
             "position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -353,6 +585,38 @@
                 "z": -0.0
             },
             "nextCommand": "Car3StartPosition"
+        },
+        "Car5Translate": {
+            "name": "Car5Translate",
+            "type": "translate",
+            "time": 600,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.4000000059604645
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car5StartPosition"
+        },
+        "Car3StartPosition": {
+            "name": "Car3StartPosition",
+            "type": "teleport",
+            "time": 1,
+            "position": {
+                "x": -4.6752166748046875,
+                "y": 6.231311798095703,
+                "z": 142.36514282226562
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -0.0
+            },
+            "nextCommand": "Car2Translate"
         }
     }
 }

@@ -233,7 +233,7 @@ class SceneEncoder(JSONEncoder):
 name = "Hi-Tech Town"
 skybox = "com.demensdeum.blue.field"
 scene_filename = "com.demensdeum.hitech.town"        
-physics_enabled = True
+physics_enabled = False
 
 directory = os.path.dirname(os.path.dirname(bpy.data.filepath))
 

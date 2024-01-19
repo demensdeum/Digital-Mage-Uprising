@@ -91,21 +91,22 @@ export class SceneController implements
         physicsEnabled: boolean,
         flyMode: boolean = false
     ) {
-        this.flyMode = flyMode;
-        this.physicsController = physicsController;
-        this.physicsController.delegate = this;
+        this.physicsEnabled = physicsEnabled
+        this.flyMode = flyMode
+        this.physicsController = physicsController
+        this.physicsController.delegate = this
 
         if (
             this.flyMode && 
             this.physicsController instanceof SimplePhysicsController
         ) {
-            this.physicsController.enabled = false;
+            this.physicsController.enabled = false
         }
 
         const sceneController = this;
 
         if (physicsController instanceof SimplePhysicsController) {
-            (physicsController as SimplePhysicsController).simplePhysicsControllerDelegate = this;
+            (physicsController as SimplePhysicsController).simplePhysicsControllerDelegate = this
         }
 // @ts-ignore
         this.failbackTexture = this.textureLoader.load(
@@ -382,7 +383,6 @@ export class SceneController implements
         nextCommandName: string
     )
     {
-        debugger;
         const position = new Vector3(
             x,
             y,

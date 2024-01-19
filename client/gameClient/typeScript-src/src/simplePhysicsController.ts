@@ -135,7 +135,6 @@ export class SimplePhysicsController implements PhysicsController {
         hex: int
     ) {      
         if (this.enabled == false) {
-            debugger
             const collision = new PhysicsControllerCollision(
                 alice,
                 alice,

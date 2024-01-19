@@ -175,7 +175,6 @@ customElements.define('three-canvas',
                     // debugPrint("Commands updating does not support")
                 }
                 else {
-                    debugger
                     this.sceneController.addCommand(
                         name,
                         type,
