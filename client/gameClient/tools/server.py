@@ -13,7 +13,6 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().send_response_only(code, message)
         self.send_header('Cache-Control', 'no-store, must-revalidate')
         self.send_header('Expires', '0')
-        self.allow_reuse_address = True
 
 if __name__ == '__main__':
     server_address = (IP_ADDRESS, PORT)
