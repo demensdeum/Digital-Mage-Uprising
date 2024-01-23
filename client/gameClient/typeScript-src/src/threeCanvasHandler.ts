@@ -2,6 +2,7 @@ import { ThreeCanvasDelegate } from "./threeCanvasDelegate";
 
 export class ThreeCanvasHandler implements ThreeCanvasDelegate {
     private application: any;
+    private debugEnabled: boolean = false;
 
     threeCanvasDidUpdateCanvas(
         threeCanvas: any, 
@@ -13,7 +14,21 @@ export class ThreeCanvasHandler implements ThreeCanvasDelegate {
             .ports
             .nativeCanvasReceiver
             .send(output);
-            console.log("sent canvas to Elm");            
+            if (this.debugEnabled) {
+                console.log("sent canvas to Elm");
+            }            
+    }
+
+    threeCanvasButtonDidPress(
+        threeCanvas: any, 
+        name: string
+    ): void {
+        this
+            .application
+            .ports
+            .buttonPressedReceiver
+            .send(name);
+            console.log("sent button pressed to Elm: " + name);          
     }
 }
 

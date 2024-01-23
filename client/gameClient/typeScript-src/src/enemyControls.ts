@@ -1,143 +1,90 @@
-import { CommandsFactory } from "./commandsFactory.js";
-import { Controls } from "./controls";
-import { ControlsDelegate } from "./controlsDelegate";
-import { ControlsDataSource } from "./playerControlsDataSource.js";
+import { SceneObjectCommandsFactory } from "./commandsFactory.js";
 import { debugPrint } from "./runtime.js";
 import { SceneObjectCommand } from "./sceneObjectCommand.js";
-import { SceneObjectCommandType } from "./sceneObjectCommandType.js";
+import { SceneObjectCommandPerformer } from "./sceneObjectCommandPerformer.js";
 import { Utils } from "./utils.js";
 
-export class EnemyControls implements Controls {
-    public delegate: ControlsDelegate;
-    public dataSource: ControlsDataSource;
-    private objectName: string;
-
-    private moveCommand: SceneObjectCommand = CommandsFactory.idle(0);
-    private secondaryMoveCommand: SceneObjectCommand = CommandsFactory.idle(0);
-    private actionCommand: SceneObjectCommand = CommandsFactory.idle(0);
-
-    constructor(
-        objectName: string,
-        delegate: ControlsDelegate,
-        dataSource: ControlsDataSource
-    ) {
-        this.objectName = objectName;
-        this.delegate = delegate;
-        this.dataSource = dataSource
-    }
+export class EnemyControls extends SceneObjectCommandPerformer {
+    private moveCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle("Idle", 0);
+    private secondaryMoveCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle("Idle", 0);    
+    private extraMoveCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle("Idle", 0);   
+    private rotationCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle("Idle", 0); 
+    private actionCommand: SceneObjectCommand = SceneObjectCommandsFactory.idle("Idle", 0);
 
     public step(delta: any): void {
+        super.step(delta)
+
+        if (this.objectName == "NONE") {
+            return;
+        }
+
         if (!this.moveCommand.isExpired()) {
-            this.handleCommand(this.moveCommand);
+            super.handleCommand(this.moveCommand);
         }
         else {
             this.moveCommand = this.comeUpWithIdeaForMoveCommand();
         }
 
         if (!this.secondaryMoveCommand.isExpired()) {
-            this.handleCommand(this.secondaryMoveCommand);
+            super.handleCommand(this.secondaryMoveCommand);
         }
         else {
-            this.secondaryMoveCommand = this.comeUpWithIdeaForMoveCommand();
+            this.secondaryMoveCommand = this.comeUpWithIdeaForSecondaryMoveCommand();
         }
+
+        if (!this.rotationCommand.isExpired()) {
+            super.handleCommand(this.rotationCommand);
+        }
+        else {
+            this.rotationCommand = this.comeUpWithIdeaForRotationCommand();
+        }
+
+        if (!this.extraMoveCommand.isExpired()) {
+            super.handleCommand(this.extraMoveCommand);
+        }
+        else {
+            this.extraMoveCommand = this.comeUpWithIdeaForExtraMoveCommand();
+        }
+    }
+
+    private comeUpWithIdeaForRotationCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 9) {
+            return SceneObjectCommandsFactory.rotateLeft("GoLeft", Utils.randomInt(1000));
+        }
+        else if (idea == 14) {
+            return SceneObjectCommandsFactory.rotateRight("GoRight", Utils.randomInt(1000));
+        }
+        return SceneObjectCommandsFactory.idle("Idle", Utils.randomInt(10));
     }
 
     private comeUpWithIdeaForMoveCommand() {
         const idea = Utils.randomInt(30);
-        if (idea == 3) {
-            return CommandsFactory.moveForward(100 + Utils.randomInt(100));
+        if (idea > 6  && idea < 20) {
+            return SceneObjectCommandsFactory.moveForward("GoForward", 100 + Utils.randomInt(1000));
         }
         else if (idea == 4) {
-            return CommandsFactory.moveLeft(100 + Utils.randomInt(100));
+            return SceneObjectCommandsFactory.moveBackward("GoBackward", 100 + Utils.randomInt(1000));
         }        
-        else if (idea == 22) {
-            return CommandsFactory.moveRight(100 + Utils.randomInt(100));
-        }
-        else if (idea == 8) {
-            return CommandsFactory.jump(Utils.randomInt(100));
-        }
-        return CommandsFactory.idle(Utils.randomInt(10));
+        return SceneObjectCommandsFactory.idle("Idle", Utils.randomInt(10));
     }
 
-    private handleCommand(command: SceneObjectCommand) {
-        switch (command.type) {
-            case SceneObjectCommandType.idle:
-                break
-                
-            case SceneObjectCommandType.moveForward:
-                this.moveForward();
-                break
-
-            case SceneObjectCommandType.moveBackward:
-                break
-
-            case SceneObjectCommandType.moveLeft:
-                this.moveLeft();
-                break
-
-            case SceneObjectCommandType.moveRight:
-                this.moveRight();
-                break
-
-            case SceneObjectCommandType.jump:
-                this.jump();
-                break
+    private comeUpWithIdeaForSecondaryMoveCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 3) {
+            return SceneObjectCommandsFactory.jump("Jump", 10);
         }
-        command.step();   
+        return SceneObjectCommandsFactory.idle("Idle", Utils.randomInt(10));
     }
 
-    private moveForward() {
-        if (
-            this.dataSource.controlsCanMoveForwardObject(
-            this, 
-            this.objectName
-            )
-            ) {
-            this.delegate.controlsRequireObjectTranslate(
-                this,
-                this.objectName,
-                0,
-                0, 
-                -0.01
-            );
+    private comeUpWithIdeaForExtraMoveCommand() {
+        const idea = Utils.randomInt(30);
+        if (idea == 4) {
+            return SceneObjectCommandsFactory.moveLeft("GoLeft", 100 + Utils.randomInt(500));
         }
-    }
-
-    private moveLeft() {
-        if (
-            this.dataSource.controlsCanMoveLeftObject(
-            this, 
-            this.objectName
-            )
-            ) {
-            this.delegate.controlsRequireObjectTranslate(
-                this,
-                this.objectName,
-                -0.01,
-                0, 
-                0
-            );
+        else if (idea == 6) {
+            return SceneObjectCommandsFactory.moveRight("GoRight", 100 + Utils.randomInt(500));
         }
+        return SceneObjectCommandsFactory.idle("Idle", Utils.randomInt(10));
     }
-
-    private moveRight() {
-        if (
-            this.dataSource.controlsCanMoveRightObject(
-            this, 
-            this.objectName
-            )
-            ) {
-            this.delegate.controlsRequireObjectTranslate(
-                this,
-                this.objectName,
-                0.01,
-                0, 
-                0
-            );
-        }
-    }    
-
-    private jump() {
-        this.delegate.controlsRequireJump(this, this.objectName);
-    }
-};
+}

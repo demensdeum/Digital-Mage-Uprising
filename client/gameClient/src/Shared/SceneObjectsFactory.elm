@@ -3,6 +3,7 @@ module Shared.SceneObjectsFactory exposing (..)
 import Shared.SceneObject exposing (..)
 import Shared.Vector3 as Vector3
 import Shared.Model as Model
+import Shared.Controls as Controls
 
 skybox: String -> String -> SceneObject
 skybox name textureName =
@@ -16,4 +17,5 @@ skybox name textureName =
         }
         , model = Model.default
         , isMovable = False
+        , controls = Controls.default
     }

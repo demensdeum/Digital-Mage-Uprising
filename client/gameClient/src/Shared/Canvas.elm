@@ -35,7 +35,7 @@ encodeCanvas canvasState =
 canvasFromJsonString: Decode.Decoder Canvas
 canvasFromJsonString =
     Decode.map3 Canvas
-        (Decode.field "scene" Scene.sceneFromJsonString)
+        (Decode.field "scene" Scene.decodeScene)
         (Decode.field "message" Decode.string)
         (Decode.field "userObjectName" Decode.string)
 

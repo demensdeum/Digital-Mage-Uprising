@@ -5,4 +5,9 @@ export interface ThreeCanvasDelegate {
         threeCanvas: any, 
         canvas: any
     ): void;
+
+    threeCanvasButtonDidPress(
+        threeCanvas: any,
+        name: string
+    ): void;
 }

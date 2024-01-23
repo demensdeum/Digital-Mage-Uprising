@@ -8,10 +8,11 @@ import Shared.Model as Model
 import Dict exposing (..)
 import Shared.Canvas exposing (..)
 import Shared.Vector3 as Vector3
+import Shared.Controls exposing (..)
 
 screenTime: Int 
 screenTime = 
-      10000
+      100
 
 type alias Substate =
       {
@@ -21,6 +22,20 @@ type alias Substate =
 type Command =
   GoToMainMenu
   | Rendering Substate
+
+initialSubstate: Substate 
+initialSubstate =
+      {
+            tick = 0
+      }
+
+initialCanvas: Canvas
+initialCanvas = 
+      {
+            scene = scene
+            , message = "Initial Company Logo"
+            , userObjectName = ""
+      }
 
 scene : Scene
 scene =
@@ -37,9 +52,11 @@ scene =
                   }
                   , model = Model.default
                   , isMovable = False
+                  , controls = Shared.Controls.default
             })
         ]
         , physicsEnabled = False
+        , commands = Dict.empty
     }
 
 step: Canvas -> Substate -> Command
@@ -47,4 +64,4 @@ step canvas substate =
       if substate.tick < screenTime then
             Rendering  {substate | tick = substate.tick + 1}
       else
-            GoToMainMenu         
+            GoToMainMenu        

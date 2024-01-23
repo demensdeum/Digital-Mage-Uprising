@@ -1,7 +1,6 @@
 port module Main exposing (..)
 
 import Browser
-import Browser.Events
 import Html exposing (..)
 import Html.Events exposing (..)
 import Process exposing (..)
@@ -29,9 +28,20 @@ import States.CompanyLogo as CompanyLogo
 
 import Time exposing (every, Posix, now, posixToMillis)
 import Platform.Cmd as Cmd
+import States.MainMenu as MainMenu
+import Http
+
+-- Constants
+
+sceneSuffix : String
+sceneSuffix = "scene"
+
+sceneFormat : String
+sceneFormat = "json"
 
 -- PORTS
 
+port buttonPressedReceiver: (String -> msg) -> Sub msg
 port websocketsConnected: (String -> msg) -> Sub msg
 port sendCanvas : String -> Cmd msg
 port nativeCanvasReceiver : (String -> msg) -> Sub msg
@@ -67,6 +77,7 @@ subscriptions _ =
   Sub.batch
         [ nativeCanvasReceiver ReceiveNativeCanvas
         , serverCanvasReceiver ReceiveServerCanvas
+        , buttonPressedReceiver ButtonPressed
         , every 30 SendCanvas
         ]
 
@@ -86,20 +97,23 @@ init _ =
 
 type EngineMessage
   = WebsocketConnectionInitialized String
+  | ButtonPressed String
   | ReceiveNativeCanvas String
   | ReceiveServerCanvas String
   | UpdateTimestamp Posix
   | SendCanvas Posix
   | ConnectionError
   | Step Float
+  | GotSceneJson (Result Http.Error String)
 
 initialGameContext: Int -> Context
 initialGameContext seed =
   {
     initialSeed = seed
-    , state = InGame InGame.initialSubstate
+    , state = InGame <| InGame.initialSubstate "com.demensdeum.hitech.town"
     , canvas = InGame.initialCanvas seed
   }
+
 
 update : EngineMessage -> Context -> (Context, Cmd EngineMessage)
 update msg context =
@@ -110,15 +124,27 @@ update msg context =
   WebsocketConnectionInitialized message ->
       (context, Cmd.none)
 
+  ButtonPressed name ->
+    case context.state of
+      Idle substate ->
+        (context, Cmd.none)
+      CompanyLogo substate ->
+        (context, Cmd.none)
+      MainMenu substate ->
+        let newSubstate = {substate | pressedButtonName = name} in
+        ({context | state = MainMenu newSubstate} , Cmd.none)
+      InGame substate ->
+        (context, Cmd.none)
+
   ReceiveNativeCanvas canvasJsonString ->
     case Decode.decodeString Canvas.canvasFromJsonString canvasJsonString of
       Ok importedCanvas ->
         let newContext = {context | canvas = importedCanvas } in
-           (step newContext, Cmd.none)    
+           step newContext   
 
       Err error ->
         let canvas = context.canvas in
-          let newCanvasState = {canvas | message = "Canvas state parsing fail:" ++ Decode.errorToString error} in
+          let newCanvasState = {canvas | message = "Elm-Side Error: From JS Canvas state parsing fail:" ++ Decode.errorToString error} in
             ({context | canvas = newCanvasState}, Cmd.none)    
 
   ReceiveServerCanvas serverCanvasStateJsonString ->
@@ -155,31 +181,58 @@ update msg context =
       (context, Cmd.none)
 
   Step _ ->
-      (step context, Cmd.none)
+      step context
 
-step: Context -> Context
+  GotSceneJson result ->
+    case result of
+      Ok jsonText ->
+        case context.state of
+          Idle substate ->
+            step context
+          CompanyLogo substate ->
+            step context
+          MainMenu substate ->
+            step context
+          InGame substate ->
+            let newContext = {context | canvas = InGame.canvasWithSceneJson context.initialSeed jsonText } in
+              let newNewContext = { newContext | state = InGame {substate | initializationState = Success } } in
+                (newNewContext, Cmd.none)
+      Err _ ->
+        step context
+
+step: Context -> (Context, Cmd EngineMessage)
 step context =
   let canvas = context.canvas in
   case context.state of
     Idle substate ->
       let newCanvas = States.Idle.step canvas in
-        {context | canvas = newCanvas}
+        ({ context | canvas = newCanvas}, Cmd.none)
 
     CompanyLogo substate ->
         case States.CompanyLogo.step canvas substate of
           Rendering newSubstate ->
-            {context | state = CompanyLogo newSubstate}
+            ({ context | state = CompanyLogo newSubstate}, Cmd.none)
           GoToMainMenu ->
-            {context | state = MainMenu {} }
+            ({ context | state = MainMenu MainMenu.initialSubstate , canvas = MainMenu.initialCanvas }, Cmd.none)
 
     MainMenu substate ->
-      let newCanvas = States.MainMenu.step context.canvas in
-        {context | canvas = newCanvas}
+        case States.MainMenu.step canvas substate of
+          MainMenu.Idle ->
+            (context, Cmd.none)
+          StartNewGame ->
+            ({ context | state = InGame (InGame.initialSubstate "com.demensdeum.hitech.town"), canvas = InGame.initialCanvas context.initialSeed }, Cmd.none)
 
     InGame substate ->
         case States.InGame.step canvas substate of
           Update newCanvas ->
-            { context | canvas = newCanvas}
+            ({ context | canvas = newCanvas}, Cmd.none)
+          InGame.LoadScene sceneName ->
+            let newSubstate = { substate | initializationState = Loading } in
+              ({ context | state = InGame newSubstate}
+              , Http.get
+              { url = "./assets/" ++ sceneName ++ "." ++ sceneSuffix ++ "." ++ sceneFormat
+              , expect = Http.expectString GotSceneJson
+              })
 
 -- VIEW
 

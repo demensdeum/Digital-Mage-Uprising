@@ -21,6 +21,17 @@ import { debugPrint, raiseCriticalError } from "./runtime.js";
 import { float } from "./types.js";
 import { Vector3 } from "./vector3.js";
 import { Controls } from "./controls.js";
+import { Paths } from "./paths.js";
+import { SnowflakesController } from "./snowflakesController.js";
+import { WeatherControllerDelegate } from "./weatherControllerDelegate.js";
+import { WeatherController } from "./weatherController.js";
+import { int } from "./types.js";
+import { SceneObjectCommandTeleport } from "./sceneObjectCommandTeleport.js";
+import { SceneObjectCommandIdle } from "./sceneObjectCommandIdle.js";
+import { DecorControlsDataSource } from "./decorControlsDataSource.js";
+import { DecorControls } from "./decorControls.js";
+import { SceneObjectCommand } from "./sceneObjectCommand.js";
+import { SceneObjectCommandTranslate } from "./sceneObjectCommandTranslate.js";
 
 const gui = new dat.GUI();
 
@@ -28,16 +39,12 @@ export class SceneController implements
                                         ControlsDataSource, 
                                         ControlsDelegate,
                                         PhysicsControllerDelegate,
-                                        SimplePhysicsControllerDelegate {
+                                        SimplePhysicsControllerDelegate,
+                                        WeatherControllerDelegate,
+                                        DecorControlsDataSource {
 
-    private readonly modelExtension: string = "glb";
-    private readonly textureExtension: string = "png";
-    private readonly environmentExtension: string = "hdr";
-    private readonly assetsDirectory: string = "assets";
     private readonly collisionsDebugEnabled: boolean = false;
 
-    private canvas: HTMLCanvasElement;
-    
     public static readonly itemSize: number = 1;
     public static readonly carSize: number = 1;
     public static readonly roadSegmentSize: number = 2;
@@ -56,12 +63,11 @@ export class SceneController implements
     // @ts-ignore
     private pmremGenerator: any;
 
-    private playerControls?: Controls;
-
     private clock = new THREE.Clock();
     private animationMixers: any[] = []; 
 
     private objects: { [key: string]: SceneObject } = {};
+    private commands: { [key: string]: SceneObjectCommand } = {};
 
     private failbackTexture: any;
     private loadingTexture: any;
@@ -75,41 +81,44 @@ export class SceneController implements
 
     private flyMode: boolean = false;
 
+    private weatherController?: WeatherController;
+
+    public physicsEnabled: boolean;
+    
     constructor(
         canvas: HTMLCanvasElement,
         physicsController: PhysicsController,
+        physicsEnabled: boolean,
         flyMode: boolean = false
     ) {
-        this.flyMode = flyMode;
-        this.canvas = canvas;
-        this.physicsController = physicsController;
-        this.physicsController.delegate = this;
+        this.physicsEnabled = physicsEnabled
+        this.flyMode = flyMode
+        this.physicsController = physicsController
+        this.physicsController.delegate = this
 
         if (
             this.flyMode && 
             this.physicsController instanceof SimplePhysicsController
         ) {
-            this.physicsController.enabled = false;
+            this.physicsController.enabled = false
         }
 
         const sceneController = this;
 
         if (physicsController instanceof SimplePhysicsController) {
-            (physicsController as SimplePhysicsController).simplePhysicsControllerDelegate = this;
+            (physicsController as SimplePhysicsController).simplePhysicsControllerDelegate = this
         }
 // @ts-ignore
         this.failbackTexture = this.textureLoader.load(
-            "./" +
-             sceneController.assetsDirectory +
-             "/com.demensdeum.failback.texture." +
-              sceneController.textureExtension
+            Paths.texturePath(
+                "com.demensdeum.failback"
+            )
         );
 
         this.loadingTexture = this.textureLoader.load(
-            "./" +
-             sceneController.assetsDirectory +
-             "/com.demensdeum.loading.texture." +
-              sceneController.textureExtension
+            Paths.texturePath(
+                "com.demensdeum.loading"
+            )
         );
 // @ts-ignore
     this.scene = new THREE.Scene();
@@ -165,6 +174,9 @@ export class SceneController implements
       }      
 
       window.addEventListener("resize", onWindowResize, false);
+
+      // this.weatherController = new SnowflakesController(this);
+      this.weatherController?.initialize();      
     }
 
     physicControllerRequireApplyPosition(
@@ -178,6 +190,25 @@ export class SceneController implements
         this.sceneObject(objectName).threeObject.position.y = position.y;
         // @ts-ignore
         this.sceneObject(objectName).threeObject.position.z = position.z;
+    }
+
+    physicsControllerDidDetectFreeSpace(
+        physicsController: PhysicsController,
+        sceneObject: SceneObject,
+        direction: PhysicsControllerCollisionDirection
+    ): void {
+        switch (direction) {
+            case PhysicsControllerCollisionDirection.Down:
+                break
+            case PhysicsControllerCollisionDirection.Front:
+                this.canMoveForward = true
+            case PhysicsControllerCollisionDirection.Back:
+                this.canMoveBackward = true
+            case PhysicsControllerCollisionDirection.Left:
+                this.canMoveLeft = true
+            case PhysicsControllerCollisionDirection.Right:
+                this.canMoveRight = true
+        }
     }
 
     physicsControllerDidDetectDistance(
@@ -242,6 +273,20 @@ export class SceneController implements
         arrowHelper: any
     ): void {
         this.scene.remove(arrowHelper);
+    }
+    
+    public decorControlsDidRequestCommandWithName(
+        decorControls: DecorControls,
+        commandName: string
+    ): SceneObjectCommand
+    {
+        if (commandName in this.commands) {
+            return this.commands[commandName]
+        }
+        else {
+            raiseCriticalError("SceneController DecorControlsDataSource Error: No command with name " + commandName);
+            return new SceneObjectCommandIdle("Error Placeholder", 0);
+        }
     }
 
     public controlsQuaternionForObject(
@@ -318,6 +363,73 @@ export class SceneController implements
         return this.canMoveBackward;
     }
 
+    weatherControllerDidRequireToAddInstancedMeshToScene(
+        weatherController: WeatherController,
+        instancedMesh: any
+    ): void {
+        this.scene.add(instancedMesh);
+    }
+
+    public addCommand(
+        name: string,
+        type: string,
+        time: int,
+        x: float,
+        y: float,
+        z: float,
+        rX: float,
+        rY: float,
+        rZ: float,
+        nextCommandName: string
+    )
+    {
+        const position = new Vector3(
+            x,
+            y,
+            z
+        )
+        const rotation = new Vector3(
+            rX,
+            rY,
+            rZ
+        )
+        if (type == "teleport") {
+            const command = new SceneObjectCommandTeleport(
+                name,
+                time, 
+                position,
+                rotation,
+                nextCommandName
+            )
+            this.commands[name] = command
+            return command
+        }
+        else if (type == "translate") {
+            const translate = position
+            const command = new SceneObjectCommandTranslate(
+                name,
+                time,
+                translate,
+                nextCommandName
+            )
+            this.commands[name] = command
+            return command
+        }
+        
+        raiseCriticalError("Unknown type for command parser: " + type);
+
+        return new SceneObjectCommandIdle(
+            name,
+            time
+        )
+    }
+
+    public commandWithName(
+        name: string
+    ) {
+        return this.commands[name]
+    }
+
     public addTextUI(
         object: any,
         property: String
@@ -330,17 +442,30 @@ export class SceneController implements
 
     public step() {
         const delta = this.clock.getDelta();
-        if (this.playerControls) {    
-            this.playerControls.step(delta);
-        }
-
+        this.controlsStep(
+            delta
+        );
         if (this.physicsController) {
+            if (this.physicsController instanceof SimplePhysicsController) {
+                this.physicsController.enabled = this.physicsEnabled
+            }
             this.physicsController.step(delta);
         }
+        this.weatherController?.step(delta);
         this.animationsStep(delta);
         this.updateSkyboxPosition();
         this.render();
-        this.updateUI();    
+        this.updateUI();
+    }
+
+    private controlsStep(
+        delta: float
+    ) {
+        Object.keys(this.objects).forEach(key => {
+            const sceneObject = this.objects[key];
+            const controls = sceneObject.controls;
+            controls?.step(delta);  
+        })
     }
 
     private updateSkyboxPosition() {
@@ -442,8 +567,58 @@ export class SceneController implements
         return output;
     }
     
+    public addText(
+        name: string, 
+        object: any
+    ) {
+        gui.add(
+            object,
+            name            
+        )
+    }
 
-    public updateUI(): void {
+    public addButton(
+        name: string, 
+        object: any
+    ) {
+        gui.add(
+            object,
+            name
+        )
+
+        const boxSize: number = 1
+
+        // @ts-ignore
+        const boxGeometry = new THREE.BoxGeometry(
+            boxSize, 
+            boxSize, 
+            boxSize
+        );
+        // @ts-ignore
+        const material = new THREE.MeshBasicMaterial({
+             color: "white",
+             map: this.loadingTexture,
+             transparent: true,             
+             opacity: 0
+        });    
+
+        const box = new THREE.Mesh(boxGeometry, material);
+        box.position.x = 0;
+        box.position.y = 0;
+        box.position.z = 0;
+
+        const buttonSceneObject = new SceneObject(
+            name,
+            "Button",
+            "",
+            "",
+            box,
+            false
+        )
+        this.objects[name] = buttonSceneObject
+    }
+
+    public updateUI() {
         for (const i in gui.__controllers) {
             gui.__controllers[i].updateDisplay();
         }
@@ -452,13 +627,16 @@ export class SceneController implements
     public removeAllSceneObjectsExceptCamera() {
         Object.keys(this.objects).map(k => {
             if (k == Names.Camera) {
-                return;
+                return
             }
-            const v = this.objects[k];
-            this.scene.remove(v);
-            delete this.objects[k];
+            const v = this.objects[k]
+            this.scene.remove(v.threeObject)
+            delete this.objects[k]
         });
-        this.skyboxAdded = false;        
+        this.skyboxAdded = false
+        for (const i in gui.__controllers) {
+            gui.remove(gui.__controllers[i]);
+        }
     }
 
     public addSkybox(
@@ -477,7 +655,7 @@ export class SceneController implements
             -SceneController.skyboxPositionDiff,
             1,
             1,
-            name + ".skybox.front.texture." + this.textureExtension,
+            Paths.skyboxFrontTexturePath(name),
             0xFFFFFF,
             true
         );
@@ -489,12 +667,12 @@ export class SceneController implements
             SceneController.skyboxPositionDiff,
             1,
             1,
-            name + ".skybox.back.texture." + this.textureExtension,
+            Paths.skyboxBackTexturePath(name),
             0xFFFFFF,
             true
         );    
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Back",
             0,
             Utils.angleToRadians(180),
@@ -508,12 +686,12 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.top.texture." + this.textureExtension,
+            Paths.skyboxTopTexturePath(name),
             0xFFFFFF,
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Top",
             Utils.angleToRadians(90),
             0,
@@ -527,12 +705,12 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.bottom.texture." + this.textureExtension,
+            Paths.skyboxBottomTexturePath(name),
             0xFFFFFF,
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Bottom",
             Utils.angleToRadians(90),
             Utils.angleToRadians(180),
@@ -546,12 +724,12 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.left.texture." + this.textureExtension,
+            Paths.skyboxLeftTexturePath(name),
             0xFFFFFF,
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Left",
             0,
             Utils.angleToRadians(90),
@@ -565,12 +743,12 @@ export class SceneController implements
             0,
             1,
             1,
-            name + ".skybox.right.texture." + this.textureExtension,
+            Paths.skyboxRightTexturePath(name),
             0xFFFFFF,
             true
         );
 
-        this.rotateObject(
+        this.rotateObjectTo(
             Names.Skybox + "Right",
             0,
             Utils.angleToRadians(270),
@@ -581,11 +759,10 @@ export class SceneController implements
 // @ts-ignore
       new RGBELoader()
       .setDataType( THREE.UnsignedByteType )
-      .setPath("./" + this.assetsDirectory + "/")
+      .setPath("./" + Paths.assetsDirectory + "/")
 // @ts-ignore      
-      .load(name + ".skybox.environment." + this.environmentExtension, (texture) => {
+      .load(Paths.environmentPath(name), (texture) => {
         var environmentMap = pmremGenerator.fromEquirectangular(texture).texture;
-        //this.scene.background = environmentMap;
         this.scene.environment = environmentMap;
         texture.dispose();
         pmremGenerator.dispose();      
@@ -597,8 +774,12 @@ export class SceneController implements
         modelName: string,
         x: number,
         y: number,
-        z: number,   
+        z: number,
+        rX: number,
+        rY: number,
+        rZ: number,
         isMovable: boolean,        
+        controls: Controls,
         boxSize: number = 1.0,
         successCallback: (()=>void) = ()=>{},     
         color: number = 0xFFFFFF,
@@ -625,6 +806,10 @@ export class SceneController implements
         box.position.y = y;
         box.position.z = z;
 
+        box.rotation.x = rX;
+        box.rotation.y = rY;
+        box.rotation.z = rZ;
+
         const sceneController = this;
 
         const sceneObject = new SceneObject(
@@ -633,15 +818,15 @@ export class SceneController implements
             "NONE",
             modelName,
             box,
-            isMovable
+            isMovable,
+            controls
         );
         sceneController.addSceneObject(sceneObject);
 
-        const scene = this.scene;
-        const loader = new GLTFLoader();
-        const modelPath = "./" + this.assetsDirectory + "/" + modelName + ".model." + this.modelExtension;
+        const modelLoader = new GLTFLoader();
+        const modelPath = Paths.modelPath(modelName);
 
-        loader.load(
+        modelLoader.load(
           modelPath,
           // @ts-ignore
           function (container) {
@@ -681,8 +866,11 @@ export class SceneController implements
             sceneController.animationMixers.push(animationMixer);
 
             // @ts-ignore
-            model.traverse((mesh)=> {
-                sceneObject.meshes.push(mesh);
+            model.traverse((entity) => {
+                if (entity.isMesh) {
+                    const mesh = entity;
+                    sceneObject.meshes.push(mesh);
+                }
             }); 
             
             successCallback();
@@ -701,7 +889,7 @@ export class SceneController implements
         opacity: number = 1.0
     ): void {
         debugPrint("addBoxAt: " + x + " " + y + " " + z);
-        const texturePath = "./" + this.assetsDirectory + "/" + textureName;
+        const texturePath = Paths.texturePath(textureName);
         // @ts-ignore
         const boxGeometry = new THREE.BoxGeometry(
             size, 
@@ -765,7 +953,7 @@ export class SceneController implements
         opacity: number = 1.0
     ): void {
         debugPrint("addPlaneAt");
-        const texturePath = "./" + this.assetsDirectory + "/" + textureName;
+        const texturePath = Paths.texturePath(textureName);
         // @ts-ignore
         const planeGeometry = new THREE.PlaneGeometry(width, height);
 
@@ -866,6 +1054,7 @@ export class SceneController implements
                 debugPrint("But it's skybox so don't mind!")
             }
             else {
+                debugger;
                 debugPrint("Adding dummy box with name: " + name);
                 this.addBoxAt(
                     name, 
@@ -881,21 +1070,20 @@ export class SceneController implements
         return object;
     }
 
-    public rotateObjectTo(
+    controlsRequireObjectTeleport(
+        controls: Controls,
         name: string,
         x: number,
         y: number,
         z: number
     ): void {
         const sceneObject = this.sceneObject(
-            name,
-            x,
-            y,
-            z
+            name
         );
-        sceneObject.threeObject.rotation.x = x;
-        sceneObject.threeObject.rotation.y = y;
-        sceneObject.threeObject.rotation.z = z;
+
+        sceneObject.threeObject.position.x = x;
+        sceneObject.threeObject.position.y = y;
+        sceneObject.threeObject.position.z = z;
     }
 
     public translateObject(
@@ -929,7 +1117,7 @@ export class SceneController implements
         sceneObject.threeObject.position.z = z;
     }
 
-    public rotateObject(
+    public rotateObjectTo(
         name: string,
         x: number,
         y: number,
@@ -940,5 +1128,5 @@ export class SceneController implements
         sceneObject.threeObject.rotation.x = x;
         sceneObject.threeObject.rotation.y = y;
         sceneObject.threeObject.rotation.z = z;
-    }
+    }  
 }
