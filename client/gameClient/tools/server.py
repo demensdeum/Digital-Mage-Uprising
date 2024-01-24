@@ -13,11 +13,14 @@ class NoCacheHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         super().send_response_only(code, message)
         self.send_header('Cache-Control', 'no-store, must-revalidate')
         self.send_header('Expires', '0')
-        self.allow_reuse_address = True
 
 if __name__ == '__main__':
     server_address = (IP_ADDRESS, PORT)
-    httpd = socketserver.TCPServer(server_address, NoCacheHTTPRequestHandler)
+    httpd = socketserver.TCPServer(server_address, NoCacheHTTPRequestHandler,
+                                                   bind_and_activate=False)
+    httpd.allow_reuse_address = True
+    httpd.server_bind()
+    httpd.server_activate()
     
     print(f"Serving on {IP_ADDRESS}:{PORT}...")
     httpd.serve_forever()
