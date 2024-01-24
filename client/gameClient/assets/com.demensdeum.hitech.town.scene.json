@@ -181,56 +181,6 @@
                 "startCommand": "Car3StartPosition"
             }
         },
-        "GenericBuilding": {
-            "name": "GenericBuilding",
-            "type": "Model",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "com.demensdeum.building.scifi.terraform"
-            },
-            "position": {
-                "x": 40.80772399902344,
-                "y": 0.30087852478027344,
-                "z": 27.382524490356445
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "isMovable": false,
-            "controls": {
-                "name": "NONE",
-                "startCommand": "NONE"
-            }
-        },
-        "GenericBuilding2": {
-            "name": "GenericBuilding2",
-            "type": "Model",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "com.demensdeum.building.scifi.terraform"
-            },
-            "position": {
-                "x": -30.316429138183594,
-                "y": 0.30087852478027344,
-                "z": -29.900388717651367
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 1573.9378662109375,
-                "z": -0.0
-            },
-            "isMovable": false,
-            "controls": {
-                "name": "NONE",
-                "startCommand": "NONE"
-            }
-        },
         "JobCenter": {
             "name": "JobCenter",
             "type": "Model",
@@ -249,81 +199,6 @@
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
-            },
-            "isMovable": false,
-            "controls": {
-                "name": "NONE",
-                "startCommand": "NONE"
-            }
-        },
-        "BuildingGeneric": {
-            "name": "BuildingGeneric",
-            "type": "Model",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "com.demensdeum.hydroponics.building"
-            },
-            "position": {
-                "x": -22.713584899902344,
-                "y": 0.0,
-                "z": 1.4709510803222656
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "isMovable": false,
-            "controls": {
-                "name": "NONE",
-                "startCommand": "NONE"
-            }
-        },
-        "BuildingGeneric2": {
-            "name": "BuildingGeneric2",
-            "type": "Model",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "com.demensdeum.hydroponics.building"
-            },
-            "position": {
-                "x": 28.006675720214844,
-                "y": 0.0,
-                "z": -28.425979614257812
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 1.5707963705062866,
-                "z": -0.0
-            },
-            "isMovable": false,
-            "controls": {
-                "name": "NONE",
-                "startCommand": "NONE"
-            }
-        },
-        "BuildingGeneric3": {
-            "name": "BuildingGeneric3",
-            "type": "Model",
-            "texture": {
-                "name": "NONE"
-            },
-            "model": {
-                "name": "com.demensdeum.hydroponics.building"
-            },
-            "position": {
-                "x": -23.69399642944336,
-                "y": 0.0,
-                "z": 44.55060577392578
-            },
-            "rotation": {
-                "x": 0.0,
-                "y": 1.5707963705062866,
-                "z": -0.0
             },
             "isMovable": false,
             "controls": {

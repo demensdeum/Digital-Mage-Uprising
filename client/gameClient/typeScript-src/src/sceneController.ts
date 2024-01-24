@@ -32,6 +32,7 @@ import { DecorControlsDataSource } from "./decorControlsDataSource.js";
 import { DecorControls } from "./decorControls.js";
 import { SceneObjectCommand } from "./sceneObjectCommand.js";
 import { SceneObjectCommandTranslate } from "./sceneObjectCommandTranslate.js";
+import { GameSettings } from "./gameSettings.js";
 
 const gui = new dat.GUI();
 
@@ -79,6 +80,8 @@ export class SceneController implements
     private canMoveLeft: boolean = false;
     private canMoveRight: boolean = false;
 
+    public gameSettings: GameSettings;
+
     private flyMode: boolean = false;
 
     private weatherController?: WeatherController;
@@ -89,9 +92,11 @@ export class SceneController implements
         canvas: HTMLCanvasElement,
         physicsController: PhysicsController,
         physicsEnabled: boolean,
+        gameSettings: GameSettings,
         flyMode: boolean = false
     ) {
         this.physicsEnabled = physicsEnabled
+        this.gameSettings = gameSettings
         this.flyMode = flyMode
         this.physicsController = physicsController
         this.physicsController.delegate = this
@@ -430,14 +435,41 @@ export class SceneController implements
         return this.commands[name]
     }
 
-    public addTextUI(
+    public addText(
+        name: string, 
         object: any,
-        property: String
-    ): void {
-        const fieldView = gui
-            .add(object, property)
-            .name(property);                  
-        fieldView.domElement.style.pointerEvents = "none"
+        userInteractionsEnabled: boolean = false
+    ) {
+        const field = gui.add(
+            object,
+            name            
+        )
+
+        if (userInteractionsEnabled == false) {
+            field.domElement.style.pointerEvents = "none"
+        }
+    }    
+
+    public addValueFloat(
+        name: string,
+        object: any,
+        minimal: float,
+        maximal: float,
+        onChange: (value: float)=>{}
+    )
+    {
+        gui.add(
+            object,
+            name,
+            minimal,
+            maximal
+        ).onChange(
+            onChange
+        )
+    }
+
+    public saveGameSettings() {
+        this.gameSettings.save();
     }
 
     public step() {
@@ -566,16 +598,6 @@ export class SceneController implements
         output.serialize();
         return output;
     }
-    
-    public addText(
-        name: string, 
-        object: any
-    ) {
-        gui.add(
-            object,
-            name            
-        )
-    }
 
     public addButton(
         name: string, 
@@ -637,6 +659,9 @@ export class SceneController implements
         for (const i in gui.__controllers) {
             gui.remove(gui.__controllers[i]);
         }
+        Object.keys(this.objects).map(k => {
+            delete this.commands[k]
+        })
     }
 
     public addSkybox(

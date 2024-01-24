@@ -8,6 +8,7 @@ import { SimplePhysicsController } from './simplePhysicsController.js';
 import { EnemyControls } from './enemyControls.js';
 import { debugPrint, raiseCriticalError } from './runtime.js';
 import { DecorControls } from './decorControls.js';
+import { GameSettings } from './gameSettings.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
@@ -20,10 +21,12 @@ customElements.define('three-canvas',
             this.debugEnabled = false;
             this.previousMessage = "";
 
-            this.resetCanvas();
+            this.resetInternalCanvas();
             this.innerHTML = "<canvas class=\"webgl\"></canvas>";
 
             this.graphicsCanvas = document.querySelector("canvas");           
+            const flyMode = false;
+            const gameSettings = GameSettings.loadOrDefault()
 
             if (this.graphicsCanvas == null) {
                 console.log("CANVAS IS NULL WTF?????!!!!");
@@ -38,7 +41,8 @@ customElements.define('three-canvas',
                 this.graphicsCanvas,
                 this.physicsController,
                 true,
-                false
+                gameSettings,
+                flyMode
             );          
 
             if (confirm("You AI?")) {
@@ -52,7 +56,7 @@ customElements.define('three-canvas',
                 this.playerControls = new PlayerControls(
                     "NONE",
                     this.graphicsCanvas,
-                    4,
+                    gameSettings.mouseSensitivity,
                     true,
                     this.sceneController,
                     this.sceneController
@@ -96,7 +100,7 @@ customElements.define('three-canvas',
             return ['scene-json'];
         }
         
-        resetCanvas() {
+        resetInternalCanvas() {
             this.canvas = {
                 scene: {
                     name: "",
@@ -130,10 +134,21 @@ customElements.define('three-canvas',
 
         render(canvas)
         {
-            this.sceneController.physicsEnabled = canvas.scene.physicsEnabled;
+            this.sceneController.physicsEnabled = canvas.scene.physicsEnabled
             if (this.messageReaderInstalled != true) {
-                this.messageReaderInstalled = true;
-                this.sceneController.addText("message", canvas);
+                this.messageReaderInstalled = true
+                this.sceneController.addText("message", canvas)
+                const onMouseSensitivityChange = (value: float) => {
+                    this.playerControls.mouseSensitivity = value
+                    this.sceneController.saveGameSettings()
+                }
+                this.sceneController.addValueFloat(
+                    "mouseSensitivity",
+                    this.sceneController.gameSettings,
+                    1,
+                    10,
+                    onMouseSensitivityChange
+                )
             }
             this.showErrorIfNeeded(canvas);
             if (canvas.scene == null || canvas.scene == undefined) {
@@ -144,7 +159,7 @@ customElements.define('three-canvas',
             if (this.canvas.scene.name != canvas.scene.name) {
                 debugger;
                 console.log("clear");
-                this.resetCanvas();
+                this.resetInternalCanvas();
                 this.sceneController.removeAllSceneObjectsExceptCamera();
                 this.messageReaderInstalled = false;
             }

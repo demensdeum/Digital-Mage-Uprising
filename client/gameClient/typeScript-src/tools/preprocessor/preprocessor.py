@@ -40,6 +40,13 @@ if __name__ == "__main__":
     output_folder = sys.argv[2]
     rules_file_path = sys.argv[3]
 
+    for root, dirs, files in os.walk(output_folder):
+        for file in files:
+            try:
+                os.remove(os.path.join(root, file))
+            except Exception as error:
+                print("Preprocessor clean error: " + error)
+
     silent_mode = True
     if len(sys.argv) == 5:
         silent_mode = sys.argv[4].lower() == 'true'

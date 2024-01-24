@@ -240,7 +240,7 @@ directory = os.path.dirname(os.path.dirname(bpy.data.filepath))
 scene_file_suffix = "scene"
 scene_file_extension = "json"
 
-scene_filepath = f"{directory}\\{scene_filename}.{scene_file_suffix}.{scene_file_extension}"
+scene_filepath = f"{directory}{os.sep}{scene_filename}.{scene_file_suffix}.{scene_file_extension}"
 
 print(f"directory: {directory}")
 print(f"scene_filepath: {scene_filepath}")
