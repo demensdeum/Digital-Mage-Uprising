@@ -51,8 +51,8 @@ export class SceneController implements
     public static readonly roadSegmentSize: number = 2;
     public static readonly skyboxPositionDiff: number = 0.5;
 
-    private userObjectName: string = "";
-    private skyboxAdded: boolean = false;
+    private userObjectName: string = ""
+    private currentSkyboxName?: String | null
 
     // @ts-ignore
     private scene: any;
@@ -501,7 +501,7 @@ export class SceneController implements
     }
 
     private updateSkyboxPosition() {
-        if (!this.skyboxAdded) {
+        if (!this.currentSkyboxName) {
             return;
         }
         const cameraPosition = this.camera.position;
@@ -651,11 +651,11 @@ export class SceneController implements
             if (k == Names.Camera) {
                 return
             }
-            const v = this.objects[k]
-            this.scene.remove(v.threeObject)
-            delete this.objects[k]
+            this.removeObjectWithName(k)
         });
-        this.skyboxAdded = false
+        
+        this.currentSkyboxName = null
+
         for (const i in gui.__controllers) {
             gui.remove(gui.__controllers[i]);
         }
@@ -664,14 +664,44 @@ export class SceneController implements
         })
     }
 
-    public addSkybox(
+    private removeObjectWithName(name: string) {
+        const sceneObject = this.objects[name]
+        this.scene.remove(sceneObject.threeObject)
+        delete this.objects[name]
+    }
+
+    private removeCurrentSkybox() {
+        if (this.currentSkyboxName == null) {
+            return
+        }
+
+        const names = [
+            Names.Skybox + "Front",
+            Names.Skybox + "Back",
+            Names.Skybox + "Left",
+            Names.Skybox + "Right",
+            Names.Skybox + "Top",
+            Names.Skybox + "Bottom",
+        ]
+
+        names.forEach((e) => {
+            this.removeObjectWithName(e)
+        })
+    }
+
+    public switchSkyboxIfNeeded(
         name: string
     ): void {
-        debugPrint("addSkybox");
-        if (this.skyboxAdded) {
-            return;
+        debugPrint("switchSkyboxIfNeeded");
+        if (this.currentSkyboxName != null) {
+            if (this.currentSkyboxName != name) {
+                this.removeCurrentSkybox();
+            }
+            else {
+                return
+            }
         }
-        this.skyboxAdded = true;
+        this.currentSkyboxName = name;
         const sceneController = this;
         this.addPlaneAt(
             Names.Skybox + "Front",

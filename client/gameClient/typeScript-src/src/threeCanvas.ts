@@ -9,12 +9,15 @@ import { EnemyControls } from './enemyControls.js';
 import { debugPrint, raiseCriticalError } from './runtime.js';
 import { DecorControls } from './decorControls.js';
 import { GameSettings } from './gameSettings.js';
+import { Utils } from './utils.js';
 
 customElements.define('three-canvas',
     class extends HTMLElement {
         constructor() {
             super();
             this.playerControls = null;
+
+            // this.skyboxChanger = 0
 
             this.delegate = null;
             this.canvas = null;
@@ -205,6 +208,14 @@ customElements.define('three-canvas',
                 }
             })
 
+            // if (this.skyboxChanger % 100 == 0) {
+            //     const skyboxName = Utils.randomBool() ? "com.demensdeum.space" : "com.demensdeum.blue.field"
+            //     this.sceneController.switchSkyboxIfNeeded(
+            //         skyboxName
+            //     )                
+            // }
+            // this.skyboxChanger += 1
+
             Object.values(canvas.scene.objects).forEach ((object) => {
                 const name = object.name;
                 const type = object.type;
@@ -243,9 +254,9 @@ customElements.define('three-canvas',
                 }
                 else {
                     if (type == "Skybox") {
-                        this.sceneController.addSkybox(
+                        this.sceneController.switchSkyboxIfNeeded(
                             textureName
-                        );
+                        )
                     }
                     else if (type == "Model") {
                         if (modelName == "default") {
@@ -254,17 +265,13 @@ customElements.define('three-canvas',
                                 x,
                                 y,
                                 z
-                            );
+                            )
                         }
-                        else {
-                            if (name.startsWith("Udod")) {
-                                debugger;
-                            }                            
+                        else {                           
                             var controls = null;
                             if (controlsName == "player") {
                                 this.playerControls.objectName = name;
                                 controls = this.playerControls;
-                                debugger;
                             }
                             else if (controlsName == "decor") {
                                 const commandName = object.controls.startCommand
@@ -334,7 +341,7 @@ customElements.define('three-canvas',
                         )
                     }
                     else {
-                        debugPrint("Unknown object type: " + type + "; uhh what the hell???");
+                        raiseCriticalError("Unknown object type: " + type + "; uhh what the hell???");
                     }
                 }
             });

@@ -33,9 +33,6 @@ export class SceneObject {
         movable: boolean = false,
         controls: Controls| null = null
     ) {
-        if (name.startsWith("Udod")) {
-            debugger;
-        }
         this.name = name;
         this.type = type;
         this.texture = new Texture(texture);

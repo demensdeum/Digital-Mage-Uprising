@@ -11,7 +11,6 @@ export class SceneObjectCommandTranslate extends SceneObjectCommand {
         translate: Vector3,
         nextCommandName?: string
     ) {
-        debugger
         super(name, time, nextCommandName)
         this.translate = translate
     }

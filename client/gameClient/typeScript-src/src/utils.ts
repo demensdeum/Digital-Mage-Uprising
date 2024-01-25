@@ -12,7 +12,8 @@ export class Utils {
     }
 
     public static randomBool() {
-        const randomBool = (): boolean => Math.random() < 0.5;
+        const random = Utils.randomInt(100)
+        const randomBool = random < 50  
         return randomBool;
     }
 
