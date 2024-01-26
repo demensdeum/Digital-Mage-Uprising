@@ -54,6 +54,8 @@ export class SceneController implements
     private userObjectName: string = ""
     private currentSkyboxName?: String | null
 
+    private stepCounter: int = 0
+    
     // @ts-ignore
     private scene: any;
     private camera: any;
@@ -473,6 +475,12 @@ export class SceneController implements
     }
 
     public step() {
+        this.stepCounter += 1
+
+        if (this.gameSettings.frameDelay != 0 && Math.floor(this.stepCounter % this.gameSettings.frameDelay) != 0) {
+            return
+        }
+
         const delta = this.clock.getDelta();
         this.controlsStep(
             delta

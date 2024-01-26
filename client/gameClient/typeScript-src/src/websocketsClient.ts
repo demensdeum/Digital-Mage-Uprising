@@ -11,7 +11,7 @@ export class WebsocketsClient {
     private socket?: WebSocket;
     private delegate?: WebsocketsClientDelegate;
     private receivedVerboseEnabled: boolean = false;
-    private sendingVersboseEnabled: boolean = true;
+    private sendingVersboseEnabled: boolean = false;
     private debugEnabled: boolean = false;
 
     constructor(url: string) {

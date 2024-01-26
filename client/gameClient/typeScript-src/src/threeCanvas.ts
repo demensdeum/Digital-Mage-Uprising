@@ -141,7 +141,7 @@ customElements.define('three-canvas',
             if (this.messageReaderInstalled != true) {
                 this.messageReaderInstalled = true
                 this.sceneController.addText("message", canvas)
-                const onMouseSensitivityChange = (value: float) => {
+                const onGameSettingsChange = (value: float) => {
                     this.playerControls.mouseSensitivity = value
                     this.sceneController.saveGameSettings()
                 }
@@ -149,8 +149,15 @@ customElements.define('three-canvas',
                     "mouseSensitivity",
                     this.sceneController.gameSettings,
                     1,
-                    10,
-                    onMouseSensitivityChange
+                    100,
+                    onGameSettingsChange
+                )
+                this.sceneController.addValueFloat(
+                    "frameDelay",
+                    this.sceneController.gameSettings,
+                    0,
+                    100,
+                    onGameSettingsChange
                 )
             }
             this.showErrorIfNeeded(canvas);
@@ -207,14 +214,6 @@ customElements.define('three-canvas',
                     );
                 }
             })
-
-            // if (this.skyboxChanger % 100 == 0) {
-            //     const skyboxName = Utils.randomBool() ? "com.demensdeum.space" : "com.demensdeum.blue.field"
-            //     this.sceneController.switchSkyboxIfNeeded(
-            //         skyboxName
-            //     )                
-            // }
-            // this.skyboxChanger += 1
 
             Object.values(canvas.scene.objects).forEach ((object) => {
                 const name = object.name;

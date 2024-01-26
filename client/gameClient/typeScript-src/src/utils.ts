@@ -30,5 +30,31 @@ export class Utils {
             array[randomIndex], array[currentIndex]];
         }
         return array;
-    };    
+    }
+
+    public static isOperable(value: any) {
+        if (value == null) {
+            return false
+        }
+        else if (value == undefined) {
+            return false
+        }
+        return true
+    }
+
+    public static isNumber(value: any) {
+        if (this.isOperable(value) == false) {
+            return false
+        }
+        else {
+            return isNaN(value) == false
+        }
+    }
+
+    public static numberOrConstant(
+        value: any,
+        constant: number
+    ) {
+        return this.isNumber(value) ? value : constant
+    }
 }

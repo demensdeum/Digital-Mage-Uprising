@@ -1,15 +1,19 @@
 import { float } from "./types.js"
+import { Utils } from "./utils.js"
+import { debugPrint } from "./runtime.js"
 
 export class GameSettings {
 
     static databaseKey = "GameSettings"
 
     mouseSensitivity: float
+    frameDelay: float
 
     static default()
     {
         return new GameSettings(
-            4
+            4,
+            0
         )
     }
 
@@ -17,20 +21,27 @@ export class GameSettings {
         savedGameSettings: any
     )
     {
+        const mouseSensitivity = Utils.numberOrConstant(savedGameSettings.mouseSensitivity, 1)
+        const frameDelay = Utils.numberOrConstant(savedGameSettings.frameDelay, 0)
+
         return new GameSettings(
-            savedGameSettings.mouseSensitivity
+            mouseSensitivity,
+            frameDelay
         )
     }
 
     constructor(
-        mouseSensitivity: float
+        mouseSensitivity: float,
+        frameDelay: float
     )
     {
         this.mouseSensitivity = mouseSensitivity
+        this.frameDelay = frameDelay
     }
 
     save() {
         const serializedGameSettings = JSON.stringify(this)
+        debugPrint(serializedGameSettings)
         window.localStorage.setItem(GameSettings.databaseKey, serializedGameSettings)
     }
 

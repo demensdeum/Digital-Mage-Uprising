@@ -78,6 +78,7 @@ subscriptions _ =
         [ nativeCanvasReceiver ReceiveNativeCanvas
         , serverCanvasReceiver ReceiveServerCanvas
         , buttonPressedReceiver ButtonPressed
+        , websocketsConnected WebsocketConnected
         , every 30 SendCanvas
         ]
 
@@ -96,7 +97,7 @@ init _ =
 -- UPDATE
 
 type EngineMessage
-  = WebsocketConnectionInitialized String
+  = WebsocketConnected String
   | ButtonPressed String
   | ReceiveNativeCanvas String
   | ReceiveServerCanvas String
@@ -121,7 +122,7 @@ update msg context =
   UpdateTimestamp posix ->
       (initialGameContext <| posixToMillis posix, Cmd.none)
 
-  WebsocketConnectionInitialized message ->
+  WebsocketConnected message ->
       (context, Cmd.none)
 
   ButtonPressed name ->
