@@ -1,4 +1,5 @@
-import { Controls } from "./controls";
+import { Controls } from "./controls"
+import { int } from "./types"
 
 class Texture {
     public readonly name: string;
@@ -23,6 +24,7 @@ export class SceneObject {
     public meshes: any[] = [];
     public readonly isMovable: boolean;
     public controls?: Controls;
+    public changeDate: int
 
     constructor(
         name: string,
@@ -30,8 +32,9 @@ export class SceneObject {
         texture: string,
         model: string,
         threeObject: any,
-        movable: boolean = false,
-        controls: Controls| null = null
+        movable: boolean,
+        controls: Controls| null,
+        changeDate: int        
     ) {
         this.name = name;
         this.type = type;
@@ -42,6 +45,7 @@ export class SceneObject {
         if (controls != null) {
             this.controls = controls;
         }
+        this.changeDate = changeDate
     }
 
     public serialize(): any {
@@ -68,7 +72,8 @@ export class SceneObject {
             "controls": {
                 "name": controlsName,
                 "startCommand": controlsStartCommand
-            }
+            },
+            "changeDate": this.changeDate
         }
         return output;
     }

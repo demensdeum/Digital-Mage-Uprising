@@ -6,6 +6,8 @@ import Shared.Model exposing (..)
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Shared.Controls exposing (..)
+import Json.Decode.Extra exposing (andMap)
+import Shared.Vector3 as Vector3
 
 type Type =
     Skybox
@@ -44,6 +46,7 @@ type alias SceneObject =
         , model: Model
         , isMovable: Bool
         , controls: Controls
+        , changeDate: Int
     }
 
 decoderObjectType : Decode.Decoder Type
@@ -65,15 +68,16 @@ decoderObjectType =
 
 sceneObjectDecoder : Decode.Decoder SceneObject
 sceneObjectDecoder =
-    Decode.map8 SceneObject
-        (Decode.field "name" Decode.string)
-        (Decode.field "type" decoderObjectType)
-        (Decode.field "position" decoderVector3)
-        (Decode.field "rotation" decoderVector3)
-        (Decode.field "texture" decoderTexture)
-        (Decode.field "model" decoderModel)
-        (Decode.field "isMovable" Decode.bool)
-        (Decode.field "controls" decoderControls)
+    Decode.succeed SceneObject
+        |> andMap (Decode.field "name" Decode.string)
+        |> andMap (Decode.field "type" decoderObjectType)
+        |> andMap (Decode.field "position" decoderVector3)
+        |> andMap (Decode.field "rotation" decoderVector3)
+        |> andMap (Decode.field "texture" decoderTexture)
+        |> andMap (Decode.field "model" decoderModel)
+        |> andMap (Decode.field "isMovable" Decode.bool)
+        |> andMap (Decode.field "controls" decoderControls)
+        |> andMap (Decode.field "changeDate" Decode.int)
 
 encodeSceneObject : SceneObject -> Encode.Value
 encodeSceneObject sceneObject =
@@ -86,4 +90,5 @@ encodeSceneObject sceneObject =
         , ("model", encodeModel sceneObject.model)
         , ("isMovable", Encode.bool sceneObject.isMovable)
         , ("controls", encodeControls sceneObject.controls)
+        , ("changeDate", Encode.int sceneObject.changeDate)
         ]

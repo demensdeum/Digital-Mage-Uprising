@@ -57,4 +57,9 @@ export class Utils {
     ) {
         return this.isNumber(value) ? value : constant
     }
+
+    public static timestamp()
+    {
+        return new Date().getTime()
+    }
 }

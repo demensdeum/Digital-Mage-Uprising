@@ -145,7 +145,7 @@ update msg context =
 
       Err error ->
         let canvas = context.canvas in
-          let newCanvasState = {canvas | message = "Elm-Side Error: From JS Canvas state parsing fail:" ++ Decode.errorToString error} in
+          let newCanvasState = {canvas | message = "Elm-Side Error: From JS Canvas state parsing fail: " ++ Decode.errorToString error} in
             ({context | canvas = newCanvasState}, Cmd.none)    
 
   ReceiveServerCanvas serverCanvasStateJsonString ->

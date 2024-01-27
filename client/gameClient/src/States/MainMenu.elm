@@ -50,6 +50,7 @@ initialScene =
                   , model = Model.default
                   , isMovable = False
                   , controls = Controls.default
+                  , changeDate = 0
             })
             , ("Planet1", {
                   name = "Planet1"
@@ -66,6 +67,7 @@ initialScene =
                   }
                   , isMovable = False
                   , controls = Controls.default
+                  , changeDate = 0
             })
             , ("Planet2", {
                   name = "Planet2"
@@ -82,6 +84,7 @@ initialScene =
                   }
                   , isMovable = False
                   , controls = Controls.default
+                  , changeDate = 0
             })            
             , ("Planet3", {
                   name = "Planet3"
@@ -98,6 +101,7 @@ initialScene =
                   }
                   , isMovable = False
                   , controls = Controls.default
+                  , changeDate = 0
             })
             , ("NewGame", {
                   name = "NewGame"
@@ -108,6 +112,7 @@ initialScene =
                   , model = Model.default
                   , isMovable = False
                   , controls = Controls.default
+                  , changeDate = 0
             })     
           ]
         , physicsEnabled = False

@@ -232,24 +232,27 @@ customElements.define('three-canvas',
 
                 const modelName = object.model.name;
                 const controlsName = object.controls?.name;
+                const changeDate = object.changeDate
 
                 if (this.debugEnabled) {
                     console.log("name: " + name + " x: " + x + " y: " + y + " z: " + z );
                 }
 
                 if (name in this.canvas.scene.objects) {
-                    this.sceneController.moveObjectTo(
-                        name,
-                        x,
-                        y,
-                        z
-                    );
-                    this.sceneController.rotateObjectTo(
-                        name,
-                        rX,
-                        rY,
-                        rZ
-                    )
+                    if (this.sceneController.isObjectWithNameOlderThan(name, changeDate)) {
+                        this.sceneController.moveObjectTo(
+                            name,
+                            x,
+                            y,
+                            z
+                        );
+                        this.sceneController.rotateObjectTo(
+                            name,
+                            rX,
+                            rY,
+                            rZ
+                        )
+                    }
                 }
                 else {
                     if (type == "Skybox") {

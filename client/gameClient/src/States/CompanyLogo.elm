@@ -53,6 +53,7 @@ scene =
                   , model = Model.default
                   , isMovable = False
                   , controls = Shared.Controls.default
+                  , changeDate = 0
             })
         ]
         , physicsEnabled = False

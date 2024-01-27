@@ -147,7 +147,10 @@ export class SceneController implements
         Names.Camera,
         "NONE",
         "NONE",
-        this.camera
+        this.camera,
+        true,
+        null,
+        new Date().getTime()
     );
 
     this.objects[Names.Camera] = cameraSceneObject;    
@@ -296,6 +299,20 @@ export class SceneController implements
         }
     }
 
+    public isObjectWithNameOlderThan(
+        name: string,
+        date: int
+    )
+    {
+        const objectChangeDate = this.sceneObject(name).changeDate
+
+        if (name.startsWith("Udod")) {
+            debugPrint(objectChangeDate + " < " + date)
+        }
+
+        return objectChangeDate < date
+    }
+
     public controlsQuaternionForObject(
         _: Controls,
         objectName: string
@@ -338,8 +355,9 @@ export class SceneController implements
     ) {
         const sceneObject = this.sceneObject(
             objectName
-        );
-        sceneObject.threeObject.quaternion.setFromEuler(euler);
+        )
+        sceneObject.threeObject.quaternion.setFromEuler(euler)
+        sceneObject.changeDate = Utils.timestamp()
     }
 
     controlsCanMoveLeftObject(
@@ -601,8 +619,8 @@ export class SceneController implements
         return result;
     }
 
-    public serializeSceneObject(): any {
-        const output = this.objects[Names.Camera];
+    public serializeSceneObject(name: string): any {
+        const output = this.objects[name];
         output.serialize();
         return output;
     }
@@ -643,7 +661,9 @@ export class SceneController implements
             "",
             "",
             box,
-            false
+            false,
+            null,
+            new Date().getTime()
         )
         this.objects[name] = buttonSceneObject
     }
@@ -882,7 +902,8 @@ export class SceneController implements
             modelName,
             box,
             isMovable,
-            controls
+            controls,
+            new Date().getTime()
         );
         sceneController.addSceneObject(sceneObject);
 
@@ -997,7 +1018,10 @@ export class SceneController implements
             "Box",
             textureName,
             "NONE",
-            box
+            box,
+            false,
+            null,
+            new Date().getTime()
         );
         this.addSceneObject(sceneObject);
     }
@@ -1071,7 +1095,10 @@ export class SceneController implements
             "Plane",
             textureName,
             "NONE",
-            plane
+            plane,
+            false,
+            null,
+            new Date().getTime()
         );
         this.addSceneObject(sceneObject);
     }    
@@ -1161,6 +1188,7 @@ export class SceneController implements
         sceneObject.threeObject.translateX(x);
         sceneObject.threeObject.translateY(y);
         sceneObject.threeObject.translateZ(z);
+        sceneObject.changeDate = Utils.timestamp()
     }
 
     public moveObjectTo(
@@ -1178,6 +1206,7 @@ export class SceneController implements
         sceneObject.threeObject.position.x = x;
         sceneObject.threeObject.position.y = y;
         sceneObject.threeObject.position.z = z;
+        sceneObject.changeDate = Utils.timestamp()
     }
 
     public rotateObjectTo(
@@ -1191,5 +1220,6 @@ export class SceneController implements
         sceneObject.threeObject.rotation.x = x;
         sceneObject.threeObject.rotation.y = y;
         sceneObject.threeObject.rotation.z = z;
+        sceneObject.changeDate = Utils.timestamp()
     }  
 }

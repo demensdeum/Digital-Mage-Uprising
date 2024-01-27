@@ -18,4 +18,5 @@ skybox name textureName =
         , model = Model.default
         , isMovable = False
         , controls = Controls.default
+        , changeDate = 0
     }

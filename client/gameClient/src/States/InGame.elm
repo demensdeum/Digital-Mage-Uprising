@@ -67,7 +67,8 @@ initialCanvas seed =
                         "controls": {
                               "name": "NONE",
                               "startCommand": "NONE"
-                        }
+                        },
+                        "changeDate": 0
                   }
             },
             "commands": {}
@@ -115,18 +116,19 @@ sceneFromJsonString sceneJsonString =
 
 handleServerCanvas: Canvas.Canvas -> Canvas.ServerCanvas -> Canvas.Canvas
 handleServerCanvas oldCanvas serverCanvas =
-      let userObjectName = oldCanvas.userObjectName in
-      case Dict.get userObjectName oldCanvas.scene.objects of
-            Just userObject ->
-                  let updatedServerObjects = Dict.insert userObjectName userObject serverCanvas.scene.objects in
-                  let newObjects = Dict.union updatedServerObjects oldCanvas.scene.objects in
-                  let oldScene = oldCanvas.scene in
-                  let newScene = {oldScene | objects = newObjects } in
-                  let newCanvas = {oldCanvas | scene = newScene } in
-                        newCanvas
-            Nothing ->
-                  oldCanvas
-
+      let userObjects = oldCanvas.scene.objects in
+            let serverObjects = serverCanvas.scene.objects in
+                  let updatedServerObjects = Dict.merge
+                        (\key a -> Dict.insert key a)
+                        (\key a b -> Dict.insert key (if a.changeDate > b.changeDate then a else b))
+                        (\key b -> Dict.insert key b)
+                        userObjects
+                        serverObjects
+                        Dict.empty in
+                              let oldScene = oldCanvas.scene in
+                                    let newScene = { oldScene | objects = updatedServerObjects } in
+                                          let newCanvas = { oldCanvas | scene = newScene } in
+                                                newCanvas
 
 sendCanvas: Canvas -> Substate -> String
 sendCanvas canvas substate =
@@ -144,15 +146,19 @@ step canvas substate =
             Success ->
                   gameLoopStep canvas substate
 
+moveCamera: Canvas -> Substate -> Command
+moveCamera canvas substate = 
+      let aliceName = canvas.userObjectName in
+                  let bobName = "Camera" in
+                  case getSceneObject aliceName canvas.scene of
+                  Just alice ->
+                        let newBobPosition = Math3.translate 0 0.8 1.4 alice in
+                              let newPositionCanvas = { canvas | scene = Shared.Scene.setSceneObjectPosition bobName newBobPosition canvas.scene } in
+                              let newRotationCanvas = { canvas | scene = Shared.Scene.copyRotationFromObjectToObject aliceName bobName newPositionCanvas.scene } in
+                                    Update {newRotationCanvas | message = "Updated from InGame" }
+                  Nothing ->
+                        Update canvas
+
 gameLoopStep: Canvas -> Substate -> Command
 gameLoopStep canvas substate = 
-      let aliceName = canvas.userObjectName in
-            let bobName = "Camera" in
-            case getSceneObject aliceName canvas.scene of
-            Just alice ->
-                  let newBobPosition = Math3.translate 0 0.8 1.4 alice in
-                        let newPositionCanvas = { canvas | scene = Shared.Scene.setSceneObjectPosition bobName newBobPosition canvas.scene } in
-                        let newRotationCanvas = { canvas | scene = Shared.Scene.copyRotationFromObjectToObject aliceName bobName newPositionCanvas.scene } in
-                              Update {newRotationCanvas | message = "Updated from InGame" }
-            Nothing ->
-                  Update canvas
+      moveCamera canvas substate

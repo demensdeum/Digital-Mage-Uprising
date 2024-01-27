@@ -51,7 +51,8 @@ setSceneObjectRotation name rotation scene =
         Just object ->
             let newRotation = { x = rotation.x , y = rotation.y , z = rotation.z } in
             let newObject = {object | rotation = newRotation } in
-                setSceneObject name newObject scene
+                let newNewObject = {newObject | changeDate = object.changeDate } in
+                    setSceneObject name newNewObject scene
         Nothing ->
             scene
 
@@ -69,7 +70,8 @@ setSceneObjectPosition name position scene =
     case Dict.get name scene.objects of
         Just object ->
             let newObject = {object | position = position} in
-                setSceneObject name newObject scene
+                let newNewObject = {newObject | changeDate = object.changeDate + 1} in
+                    setSceneObject name newNewObject scene
         Nothing ->
             scene
 

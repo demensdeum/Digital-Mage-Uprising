@@ -29,7 +29,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "NPC": {
             "name": "NPC",
@@ -54,7 +55,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "com.demensdeum.gunner": {
             "name": "PlayerStartPosition",
@@ -79,7 +81,8 @@
             "controls": {
                 "name": "player",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Map": {
             "name": "Map",
@@ -104,7 +107,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Car": {
             "name": "Car",
@@ -129,7 +133,8 @@
             "controls": {
                 "name": "decor",
                 "startCommand": "CarStartPosition"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Car2": {
             "name": "Car2",
@@ -154,7 +159,8 @@
             "controls": {
                 "name": "decor",
                 "startCommand": "Car2StartPosition"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Car3": {
             "name": "Car3",
@@ -179,7 +185,8 @@
             "controls": {
                 "name": "decor",
                 "startCommand": "Car3StartPosition"
-            }
+            },
+            "changeDate": 1706314903
         },
         "JobCenter": {
             "name": "JobCenter",
@@ -204,7 +211,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "ArmorShop": {
             "name": "ArmorShop",
@@ -229,7 +237,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "WeaponShop": {
             "name": "WeaponShop",
@@ -254,7 +263,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "DrugStore": {
             "name": "DrugStore",
@@ -279,7 +289,8 @@
             "controls": {
                 "name": "NONE",
                 "startCommand": "NONE"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Car4": {
             "name": "Car4",
@@ -304,7 +315,8 @@
             "controls": {
                 "name": "decor",
                 "startCommand": "Car4StartPosition"
-            }
+            },
+            "changeDate": 1706314903
         },
         "Car5": {
             "name": "Car5",
@@ -329,7 +341,8 @@
             "controls": {
                 "name": "decor",
                 "startCommand": "Car5StartPosition"
-            }
+            },
+            "changeDate": 1706314903
         }
     },
     "commands": {

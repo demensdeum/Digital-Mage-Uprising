@@ -2,6 +2,7 @@ import os
 import bpy
 import json
 from json import JSONEncoder
+from datetime import datetime 
 
 class Command:
     
@@ -161,6 +162,8 @@ class SceneObject:
             node.rotation_euler.y
         )
         
+        change_date = int(datetime.now().timestamp())
+        
         sceneObject = SceneObject(
         export_name, 
         type, 
@@ -169,7 +172,8 @@ class SceneObject:
         position, 
         rotation, 
         is_movable, 
-        controls
+        controls,
+        change_date
         )
     
         return sceneObject
@@ -183,7 +187,8 @@ class SceneObject:
     position, 
     rotation, 
     is_movable, 
-    controls
+    controls,
+    change_date
     ):
         self.name = name
         self.type = type
@@ -193,6 +198,7 @@ class SceneObject:
         self.rotation = rotation
         self.isMovable = is_movable
         self.controls = controls
+        self.changeDate = change_date
 
 class SceneFormat:
     def __init__(self, name, version):
@@ -206,6 +212,7 @@ class Scene:
         self.physicsEnabled = physics_enabled
         self.objects = dict()
         self.commands = dict()
+        change_date = int(datetime.now().timestamp())
         skyboxSceneObject = SceneObject(
             "Skybox",
             "Skybox",
@@ -214,7 +221,8 @@ class Scene:
             Vector3(0, 0, 0),
             Vector3(0, 0, 0),
             False,
-            SceneObjectControls("NONE", "NONE")
+            SceneObjectControls("NONE", "NONE"),
+            change_date
         )
         self.objects["Skybox"] = skyboxSceneObject
         
